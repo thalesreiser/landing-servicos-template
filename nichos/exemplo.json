@@ -1,0 +1,117 @@
+{
+  "demo": true,
+  "site": {
+    "nome": "Estúdio Exemplo",
+    "titulo": "Estúdio Exemplo | Consultoria para pequenos negócios",
+    "descricao": "Nicho de exemplo do template: todas as seções ligadas, com textos e contatos fictícios.",
+    "idioma": "pt-BR"
+  },
+  "tema": {
+    "cor_primaria": "#1F6FEB",
+    "cor_primaria_contraste": "#FFFFFF",
+    "cor_destaque": "#F59E0B",
+    "cor_fundo": "#FFFFFF",
+    "cor_superficie": "#F4F6FA",
+    "cor_texto": "#111827",
+    "cor_texto_suave": "#4B5563",
+    "fonte_titulo": "system-ui, sans-serif",
+    "fonte_texto": "system-ui, sans-serif"
+  },
+  "contato": {
+    "whatsapp": "5500900000000",
+    "mensagem_whatsapp": "Olá! Vi o site e gostaria de mais informações.",
+    "email": "contato@example.com",
+    "telefone": "(00) 90000-0000",
+    "endereco": {
+      "logradouro": "Avenida Paulista, 1000",
+      "bairro": "Bela Vista",
+      "cidade": "São Paulo",
+      "uf": "SP"
+    },
+    "horario": ["Segunda a sexta, das 9h às 18h"]
+  },
+  "secoes": [
+    {
+      "tipo": "hero",
+      "selo": "Exemplo",
+      "titulo": "Um título claro sobre o que o negócio resolve",
+      "subtitulo": "Uma frase curta que explica para quem é o serviço e como funciona o primeiro contato.",
+      "acao_principal": { "tipo": "whatsapp", "texto": "Conversar pelo WhatsApp" },
+      "acao_secundaria": { "tipo": "link", "texto": "Ver serviços", "href": "#servicos" }
+    },
+    {
+      "tipo": "servicos",
+      "menu": "Serviços",
+      "titulo": "Serviços",
+      "subtitulo": "Cada card tem ícone, título e uma descrição curta.",
+      "itens": [
+        { "icone": "documento", "titulo": "Diagnóstico", "descricao": "Levantamento da situação atual e das prioridades." },
+        { "icone": "calendario", "titulo": "Plano de ação", "descricao": "Etapas, prazos e responsáveis definidos com você." },
+        { "icone": "pessoas", "titulo": "Acompanhamento", "descricao": "Reuniões periódicas para revisar os resultados." }
+      ]
+    },
+    {
+      "tipo": "sobre",
+      "menu": "Sobre",
+      "titulo": "Sobre",
+      "paragrafos": [
+        "Parágrafo de apresentação do profissional ou da empresa.",
+        "Segundo parágrafo com formação, experiência e forma de trabalho."
+      ],
+      "registros": [{ "rotulo": "Registro profissional", "valor": "Conselho 00.000" }],
+      "equipe": [
+        { "nome": "Pessoa Exemplo", "cargo": "Consultora", "registro": "Registro 00.000", "bio": "Bio curta." }
+      ]
+    },
+    {
+      "tipo": "como_funciona",
+      "menu": "Como funciona",
+      "titulo": "Como funciona",
+      "passos": [
+        { "titulo": "Contato", "descricao": "Você envia uma mensagem pelo WhatsApp ou pelo formulário." },
+        { "titulo": "Conversa inicial", "descricao": "Entendemos o seu caso e tiramos as primeiras dúvidas." },
+        { "titulo": "Proposta", "descricao": "Você recebe escopo, prazo e valores por escrito." },
+        { "titulo": "Início", "descricao": "Com tudo combinado, o trabalho começa." }
+      ]
+    },
+    {
+      "tipo": "depoimentos",
+      "titulo": "Depoimentos",
+      "itens": [
+        { "nome": "Cliente Exemplo", "detalhe": "São Paulo/SP", "texto": "Depoimento fictício de um cliente." },
+        { "nome": "Outra Cliente", "detalhe": "Campinas/SP", "texto": "Outro depoimento fictício." }
+      ]
+    },
+    {
+      "tipo": "faq",
+      "menu": "Dúvidas",
+      "titulo": "Perguntas frequentes",
+      "itens": [
+        { "pergunta": "Como faço para agendar?", "resposta": "Pelo WhatsApp ou pelo formulário desta página." },
+        { "pergunta": "Atende on-line?", "resposta": "Sim, por videochamada." }
+      ]
+    },
+    {
+      "tipo": "formulario",
+      "id": "contato",
+      "menu": "Contato",
+      "titulo": "Fale conosco",
+      "texto": "Responderemos em até um dia útil.",
+      "provedor": "formspree",
+      "chave": "",
+      "campos": [
+        { "nome": "nome", "rotulo": "Nome", "tipo": "text", "autocomplete": "name" },
+        { "nome": "telefone", "rotulo": "Telefone", "tipo": "tel", "autocomplete": "tel" },
+        { "nome": "email", "rotulo": "E-mail", "tipo": "email", "autocomplete": "email" },
+        { "nome": "assunto", "rotulo": "Assunto", "tipo": "select", "opcoes": ["Orçamento", "Dúvida", "Outro"] },
+        { "nome": "mensagem", "rotulo": "Mensagem", "tipo": "textarea" }
+      ],
+      "consentimento": "Concordo com o uso dos meus dados para receber o retorno deste contato, conforme a",
+      "botao": "Enviar mensagem",
+      "mensagem_sucesso": "Mensagem recebida! Retornaremos em breve."
+    },
+    { "tipo": "mapa", "id": "localizacao", "titulo": "Onde estamos" },
+    { "tipo": "rodape", "texto": "Texto curto sobre o negócio.", "registros": ["CNPJ 00.000.000/0000-00"] },
+    { "tipo": "botao_whatsapp" }
+  ]
+}

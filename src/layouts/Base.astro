@@ -1,0 +1,145 @@
+---
+import '../styles/global.css';
+import { ancoraSecao, type Nicho } from '../lib/schema.ts';
+import { linkWhatsApp } from '../lib/whatsapp.ts';
+
+interface Props {
+  nicho: Nicho;
+  titulo?: string;
+  descricao?: string;
+}
+
+const { nicho, titulo = nicho.site.titulo, descricao = nicho.site.descricao } = Astro.props;
+const { tema, contato, rastreamento } = nicho;
+
+const variaveisTema = [
+  `--cor-primaria:${tema.cor_primaria}`,
+  `--cor-primaria-contraste:${tema.cor_primaria_contraste}`,
+  `--cor-destaque:${tema.cor_destaque}`,
+  `--cor-fundo:${tema.cor_fundo}`,
+  `--cor-superficie:${tema.cor_superficie}`,
+  `--cor-texto:${tema.cor_texto}`,
+  `--cor-texto-suave:${tema.cor_texto_suave}`,
+  `--fonte-titulo:${tema.fonte_titulo}`,
+  `--fonte-texto:${tema.fonte_texto}`,
+].join(';');
+
+const menu = nicho.secoes
+  .filter((secao) => secao.ativo && secao.menu)
+  .map((secao) => ({ texto: secao.menu, href: `/#${ancoraSecao(secao)}` }));
+
+const ga = rastreamento.google_analytics;
+const pixel = rastreamento.meta_pixel;
+---
+
+<!doctype html>
+<html lang={nicho.site.idioma} style={variaveisTema}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descricao} />
+    <meta name="theme-color" content={tema.cor_primaria} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {
+      tema.fontes_url && (
+        <>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link rel="stylesheet" href={tema.fontes_url} />
+        </>
+      )
+    }
+    {nicho.demo && <meta name="robots" content="noindex" />}
+    <slot name="head" />
+    {
+      ga && (
+        <>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`} />
+          <script is:inline define:vars={{ ga }}>
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function () {
+              window.dataLayer.push(arguments);
+            };
+            window.gtag('js', new Date());
+            window.gtag('config', ga);
+          </script>
+        </>
+      )
+    }
+    {
+      pixel && (
+        <script is:inline define:vars={{ pixel }}>
+          !(function (f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function () {
+              n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s);
+          })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+          window.fbq('init', pixel);
+          window.fbq('track', 'PageView');
+        </script>
+      )
+    }
+  </head>
+  <body>
+    <a
+      href="#conteudo"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-fundo focus:px-4 focus:py-2"
+    >
+      Pular para o conteúdo
+    </a>
+
+    {
+      nicho.demo && (
+        <p class="bg-texto px-4 py-2 text-center text-sm text-fundo">
+          <strong>Site de demonstração.</strong> Nomes, fotos e contatos são fictícios.
+        </p>
+      )
+    }
+
+    <header class="sticky top-0 z-40 border-b border-texto/10 bg-fundo/95 backdrop-blur">
+      <div class="container-site flex h-16 items-center justify-between gap-4">
+        <a href="/" class="font-titulo text-lg font-semibold">{nicho.site.nome}</a>
+        {
+          menu.length > 0 && (
+            <nav aria-label="Principal" class="hidden md:block">
+              <ul class="flex gap-6 text-sm">
+                {menu.map((item) => (
+                  <li>
+                    <a href={item.href} class="text-texto-suave hover:text-primaria">
+                      {item.texto}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )
+        }
+        <a
+          href={linkWhatsApp(contato.whatsapp, contato.mensagem_whatsapp)}
+          target="_blank"
+          rel="noopener"
+          class="botao-primario min-h-10 px-4 py-2 text-sm"
+        >
+          WhatsApp
+        </a>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <slot />
+    </main>
+    <slot name="depois" />
+  </body>
+</html>

@@ -1,0 +1,217 @@
+import { z } from 'astro/zod';
+import { NOMES_ICONES } from './icones.ts';
+
+const cor = z.string().regex(/^#[0-9a-fA-F]{6}$/, 'use uma cor hexadecimal, ex.: #1F6FEB');
+
+const imagem = z.object({
+  src: z.string().min(1),
+  alt: z.string(),
+  largura: z.number().int().positive(),
+  altura: z.number().int().positive(),
+});
+
+const acao = z.discriminatedUnion('tipo', [
+  z.object({ tipo: z.literal('whatsapp'), texto: z.string(), mensagem: z.string().optional() }),
+  z.object({ tipo: z.literal('link'), texto: z.string(), href: z.string() }),
+]);
+
+// Fields every section accepts: `id` is the anchor (defaults to the type),
+// `menu` adds the section to the header nav, `ativo: false` hides it.
+const comum = {
+  id: z.string().regex(/^[a-z0-9-]+$/).optional(),
+  menu: z.string().optional(),
+  ativo: z.boolean().default(true),
+};
+
+const hero = z.object({
+  ...comum,
+  tipo: z.literal('hero'),
+  titulo: z.string(),
+  subtitulo: z.string(),
+  selo: z.string().optional(),
+  acao_principal: acao,
+  acao_secundaria: acao.optional(),
+  imagem: imagem.optional(),
+});
+
+const servicos = z.object({
+  ...comum,
+  tipo: z.literal('servicos'),
+  titulo: z.string(),
+  subtitulo: z.string().optional(),
+  itens: z.array(z.object({ icone: z.enum(NOMES_ICONES), titulo: z.string(), descricao: z.string() })).min(1),
+});
+
+const sobre = z.object({
+  ...comum,
+  tipo: z.literal('sobre'),
+  titulo: z.string(),
+  paragrafos: z.array(z.string()).min(1),
+  imagem: imagem.optional(),
+  registros: z.array(z.object({ rotulo: z.string(), valor: z.string() })).optional(),
+  equipe: z
+    .array(
+      z.object({
+        nome: z.string(),
+        cargo: z.string(),
+        registro: z.string().optional(),
+        bio: z.string().optional(),
+        foto: imagem.optional(),
+      }),
+    )
+    .optional(),
+});
+
+const comoFunciona = z.object({
+  ...comum,
+  tipo: z.literal('como_funciona'),
+  titulo: z.string(),
+  subtitulo: z.string().optional(),
+  passos: z.array(z.object({ titulo: z.string(), descricao: z.string() })).min(1),
+});
+
+const depoimentos = z.object({
+  ...comum,
+  tipo: z.literal('depoimentos'),
+  titulo: z.string(),
+  itens: z.array(z.object({ nome: z.string(), texto: z.string(), detalhe: z.string().optional() })).min(1),
+});
+
+const faq = z.object({
+  ...comum,
+  tipo: z.literal('faq'),
+  titulo: z.string(),
+  itens: z.array(z.object({ pergunta: z.string(), resposta: z.string() })).min(1),
+});
+
+const campo = z.object({
+  nome: z.string().regex(/^[a-z_]+$/),
+  rotulo: z.string(),
+  tipo: z.enum(['text', 'email', 'tel', 'textarea', 'select']),
+  obrigatorio: z.boolean().default(true),
+  autocomplete: z.string().optional(),
+  opcoes: z.array(z.string()).optional(),
+});
+
+const formulario = z.object({
+  ...comum,
+  tipo: z.literal('formulario'),
+  titulo: z.string(),
+  texto: z.string().optional(),
+  provedor: z.enum(['formspree', 'web3forms']),
+  // Public form id (Formspree) or access key (Web3Forms). Empty = demo mode, nothing is sent.
+  chave: z.string().default(''),
+  campos: z
+    .array(campo)
+    .min(1)
+    .refine((campos) => campos.every((c) => c.tipo !== 'select' || (c.opcoes?.length ?? 0) > 0), {
+      message: 'campos do tipo select precisam de opcoes',
+    }),
+  consentimento: z.string(),
+  botao: z.string(),
+  mensagem_sucesso: z.string(),
+});
+
+const mapa = z.object({
+  ...comum,
+  tipo: z.literal('mapa'),
+  titulo: z.string(),
+  embed_url: z.url().optional(),
+});
+
+const rodape = z.object({
+  ...comum,
+  tipo: z.literal('rodape'),
+  texto: z.string().optional(),
+  registros: z.array(z.string()).optional(),
+  links: z.array(z.object({ texto: z.string(), href: z.string() })).optional(),
+});
+
+const botaoWhatsApp = z.object({
+  ...comum,
+  tipo: z.literal('botao_whatsapp'),
+  rotulo: z.string().default('Fale conosco pelo WhatsApp'),
+  mensagem: z.string().optional(),
+});
+
+const secao = z.discriminatedUnion('tipo', [
+  hero,
+  servicos,
+  sobre,
+  comoFunciona,
+  depoimentos,
+  faq,
+  formulario,
+  mapa,
+  rodape,
+  botaoWhatsApp,
+]);
+
+export const nichoSchema = z
+  .object({
+    demo: z.boolean().default(false),
+    site: z.object({
+      nome: z.string(),
+      titulo: z.string(),
+      descricao: z.string().max(170, 'a descrição de SEO deve ter até 170 caracteres'),
+      url: z.url().optional(),
+      idioma: z.string().default('pt-BR'),
+    }),
+    tema: z.object({
+      cor_primaria: cor,
+      cor_primaria_contraste: cor.default('#FFFFFF'),
+      cor_destaque: cor,
+      cor_fundo: cor,
+      cor_superficie: cor,
+      cor_texto: cor,
+      cor_texto_suave: cor,
+      fonte_titulo: z.string(),
+      fonte_texto: z.string(),
+      fontes_url: z.url().optional(),
+    }),
+    contato: z.object({
+      whatsapp: z.string().regex(/^\d{12,13}$/, 'DDI + DDD + número, só dígitos, ex.: 5511999990000'),
+      mensagem_whatsapp: z.string(),
+      email: z.email(),
+      telefone: z.string().optional(),
+      endereco: z
+        .object({
+          logradouro: z.string(),
+          bairro: z.string().optional(),
+          cidade: z.string(),
+          uf: z.string().length(2),
+          cep: z.string().optional(),
+        })
+        .optional(),
+      horario: z.array(z.string()).optional(),
+    }),
+    rastreamento: z
+      .object({
+        google_analytics: z.string().regex(/^G-[A-Z0-9]+$/).optional(),
+        meta_pixel: z.string().regex(/^\d+$/).optional(),
+      })
+      .default({}),
+    secoes: z.array(secao).min(1),
+  })
+  .superRefine((nicho, ctx) => {
+    const ids = nicho.secoes.map(ancoraSecao);
+    const repetidos = ids.filter((id, i) => ids.indexOf(id) !== i);
+    if (repetidos.length > 0) {
+      ctx.addIssue({ code: 'custom', path: ['secoes'], message: `ids de seção repetidos: ${[...new Set(repetidos)].join(', ')}` });
+    }
+    const precisaEndereco = nicho.secoes.some((s) => s.tipo === 'mapa' && !s.embed_url);
+    if (precisaEndereco && !nicho.contato.endereco) {
+      ctx.addIssue({ code: 'custom', path: ['contato', 'endereco'], message: 'a seção mapa precisa de embed_url ou de contato.endereco' });
+    }
+  });
+
+export type Nicho = z.output<typeof nichoSchema>;
+export type Secao = Nicho['secoes'][number];
+export type SecaoDo<T extends Secao['tipo']> = Extract<Secao, { tipo: T }>;
+export type Acao = z.output<typeof acao>;
+export type Imagem = z.output<typeof imagem>;
+
+/** Anchor id of a section: its `id`, or its type in kebab-case. */
+export function ancoraSecao(secao: { id?: string | undefined; tipo: string }): string {
+  return secao.id ?? secao.tipo.replaceAll('_', '-');
+}

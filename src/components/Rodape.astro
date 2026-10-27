@@ -1,0 +1,51 @@
+---
+import { formatarEndereco } from '../lib/endereco.ts';
+import type { Nicho, SecaoDo } from '../lib/schema.ts';
+
+interface Props {
+  secao: SecaoDo<'rodape'>;
+  nicho: Nicho;
+}
+
+const { secao, nicho } = Astro.props;
+const { endereco, email, telefone } = nicho.contato;
+const ano = new Date().getFullYear();
+const links = [...(secao.links ?? []), { texto: 'Política de privacidade', href: '/politica-de-privacidade' }];
+---
+
+<footer class="bg-texto py-12 text-fundo">
+  <div class="container-site grid gap-8 md:grid-cols-3">
+    <div>
+      <p class="font-titulo text-lg font-semibold">{nicho.site.nome}</p>
+      {secao.texto && <p class="mt-3 text-sm opacity-80">{secao.texto}</p>}
+      {
+        secao.registros && (
+          <ul class="mt-3 text-sm opacity-80">
+            {secao.registros.map((registro) => (
+              <li>{registro}</li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+    <address class="text-sm not-italic opacity-80">
+      {endereco && <p>{formatarEndereco(endereco)}</p>}
+      {telefone && <p class="mt-2">{telefone}</p>}
+      <p class="mt-2"><a href={`mailto:${email}`} class="underline">{email}</a></p>
+    </address>
+    <nav aria-label="Rodapé">
+      <ul class="space-y-2 text-sm">
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href} class="underline opacity-80 hover:opacity-100">
+                {link.texto}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+  <p class="container-site mt-10 text-xs opacity-70">© {ano} {nicho.site.nome}. Todos os direitos reservados.</p>
+</footer>

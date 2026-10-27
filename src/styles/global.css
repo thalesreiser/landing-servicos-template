@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/* Theme tokens: Base.astro sets the --cor-* / --fonte-* variables from the niche JSON. */
+@theme inline {
+  --color-primaria: var(--cor-primaria);
+  --color-primaria-contraste: var(--cor-primaria-contraste);
+  --color-destaque: var(--cor-destaque);
+  --color-fundo: var(--cor-fundo);
+  --color-superficie: var(--cor-superficie);
+  --color-texto: var(--cor-texto);
+  --color-texto-suave: var(--cor-texto-suave);
+  --font-titulo: var(--fonte-titulo);
+  --font-texto: var(--fonte-texto);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-fundo font-texto text-texto antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-titulo text-balance;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primaria;
+  }
+}
+
+@utility container-site {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+}
+
+@utility secao {
+  @apply py-16 sm:py-24;
+}
+
+@utility titulo-secao {
+  @apply text-3xl font-semibold tracking-tight sm:text-4xl;
+}
+
+@utility botao {
+  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg px-6 py-3 text-base font-semibold transition-colors;
+}
+
+@utility botao-primario {
+  @apply botao bg-primaria text-primaria-contraste hover:opacity-90;
+}
+
+@utility botao-secundario {
+  @apply botao border border-current text-primaria hover:bg-superficie;
+}
