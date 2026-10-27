@@ -1,0 +1,130 @@
+---
+import { ancoraSecao, type SecaoDo } from '../lib/schema.ts';
+
+interface Props {
+  secao: SecaoDo<'formulario'>;
+}
+
+const { secao } = Astro.props;
+const ancora = ancoraSecao(secao);
+const idTitulo = `${ancora}-titulo`;
+const demo = secao.chave === '';
+
+const destino = {
+  formspree: `https://formspree.io/f/${secao.chave}`,
+  web3forms: 'https://api.web3forms.com/submit',
+}[secao.provedor];
+
+const classeCampo =
+  'mt-2 block w-full rounded-lg border border-texto/20 bg-fundo px-4 py-3 text-base text-texto placeholder:text-texto-suave';
+---
+
+<section id={ancora} class="secao bg-superficie" aria-labelledby={idTitulo}>
+  <div class="container-site max-w-3xl">
+    <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
+    {secao.texto && <p class="mt-4 text-lg text-texto-suave">{secao.texto}</p>}
+
+    <form
+      class="formulario-contato mt-10 grid gap-6 sm:grid-cols-2"
+      method="POST"
+      action={demo ? '#' : destino}
+      data-demo={demo ? 'true' : undefined}
+      data-sucesso={secao.mensagem_sucesso}
+    >
+      {secao.provedor === 'web3forms' && !demo && <input type="hidden" name="access_key" value={secao.chave} />}
+      {/* Honeypot: real users never see or fill it. */}
+      <input
+        type="checkbox"
+        name={secao.provedor === 'formspree' ? '_gotcha' : 'botcheck'}
+        class="hidden"
+        tabindex="-1"
+        autocomplete="off"
+      />
+
+      {
+        secao.campos.map((campo) => {
+          const id = `${ancora}-${campo.nome}`;
+          const largo = campo.tipo === 'textarea' ? 'sm:col-span-2' : '';
+          return (
+            <div class={largo}>
+              <label for={id} class="font-semibold">
+                {campo.rotulo}
+                {!campo.obrigatorio && <span class="font-normal text-texto-suave"> (opcional)</span>}
+              </label>
+              {campo.tipo === 'textarea' ? (
+                <textarea id={id} name={campo.nome} rows="5" required={campo.obrigatorio} class={classeCampo} />
+              ) : campo.tipo === 'select' ? (
+                <select id={id} name={campo.nome} required={campo.obrigatorio} class={classeCampo}>
+                  <option value="">Selecione</option>
+                  {campo.opcoes?.map((opcao) => (
+                    <option value={opcao}>{opcao}</option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  id={id}
+                  name={campo.nome}
+                  type={campo.tipo}
+                  required={campo.obrigatorio}
+                  autocomplete={campo.autocomplete}
+                  class={classeCampo}
+                />
+              )}
+            </div>
+          );
+        })
+      }
+
+      <div class="flex items-start gap-3 sm:col-span-2">
+        <input id={`${ancora}-consentimento`} name="consentimento" type="checkbox" required class="mt-1 size-5" />
+        <label for={`${ancora}-consentimento`} class="text-texto-suave">
+          {secao.consentimento}{' '}
+          <a href="/politica-de-privacidade" class="text-primaria underline">Política de privacidade</a>.
+        </label>
+      </div>
+
+      <div class="sm:col-span-2">
+        <button type="submit" class="botao-primario w-full sm:w-auto">{secao.botao}</button>
+        <p class="status-formulario mt-4 font-semibold" role="status" aria-live="polite"></p>
+        {demo && <p class="mt-2 text-sm text-texto-suave">Formulário de demonstração: nenhum dado é enviado.</p>}
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  // Sends the form with fetch so the visitor stays on the page; without JS the
+  // browser posts it to the provider normally.
+  for (const form of document.querySelectorAll<HTMLFormElement>('.formulario-contato')) {
+    form.addEventListener('submit', async (evento) => {
+      evento.preventDefault();
+      const status = form.querySelector<HTMLElement>('.status-formulario');
+      const botao = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (!status || !botao) return;
+      const sucesso = form.dataset.sucesso ?? 'Mensagem enviada.';
+
+      if (form.dataset.demo) {
+        status.textContent = `${sucesso} (demonstração: nada foi enviado)`;
+        form.reset();
+        return;
+      }
+
+      botao.disabled = true;
+      status.textContent = 'Enviando...';
+      try {
+        const resposta = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!resposta.ok) throw new Error(String(resposta.status));
+        status.textContent = sucesso;
+        form.reset();
+      } catch {
+        status.textContent = 'Não foi possível enviar agora. Tente de novo ou fale conosco pelo WhatsApp.';
+      } finally {
+        botao.disabled = false;
+      }
+    });
+  }
+</script>

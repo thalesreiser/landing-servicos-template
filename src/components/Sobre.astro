@@ -1,0 +1,55 @@
+---
+import Imagem from './Imagem.astro';
+import { ancoraSecao, type SecaoDo } from '../lib/schema.ts';
+
+interface Props {
+  secao: SecaoDo<'sobre'>;
+}
+
+const { secao } = Astro.props;
+const idTitulo = `${ancoraSecao(secao)}-titulo`;
+---
+
+<section id={ancoraSecao(secao)} class="secao bg-superficie" aria-labelledby={idTitulo}>
+  <div class="container-site">
+    <div class:list={['grid items-center gap-10', secao.imagem && 'lg:grid-cols-2']}>
+      {secao.imagem && <Imagem imagem={secao.imagem} class="aspect-[4/5] w-full rounded-2xl object-cover lg:order-last" />}
+      <div>
+        <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
+        <div class="mt-6 space-y-4 text-lg text-texto-suave">
+          {secao.paragrafos.map((paragrafo) => <p>{paragrafo}</p>)}
+        </div>
+        {
+          secao.registros && (
+            <dl class="mt-8 grid gap-4 sm:grid-cols-2">
+              {secao.registros.map((registro) => (
+                <div class="rounded-lg border border-texto/10 bg-fundo p-4">
+                  <dt class="text-sm text-texto-suave">{registro.rotulo}</dt>
+                  <dd class="mt-1 font-semibold">{registro.valor}</dd>
+                </div>
+              ))}
+            </dl>
+          )
+        }
+      </div>
+    </div>
+
+    {
+      secao.equipe && (
+        <ul class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {secao.equipe.map((pessoa) => (
+            <li class="rounded-xl bg-fundo p-6 text-center">
+              {pessoa.foto && (
+                <Imagem imagem={pessoa.foto} class="mx-auto size-32 rounded-full object-cover" />
+              )}
+              <h3 class="mt-4 text-xl font-semibold">{pessoa.nome}</h3>
+              <p class="text-primaria">{pessoa.cargo}</p>
+              {pessoa.registro && <p class="mt-1 text-sm text-texto-suave">{pessoa.registro}</p>}
+              {pessoa.bio && <p class="mt-3 text-texto-suave">{pessoa.bio}</p>}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</section>

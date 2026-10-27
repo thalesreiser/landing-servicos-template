@@ -1,0 +1,22 @@
+---
+import type { Imagem } from '../lib/schema.ts';
+
+interface Props {
+  imagem: Imagem;
+  class?: string;
+  prioridade?: boolean;
+}
+
+const { imagem, class: classe, prioridade = false } = Astro.props;
+---
+
+<img
+  src={imagem.src}
+  alt={imagem.alt}
+  width={imagem.largura}
+  height={imagem.altura}
+  class={classe}
+  loading={prioridade ? 'eager' : 'lazy'}
+  fetchpriority={prioridade ? 'high' : 'auto'}
+  decoding="async"
+/>

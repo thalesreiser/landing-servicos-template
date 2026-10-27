@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import BotaoWhatsApp from '../components/BotaoWhatsApp.astro';
+import ComoFunciona from '../components/ComoFunciona.astro';
+import Depoimentos from '../components/Depoimentos.astro';
+import FAQ from '../components/FAQ.astro';
+import Formulario from '../components/Formulario.astro';
+import Hero from '../components/Hero.astro';
+import Mapa from '../components/Mapa.astro';
+import Rodape from '../components/Rodape.astro';
+import Servicos from '../components/Servicos.astro';
+import Sobre from '../components/Sobre.astro';
+import { carregarNicho } from '../lib/nicho.ts';
+
+const nicho = carregarNicho();
+const secoes = nicho.secoes.filter((secao) => secao.ativo);
+// Footer and floating button live outside <main>; everything else keeps the JSON order.
+const conteudo = secoes.filter((secao) => secao.tipo !== 'rodape' && secao.tipo !== 'botao_whatsapp');
+const rodape = secoes.find((secao) => secao.tipo === 'rodape');
+const botao = secoes.find((secao) => secao.tipo === 'botao_whatsapp');
+---
+
+<Base nicho={nicho}>
+  {
+    conteudo.map((secao) => {
+      switch (secao.tipo) {
+        case 'hero':
+          return <Hero secao={secao} nicho={nicho} />;
+        case 'servicos':
+          return <Servicos secao={secao} />;
+        case 'sobre':
+          return <Sobre secao={secao} />;
+        case 'como_funciona':
+          return <ComoFunciona secao={secao} />;
+        case 'depoimentos':
+          return <Depoimentos secao={secao} />;
+        case 'faq':
+          return <FAQ secao={secao} />;
+        case 'formulario':
+          return <Formulario secao={secao} />;
+        case 'mapa':
+          return <Mapa secao={secao} nicho={nicho} />;
+      }
+    })
+  }
+  <Fragment slot="depois">
+    {rodape?.tipo === 'rodape' && <Rodape secao={rodape} nicho={nicho} />}
+    {botao?.tipo === 'botao_whatsapp' && <BotaoWhatsApp secao={botao} nicho={nicho} />}
+  </Fragment>
+</Base>

@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Every niche in nichos/ must build; add new niches here.
+        nicho: [exemplo]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - name: Build (${{ matrix.nicho }})
+        run: npm run build
+        env:
+          NICHO: ${{ matrix.nicho }}
+      - name: Page size
+        run: du -sh dist && du -h dist/index.html

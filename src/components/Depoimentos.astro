@@ -1,0 +1,31 @@
+---
+import { ancoraSecao, type SecaoDo } from '../lib/schema.ts';
+
+interface Props {
+  secao: SecaoDo<'depoimentos'>;
+}
+
+const { secao } = Astro.props;
+const idTitulo = `${ancoraSecao(secao)}-titulo`;
+---
+
+<section id={ancoraSecao(secao)} class="secao bg-superficie" aria-labelledby={idTitulo}>
+  <div class="container-site">
+    <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
+    <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        secao.itens.map((item) => (
+          <li>
+            <figure class="h-full rounded-xl bg-fundo p-6">
+              <blockquote class="text-lg">“{item.texto}”</blockquote>
+              <figcaption class="mt-4">
+                <span class="font-semibold">{item.nome}</span>
+                {item.detalhe && <span class="block text-sm text-texto-suave">{item.detalhe}</span>}
+              </figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

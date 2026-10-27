@@ -1,0 +1,64 @@
+---
+import Icone from './Icone.astro';
+import { formatarEndereco, urlMapa } from '../lib/endereco.ts';
+import { ancoraSecao, type Nicho, type SecaoDo } from '../lib/schema.ts';
+
+interface Props {
+  secao: SecaoDo<'mapa'>;
+  nicho: Nicho;
+}
+
+const { secao, nicho } = Astro.props;
+const { endereco, horario, telefone, email } = nicho.contato;
+const idTitulo = `${ancoraSecao(secao)}-titulo`;
+// The schema guarantees an address whenever embed_url is missing.
+const src = secao.embed_url ?? urlMapa(endereco!);
+---
+
+<section id={ancoraSecao(secao)} class="secao" aria-labelledby={idTitulo}>
+  <div class="container-site grid gap-10 lg:grid-cols-[1fr_2fr]">
+    <div>
+      <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
+      <ul class="mt-8 space-y-5 text-texto-suave">
+        {
+          endereco && (
+            <li class="flex gap-3">
+              <Icone nome="local" class="size-6 shrink-0 text-primaria" />
+              <address class="not-italic">{formatarEndereco(endereco)}</address>
+            </li>
+          )
+        }
+        {
+          horario && (
+            <li class="flex gap-3">
+              <Icone nome="relogio" class="size-6 shrink-0 text-primaria" />
+              <span>
+                {horario.map((linha) => (
+                  <span class="block">{linha}</span>
+                ))}
+              </span>
+            </li>
+          )
+        }
+        {
+          telefone && (
+            <li class="flex gap-3">
+              <Icone nome="celular" class="size-6 shrink-0 text-primaria" />
+              <a href={`tel:+${telefone.replace(/\D/g, '')}`} class="hover:text-primaria">{telefone}</a>
+            </li>
+          )
+        }
+        <li class="flex gap-3">
+          <Icone nome="email" class="size-6 shrink-0 text-primaria" />
+          <a href={`mailto:${email}`} class="break-all hover:text-primaria">{email}</a>
+        </li>
+      </ul>
+    </div>
+    <iframe
+      src={src}
+      title={`Mapa: ${nicho.site.nome}`}
+      class="h-80 w-full rounded-2xl border-0 lg:h-full lg:min-h-96"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</section>
