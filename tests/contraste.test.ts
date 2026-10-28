@@ -1,0 +1,49 @@
+import assert from 'node:assert/strict';
+import { readdirSync, readFileSync } from 'node:fs';
+import { test } from 'node:test';
+import { misturar, razaoContraste } from '../src/lib/contraste.ts';
+import { nichoSchema } from '../src/lib/schema.ts';
+
+const AA = 4.5;
+// Footer text sits at 80% opacity over the text color (Rodape.astro).
+const OPACIDADE_RODAPE = 0.8;
+// Fixed color of the floating WhatsApp button (BotaoWhatsApp.astro).
+const VERDE_WHATSAPP = '#1D7D4A';
+
+test('contrast ratio matches the WCAG reference values', () => {
+  assert.equal(razaoContraste('#000000', '#FFFFFF'), 21);
+  assert.equal(razaoContraste('#777777', '#777777'), 1);
+  assert.equal(Math.round(razaoContraste('#767676', '#FFFFFF') * 100) / 100, 4.54);
+});
+
+test('blends a color over a background', () => {
+  assert.equal(misturar('#FFFFFF', '#000000', 0.5), '#808080');
+  assert.equal(misturar('#FFFFFF', '#000000', 1), '#ffffff');
+});
+
+test('floating WhatsApp button text passes AA', () => {
+  assert.ok(razaoContraste('#FFFFFF', VERDE_WHATSAPP) >= AA);
+});
+
+const pasta = new URL('../nichos/', import.meta.url);
+for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
+  test(`nichos/${arquivo} theme passes WCAG AA`, () => {
+    const { tema: t } = nichoSchema.parse(JSON.parse(readFileSync(new URL(arquivo, pasta), 'utf8')));
+    const pares: [string, string, string][] = [
+      ['texto sobre fundo', t.cor_texto, t.cor_fundo],
+      ['texto sobre superfície', t.cor_texto, t.cor_superficie],
+      ['texto suave sobre fundo', t.cor_texto_suave, t.cor_fundo],
+      ['texto suave sobre superfície', t.cor_texto_suave, t.cor_superficie],
+      ['botão primário', t.cor_primaria_contraste, t.cor_primaria],
+      ['primária sobre fundo', t.cor_primaria, t.cor_fundo],
+      ['primária sobre superfície', t.cor_primaria, t.cor_superficie],
+      ['rodapé e aviso de demonstração', t.cor_fundo, t.cor_texto],
+      ['rodapé a 80%', misturar(t.cor_fundo, t.cor_texto, OPACIDADE_RODAPE), t.cor_texto],
+    ];
+    const reprovados = pares
+      .map(([nome, a, b]) => ({ nome, razao: razaoContraste(a, b) }))
+      .filter(({ razao }) => razao < AA)
+      .map(({ nome, razao }) => `${nome}: ${razao.toFixed(2)}`);
+    assert.deepEqual(reprovados, [], `pares abaixo de ${AA}:1`);
+  });
+}
