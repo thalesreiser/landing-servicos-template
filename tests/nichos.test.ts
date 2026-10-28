@@ -61,6 +61,13 @@ test('requires options on select fields', () => {
   assert.equal(nichoSchema.safeParse(nicho).success, false);
 });
 
+test('rejects a convenios section without items', () => {
+  const nicho = exemplo();
+  const convenios = nicho.secoes.find((s) => s.tipo === 'convenios') as { itens: string[] };
+  convenios.itens = [];
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+});
+
 test('rejects a WhatsApp number without country code', () => {
   const nicho = exemplo();
   nicho.contato.whatsapp = '11999990000';

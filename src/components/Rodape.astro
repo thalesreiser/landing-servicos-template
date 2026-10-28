@@ -5,15 +5,17 @@ import type { Nicho, SecaoDo } from '../lib/schema.ts';
 interface Props {
   secao: SecaoDo<'rodape'>;
   nicho: Nicho;
+  /** Leaves room at the bottom so the floating WhatsApp button never covers the last lines. */
+  comBotaoFixo?: boolean;
 }
 
-const { secao, nicho } = Astro.props;
+const { secao, nicho, comBotaoFixo = false } = Astro.props;
 const { endereco, email, telefone } = nicho.contato;
 const ano = new Date().getFullYear();
 const links = [...(secao.links ?? []), { texto: 'Política de privacidade', href: '/politica-de-privacidade' }];
 ---
 
-<footer class="bg-texto py-12 text-fundo">
+<footer class:list={['bg-texto pt-12 text-fundo', comBotaoFixo ? 'pb-24 sm:pb-28' : 'pb-12']}>
   <div class="container-site grid gap-8 md:grid-cols-3">
     <div>
       <p class="font-titulo text-lg font-semibold">{nicho.site.nome}</p>

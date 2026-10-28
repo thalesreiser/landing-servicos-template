@@ -75,6 +75,16 @@ const depoimentos = z.object({
   tipo: z.literal('depoimentos'),
   titulo: z.string(),
   itens: z.array(z.object({ nome: z.string(), texto: z.string(), detalhe: z.string().optional() })).min(1),
+  // Small print under the testimonials (e.g. that they are published with the patient's consent).
+  nota: z.string().optional(),
+});
+
+const convenios = z.object({
+  ...comum,
+  tipo: z.literal('convenios'),
+  titulo: z.string(),
+  texto: z.string().optional(),
+  itens: z.array(z.string()).min(1),
 });
 
 const faq = z.object({
@@ -140,6 +150,7 @@ const secao = z.discriminatedUnion('tipo', [
   sobre,
   comoFunciona,
   depoimentos,
+  convenios,
   faq,
   formulario,
   mapa,

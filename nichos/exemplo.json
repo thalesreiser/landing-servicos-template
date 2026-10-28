@@ -81,7 +81,14 @@
       "itens": [
         { "nome": "Cliente Exemplo", "detalhe": "São Paulo/SP", "texto": "Depoimento fictício de um cliente." },
         { "nome": "Outra Cliente", "detalhe": "Campinas/SP", "texto": "Outro depoimento fictício." }
-      ]
+      ],
+      "nota": "Nota opcional sob os depoimentos."
+    },
+    {
+      "tipo": "convenios",
+      "titulo": "Convênios e parceiros",
+      "texto": "Lista de nomes em etiquetas.",
+      "itens": ["Parceiro Alfa", "Parceiro Beta", "Parceiro Gama"]
     },
     {
       "tipo": "faq",

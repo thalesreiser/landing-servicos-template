@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import BotaoWhatsApp from '../components/BotaoWhatsApp.astro';
 import ComoFunciona from '../components/ComoFunciona.astro';
+import Convenios from '../components/Convenios.astro';
 import Depoimentos from '../components/Depoimentos.astro';
 import FAQ from '../components/FAQ.astro';
 import Formulario from '../components/Formulario.astro';
@@ -34,6 +35,8 @@ const botao = secoes.find((secao) => secao.tipo === 'botao_whatsapp');
           return <ComoFunciona secao={secao} />;
         case 'depoimentos':
           return <Depoimentos secao={secao} />;
+        case 'convenios':
+          return <Convenios secao={secao} />;
         case 'faq':
           return <FAQ secao={secao} />;
         case 'formulario':
@@ -44,7 +47,7 @@ const botao = secoes.find((secao) => secao.tipo === 'botao_whatsapp');
     })
   }
   <Fragment slot="depois">
-    {rodape?.tipo === 'rodape' && <Rodape secao={rodape} nicho={nicho} />}
+    {rodape?.tipo === 'rodape' && <Rodape secao={rodape} nicho={nicho} comBotaoFixo={botao !== undefined} />}
     {botao?.tipo === 'botao_whatsapp' && <BotaoWhatsApp secao={botao} nicho={nicho} />}
   </Fragment>
 </Base>
