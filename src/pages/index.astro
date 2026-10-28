@@ -47,7 +47,7 @@ const botao = secoes.find((secao) => secao.tipo === 'botao_whatsapp');
     })
   }
   <Fragment slot="depois">
-    {rodape?.tipo === 'rodape' && <Rodape secao={rodape} nicho={nicho} />}
+    {rodape?.tipo === 'rodape' && <Rodape secao={rodape} nicho={nicho} comBotaoFixo={botao !== undefined} />}
     {botao?.tipo === 'botao_whatsapp' && <BotaoWhatsApp secao={botao} nicho={nicho} />}
   </Fragment>
 </Base>
