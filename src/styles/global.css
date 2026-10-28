@@ -17,6 +17,8 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
+    /* Keeps focused fields clear of the floating WhatsApp button. */
+    scroll-padding-bottom: 6rem;
   }
 
   @media (prefers-reduced-motion: reduce) {
