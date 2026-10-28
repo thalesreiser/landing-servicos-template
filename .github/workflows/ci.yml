@@ -8,14 +8,34 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
+  # Reads nichos/: every niche is built; niches with publicacao.cloudflare_projeto are deployed.
+  matriz:
+    runs-on: ubuntu-latest
+    outputs:
+      nichos: ${{ steps.matriz.outputs.nichos }}
+      deploy: ${{ steps.matriz.outputs.deploy }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - id: matriz
+        run: node scripts/matriz-ci.ts
+
   build:
+    needs: matriz
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        # Every niche in nichos/ must build; add new niches here.
-        nicho: [exemplo]
+        nicho: ${{ fromJSON(needs.matriz.outputs.nichos) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -31,3 +51,99 @@ jobs:
           NICHO: ${{ matrix.nicho }}
       - name: Page size
         run: du -sh dist && du -h dist/index.html
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist-${{ matrix.nicho }}
+          path: dist/
+          retention-days: 7
+
+  # Single required check for branch protection: the build job names change with the niches.
+  ci-ok:
+    if: always()
+    needs: [matriz, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: All builds passed
+        run: test "${{ needs.matriz.result }}" = success && test "${{ needs.build.result }}" = success
+
+  # Production on push to main, preview on pull requests from this repository.
+  # Forks and Dependabot get no secrets, so they are skipped.
+  deploy:
+    needs: [matriz, build]
+    if: >-
+      needs.matriz.outputs.deploy != '[]' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.matriz.outputs.deploy) }}
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Check Cloudflare secrets
+        id: segredos
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN or CLOUDFLARE_ACCOUNT_ID is not set; skipping the deploy (see README, Publicação)."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Branch name for Cloudflare
+        if: steps.segredos.outputs.ok == 'true'
+        id: ramo
+        env:
+          RAMO: ${{ github.head_ref || github.ref_name }}
+        # Cloudflare aliases previews by branch; keep only characters that are safe in a subdomain.
+        run: echo "nome=$(printf '%s' "$RAMO" | tr -c 'A-Za-z0-9-' '-')" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/download-artifact@v8
+        if: steps.segredos.outputs.ok == 'true'
+        with:
+          name: dist-${{ matrix.nicho }}
+          path: dist
+
+      - name: Create the Pages project if missing
+        if: steps.segredos.outputs.ok == 'true'
+        env:
+          PROJETO: ${{ matrix.projeto }}
+        run: |
+          api="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects"
+          status=$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" "$api/$PROJETO")
+          if [ "$status" = 404 ]; then
+            curl -sf -o /dev/null -X POST "$api" \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H 'Content-Type: application/json' \
+              -d "{\"name\":\"$PROJETO\",\"production_branch\":\"main\"}"
+            echo "Created Pages project $PROJETO"
+          elif [ "$status" != 200 ]; then
+            echo "::error::Cloudflare API returned HTTP $status for project $PROJETO (check the token permission: Account > Cloudflare Pages > Edit)"
+            exit 1
+          fi
+
+      - name: Deploy to Cloudflare Pages
+        if: steps.segredos.outputs.ok == 'true'
+        id: deploy
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: "4.154.0"
+          command: pages deploy dist --project-name=${{ matrix.projeto }} --branch=${{ steps.ramo.outputs.nome }}
+
+      - name: Summary
+        if: steps.segredos.outputs.ok == 'true'
+        env:
+          URL: ${{ steps.deploy.outputs.deployment-url }}
+          ALIAS: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+        run: |
+          echo "### ${{ matrix.nicho }} → ${{ matrix.projeto }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Deploy: $URL" >> "$GITHUB_STEP_SUMMARY"
+          [ -n "$ALIAS" ] && echo "- Branch alias: $ALIAS" >> "$GITHUB_STEP_SUMMARY" || true

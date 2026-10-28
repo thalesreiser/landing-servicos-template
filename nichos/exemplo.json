@@ -30,6 +30,7 @@
     },
     "horario": ["Segunda a sexta, das 9h às 18h"]
   },
+  "publicacao": { "cloudflare_projeto": "landing-servicos-exemplo" },
   "secoes": [
     {
       "tipo": "hero",

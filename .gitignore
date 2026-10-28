@@ -25,6 +25,5 @@ pnpm-debug.log*
 .env.*
 !.env.example
 
-# Vercel / Netlify local state
-.vercel/
-.netlify/
+# Cloudflare Wrangler local state
+.wrangler/

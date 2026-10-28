@@ -45,6 +45,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | `tema`         | cores (hexadecimal) e fontes; `fontes_url` carrega o Google Fonts        |
 | `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário |
 | `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais                   |
+| `publicacao`   | `cloudflare_projeto`: projeto da Cloudflare Pages; sem ele, o nicho só é compilado no CI |
 | `secoes`       | lista ordenada das seções; a ordem do JSON é a ordem da página           |
 
 Cada item de `secoes` tem um `tipo` (`hero`, `servicos`, `sobre`, `como_funciona`,
@@ -62,6 +63,35 @@ Funciona com [Formspree](https://formspree.io) ou [Web3Forms](https://web3forms.
 sem backend. Em `chave`, use o id do formulário (Formspree) ou a access key (Web3Forms);
 os dois são públicos por natureza. Com `chave` vazia, o formulário fica em modo de
 demonstração e não envia nada.
+
+## Publicação (Cloudflare Pages)
+
+O GitHub Actions compila cada nicho e publica na Cloudflare Pages os que têm
+`publicacao.cloudflare_projeto` no JSON:
+
+- **push na `main`:** publica em produção (`<projeto>.pages.dev`)
+- **pull request:** publica uma prévia por branch e mostra o link no resumo da execução
+- o projeto é criado na Cloudflare no primeiro deploy, se ainda não existir
+- PRs de forks e do Dependabot não recebem os secrets e não publicam
+
+### Configuração (uma vez por repositório)
+
+1. Na Cloudflare, em **My Profile › API Tokens › Create Token › Custom token**, crie um
+   token com uma única permissão: **Account › Cloudflare Pages › Edit**, restrito à sua conta.
+2. Copie o **Account ID**, que aparece na página inicial do painel da Cloudflare.
+3. Grave os dois valores como secrets do repositório. O `gh` pede o valor sem exibi-lo,
+   então ele não fica no histórico do terminal:
+
+   ```bash
+   gh secret set CLOUDFLARE_API_TOKEN --repo thalesreiser/landing-servicos-template
+   gh secret set CLOUDFLARE_ACCOUNT_ID --repo thalesreiser/landing-servicos-template
+   ```
+
+   Também dá para cadastrar em **Settings › Secrets and variables › Actions** no GitHub.
+
+Sem os secrets, o job de deploy só emite um aviso e o CI continua verde. O token nunca vai
+para o código, para o `.env` ou para mensagens; para trocá-lo, gere um novo na Cloudflare,
+rode o `gh secret set` de novo e revogue o antigo.
 
 ## Licença
 

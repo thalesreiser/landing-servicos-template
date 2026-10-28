@@ -191,6 +191,14 @@ export const nichoSchema = z
         meta_pixel: z.string().regex(/^\d+$/).optional(),
       })
       .default({}),
+    // Niches with a Cloudflare Pages project are deployed by CI; the others are only built.
+    publicacao: z
+      .object({
+        cloudflare_projeto: z
+          .string()
+          .regex(/^[a-z0-9][a-z0-9-]{0,56}[a-z0-9]$/, 'nome do projeto: letras minúsculas, números e hífens, até 58 caracteres'),
+      })
+      .optional(),
     secoes: z.array(secao).min(1),
   })
   .superRefine((nicho, ctx) => {
