@@ -3,7 +3,16 @@
 Template de landing page de serviços em **Astro + Tailwind CSS**, configurável por um
 arquivo JSON por nicho. Cada cliente novo é um JSON novo em `nichos/`, sem mudar o código.
 
-> Em construção. Demos previstas: advocacia e clínica de fisioterapia.
+## Demos
+
+Sites de demonstração, com nomes, contatos e endereços fictícios:
+
+| Nicho | JSON | Endereço |
+| --- | --- | --- |
+| Advocacia | [`nichos/advocacia.json`](nichos/advocacia.json) | https://advocacia-demo.pages.dev |
+| Todas as seções (referência) | [`nichos/exemplo.json`](nichos/exemplo.json) | https://landing-servicos-exemplo.pages.dev |
+
+Clínica de fisioterapia: em construção.
 
 ## Como rodar
 
@@ -45,6 +54,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | `tema`         | cores (hexadecimal) e fontes; `fontes_url` carrega o Google Fonts        |
 | `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário |
 | `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais                   |
+| `revisao`      | `termos_vetados`: palavras que os textos nunca podem usar; os testes reprovam o nicho se alguma aparecer |
 | `publicacao`   | `cloudflare_projeto`: projeto da Cloudflare Pages; sem ele, o nicho só é compilado no CI |
 | `secoes`       | lista ordenada das seções; a ordem do JSON é a ordem da página           |
 
@@ -56,6 +66,18 @@ Cada item de `secoes` tem um `tipo` (`hero`, `servicos`, `sobre`, `como_funciona
 - `ativo: false`: esconde a seção sem apagá-la
 
 `nichos/exemplo.json` liga todas as seções e serve de referência.
+
+### Regras de conteúdo e acessibilidade
+
+Os testes rodam sobre todos os nichos:
+
+- **Contraste:** todas as combinações de cor usadas pelos componentes precisam de 4,5:1
+  (nível AA da WCAG).
+- **Termos vetados:** nenhum texto pode conter um item de `revisao.termos_vetados`, sem
+  diferenciar maiúsculas e acentos. O nicho de advocacia usa essa lista para seguir o
+  Provimento 205/2021 da OAB, que proíbe, por exemplo, mencionar valores ou gratuidade,
+  prometer resultados, usar expressões autopromocionais e anunciar especialidade sem
+  título certificado.
 
 ### Formulário
 
