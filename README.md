@@ -10,9 +10,8 @@ Sites de demonstração, com nomes, contatos e endereços fictícios:
 | Nicho | JSON | Endereço |
 | --- | --- | --- |
 | Advocacia | [`nichos/advocacia.json`](nichos/advocacia.json) | https://advocacia-demo.pages.dev |
+| Fisioterapia | [`nichos/fisioterapia.json`](nichos/fisioterapia.json) | https://fisioterapia-demo.pages.dev |
 | Todas as seções (referência) | [`nichos/exemplo.json`](nichos/exemplo.json) | https://landing-servicos-exemplo.pages.dev |
-
-Clínica de fisioterapia: em construção.
 
 ## Como rodar
 
