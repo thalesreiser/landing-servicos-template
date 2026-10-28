@@ -191,6 +191,9 @@ export const nichoSchema = z
         meta_pixel: z.string().regex(/^\d+$/).optional(),
       })
       .default({}),
+    // Words the niche copy must never use (e.g. advertising rules of a professional council);
+    // tests/nichos.test.ts fails the build when any text contains one.
+    revisao: z.object({ termos_vetados: z.array(z.string().min(2)).min(1) }).optional(),
     // Niches with a Cloudflare Pages project are deployed by CI; the others are only built.
     publicacao: z
       .object({

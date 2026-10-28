@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { nichoSchema } from '../src/lib/schema.ts';
+import { termosEncontrados } from '../src/lib/termos.ts';
 
 const pasta = new URL('../nichos/', import.meta.url);
 const arquivos = readdirSync(pasta).filter((arquivo) => arquivo.endsWith('.json'));
@@ -21,6 +22,12 @@ for (const arquivo of arquivos) {
     const nicho = nichoSchema.parse(ler(arquivo));
     // Every niche in this repo is a demo with fictitious data.
     assert.equal(nicho.demo, true);
+  });
+
+  test(`nichos/${arquivo} uses none of its vetoed terms`, () => {
+    const dados = ler(arquivo);
+    const termos = nichoSchema.parse(dados).revisao?.termos_vetados ?? [];
+    assert.deepEqual(termosEncontrados(dados, termos), []);
   });
 }
 
