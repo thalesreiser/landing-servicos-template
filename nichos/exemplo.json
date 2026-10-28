@@ -4,6 +4,8 @@
     "nome": "Estúdio Exemplo",
     "titulo": "Estúdio Exemplo | Consultoria para pequenos negócios",
     "descricao": "Nicho de exemplo do template: todas as seções ligadas, com textos e contatos fictícios.",
+    "url": "https://landing-servicos-exemplo.pages.dev",
+    "schema_tipo": "LocalBusiness",
     "idioma": "pt-BR"
   },
   "tema": {
