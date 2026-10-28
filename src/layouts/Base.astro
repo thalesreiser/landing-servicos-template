@@ -137,7 +137,8 @@ const pixel = rastreamento.meta_pixel;
       </div>
     </header>
 
-    <main id="conteudo">
+    {/* tabindex lets the skip link move focus, not just scroll, into the content. */}
+    <main id="conteudo" tabindex="-1" class="outline-none">
       <slot />
     </main>
     <slot name="depois" />
