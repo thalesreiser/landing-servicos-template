@@ -59,7 +59,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | `secoes`       | lista ordenada das seções; a ordem do JSON é a ordem da página           |
 
 Cada item de `secoes` tem um `tipo` (`hero`, `servicos`, `sobre`, `como_funciona`,
-`depoimentos`, `faq`, `formulario`, `mapa`, `rodape`, `botao_whatsapp`) e aceita:
+`depoimentos`, `convenios`, `faq`, `formulario`, `mapa`, `rodape`, `botao_whatsapp`) e aceita:
 
 - `id`: âncora da seção (padrão: o próprio tipo)
 - `menu`: texto do link no cabeçalho

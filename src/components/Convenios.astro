@@ -1,0 +1,28 @@
+---
+import Icone from './Icone.astro';
+import { ancoraSecao, type SecaoDo } from '../lib/schema.ts';
+
+interface Props {
+  secao: SecaoDo<'convenios'>;
+}
+
+const { secao } = Astro.props;
+const idTitulo = `${ancoraSecao(secao)}-titulo`;
+---
+
+<section id={ancoraSecao(secao)} class="secao" aria-labelledby={idTitulo}>
+  <div class="container-site">
+    <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
+    {secao.texto && <p class="mt-4 max-w-2xl text-lg text-texto-suave">{secao.texto}</p>}
+    <ul class="mt-8 flex flex-wrap gap-3">
+      {
+        secao.itens.map((item) => (
+          <li class="inline-flex items-center gap-2 rounded-full border border-texto/15 bg-superficie px-4 py-2 font-semibold">
+            <Icone nome="check" class="size-4 text-primaria" />
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
