@@ -1,6 +1,19 @@
 import { z } from 'astro/zod';
 import { NOMES_ICONES } from './icones.ts';
 
+// LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
+export const TIPOS_SCHEMA = [
+  'LocalBusiness',
+  'LegalService',
+  'MedicalBusiness',
+  'MedicalClinic',
+  'Physiotherapy',
+  'Dentist',
+  'AccountingService',
+  'HomeAndConstructionBusiness',
+  'HealthAndBeautyBusiness',
+] as const;
+
 const cor = z.string().regex(/^#[0-9a-fA-F]{6}$/, 'use uma cor hexadecimal, ex.: #1F6FEB');
 
 const imagem = z.object({
@@ -165,7 +178,10 @@ export const nichoSchema = z
       nome: z.string(),
       titulo: z.string(),
       descricao: z.string().max(170, 'a descrição de SEO deve ter até 170 caracteres'),
-      url: z.url().optional(),
+      // Production address: canonical, Open Graph, sitemap and JSON-LD need it.
+      url: z.url({ protocol: /^https?$/ }).optional(),
+      // schema.org type of the business in the JSON-LD (default LocalBusiness).
+      schema_tipo: z.enum(TIPOS_SCHEMA).optional(),
       idioma: z.string().default('pt-BR'),
     }),
     tema: z.object({

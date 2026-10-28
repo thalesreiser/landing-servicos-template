@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { ancoraSecao, type Nicho } from '../lib/schema.ts';
+import { ALTURA_OG, CAMINHO_OG, chamadaPrincipal, LARGURA_OG, localeOg, urlAbsoluta } from '../lib/seo.ts';
 import { linkWhatsApp } from '../lib/whatsapp.ts';
 
 interface Props {
@@ -28,6 +29,11 @@ const menu = nicho.secoes
   .filter((secao) => secao.ativo && secao.menu)
   .map((secao) => ({ texto: secao.menu, href: `/#${ancoraSecao(secao)}` }));
 
+// Open Graph and canonical need absolute URLs, so they depend on site.url.
+const canonica = urlAbsoluta(nicho.site.url, Astro.url.pathname);
+const imagemOg = urlAbsoluta(nicho.site.url, CAMINHO_OG);
+const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
+
 const ga = rastreamento.google_analytics;
 const pixel = rastreamento.meta_pixel;
 ---
@@ -41,6 +47,26 @@ const pixel = rastreamento.meta_pixel;
     <meta name="description" content={descricao} />
     <meta name="theme-color" content={tema.cor_primaria} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {canonica && <link rel="canonical" href={canonica} />}
+    {canonica && <link rel="sitemap" href="/sitemap-index.xml" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={nicho.site.nome} />
+    <meta property="og:locale" content={localeOg(nicho.site.idioma)} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descricao} />
+    {canonica && <meta property="og:url" content={canonica} />}
+    {
+      imagemOg && (
+        <>
+          <meta property="og:image" content={imagemOg} />
+          <meta property="og:image:type" content="image/png" />
+          <meta property="og:image:width" content={String(LARGURA_OG)} />
+          <meta property="og:image:height" content={String(ALTURA_OG)} />
+          <meta property="og:image:alt" content={altOg} />
+        </>
+      )
+    }
+    <meta name="twitter:card" content="summary_large_image" />
     {
       tema.fontes_url && (
         <>
