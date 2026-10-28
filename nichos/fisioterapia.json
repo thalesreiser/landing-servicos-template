@@ -1,0 +1,153 @@
+{
+  "demo": true,
+  "site": {
+    "nome": "Clínica Ponto de Apoio",
+    "titulo": "Clínica Ponto de Apoio | Fisioterapia na Vila Mariana",
+    "descricao": "Fisioterapia ortopédica, esportiva, neurológica, pilates clínico e atendimento domiciliar na Vila Mariana, São Paulo. Agende sua avaliação pelo WhatsApp.",
+    "idioma": "pt-BR"
+  },
+  "tema": {
+    "cor_primaria": "#0E6B63",
+    "cor_primaria_contraste": "#FFFFFF",
+    "cor_destaque": "#E07A5F",
+    "cor_fundo": "#FFFFFF",
+    "cor_superficie": "#EEF6F4",
+    "cor_texto": "#1D2B2E",
+    "cor_texto_suave": "#4A5A5E",
+    "fonte_titulo": "Nunito, system-ui, sans-serif",
+    "fonte_texto": "\"Nunito Sans\", system-ui, sans-serif",
+    "fontes_url": "https://fonts.googleapis.com/css2?family=Nunito:wght@700&family=Nunito+Sans:wght@400;600&display=swap"
+  },
+  "contato": {
+    "whatsapp": "5500900000000",
+    "mensagem_whatsapp": "Olá! Gostaria de agendar uma avaliação de fisioterapia.",
+    "email": "contato@example.com",
+    "telefone": "(00) 0000-0000",
+    "endereco": {
+      "logradouro": "Rua Domingos de Morais",
+      "bairro": "Vila Mariana",
+      "cidade": "São Paulo",
+      "uf": "SP"
+    },
+    "horario": ["Segunda a sexta, das 7h às 20h", "Sábado, das 8h às 12h"]
+  },
+  "revisao": {
+    "termos_vetados": [
+      "o melhor", "a melhor", "os melhores", "as melhores", "número 1", "nº 1",
+      "garantido", "garantida", "garantimos", "resultado garantido", "100%",
+      "cura", "curar", "cure", "sem dor", "milagre", "milagroso", "definitivo", "definitiva",
+      "gratuito", "gratuita", "grátis", "desconto", "promoção", "a partir de R$"
+    ]
+  },
+  "publicacao": { "cloudflare_projeto": "fisioterapia-demo" },
+  "secoes": [
+    {
+      "tipo": "hero",
+      "selo": "Fisioterapia · Vila Mariana",
+      "titulo": "Fisioterapia com avaliação individual e plano de tratamento acompanhado",
+      "subtitulo": "Ortopédica, esportiva, neurológica, pilates clínico e atendimento domiciliar. A primeira sessão é uma avaliação completa com a fisioterapeuta que vai acompanhar o seu tratamento.",
+      "acao_principal": { "tipo": "whatsapp", "texto": "Agendar avaliação pelo WhatsApp" },
+      "acao_secundaria": { "tipo": "link", "texto": "Ver serviços", "href": "#servicos" }
+    },
+    {
+      "tipo": "servicos",
+      "menu": "Serviços",
+      "titulo": "Serviços",
+      "subtitulo": "Sessões individuais de 50 minutos, com exercícios e orientações para fazer em casa.",
+      "itens": [
+        { "icone": "atividade", "titulo": "Ortopédica e traumatológica", "descricao": "Reabilitação após fraturas, cirurgias e lesões de joelho, ombro, coluna e tornozelo." },
+        { "icone": "estrela", "titulo": "Esportiva", "descricao": "Tratamento de lesões do esporte e preparo para o retorno aos treinos." },
+        { "icone": "pessoas", "titulo": "Neurológica", "descricao": "Atendimento a pessoas após AVC, com doença de Parkinson e outras condições neurológicas." },
+        { "icone": "coracao", "titulo": "Pilates clínico", "descricao": "Exercícios em aparelhos e no solo, com turmas de até três pessoas." },
+        { "icone": "check", "titulo": "Postura e coluna", "descricao": "Avaliação postural e exercícios para dores na coluna ligadas à rotina e ao trabalho." },
+        { "icone": "casa", "titulo": "Atendimento domiciliar", "descricao": "Sessões na casa do paciente, para quem tem dificuldade de se deslocar." }
+      ]
+    },
+    {
+      "tipo": "sobre",
+      "id": "equipe",
+      "menu": "Equipe",
+      "titulo": "A clínica e a equipe",
+      "paragrafos": [
+        "A Clínica Ponto de Apoio atende na Vila Mariana desde 2015, com salas individuais e um estúdio de pilates.",
+        "Cada paciente é acompanhado pela mesma fisioterapeuta do início ao fim do tratamento, com reavaliações periódicas para ajustar o plano."
+      ],
+      "registros": [
+        { "rotulo": "Responsável técnica", "valor": "Mariana Lopes · CREFITO-3/000000-F" },
+        { "rotulo": "Sessões", "valor": "Individuais, de 50 minutos" }
+      ],
+      "equipe": [
+        { "nome": "Mariana Lopes", "cargo": "Fisioterapeuta, responsável técnica", "registro": "CREFITO-3/000000-F", "bio": "Fisioterapia ortopédica e esportiva." },
+        { "nome": "Camila Rocha", "cargo": "Fisioterapeuta", "registro": "CREFITO-3/000001-F", "bio": "Fisioterapia neurológica e atendimento domiciliar." },
+        { "nome": "Bruno Tavares", "cargo": "Fisioterapeuta", "registro": "CREFITO-3/000002-F", "bio": "Pilates clínico e postura." }
+      ]
+    },
+    {
+      "tipo": "como_funciona",
+      "menu": "Como funciona",
+      "titulo": "Como funciona",
+      "passos": [
+        { "titulo": "Agendamento", "descricao": "Você escolhe o horário que preferir, pelo WhatsApp ou pelo formulário." },
+        { "titulo": "Avaliação", "descricao": "Na primeira sessão, a fisioterapeuta avalia a sua queixa, o histórico e os exames que você trouxer." },
+        { "titulo": "Plano de tratamento", "descricao": "Você recebe os objetivos, a frequência indicada e os exercícios para casa." },
+        { "titulo": "Reavaliação", "descricao": "A cada etapa, o plano é revisto com você e ajustado conforme a evolução." }
+      ]
+    },
+    {
+      "tipo": "convenios",
+      "menu": "Convênios",
+      "titulo": "Convênios",
+      "texto": "Atendemos pelos convênios abaixo e também no particular, com recibo para pedir reembolso ao seu plano.",
+      "itens": ["Convênio Alfa", "Convênio Beta", "Convênio Gama", "Convênio Delta", "Particular com recibo"]
+    },
+    {
+      "tipo": "depoimentos",
+      "titulo": "O que dizem os pacientes",
+      "itens": [
+        { "nome": "Paciente A.", "detalhe": "Reabilitação de joelho", "texto": "As orientações para fazer em casa me ajudaram a manter a rotina entre as sessões." },
+        { "nome": "Paciente R.", "detalhe": "Pilates clínico", "texto": "Gosto das turmas pequenas: a fisioterapeuta acompanha cada exercício de perto." },
+        { "nome": "Paciente L.", "detalhe": "Atendimento domiciliar", "texto": "O atendimento em casa facilitou muito o tratamento do meu pai." }
+      ],
+      "nota": "Depoimentos fictícios. Em um site real, só são publicados depoimentos com autorização expressa do paciente (Resolução COFFITO nº 532/2021)."
+    },
+    {
+      "tipo": "faq",
+      "menu": "Dúvidas",
+      "titulo": "Perguntas frequentes",
+      "itens": [
+        { "pergunta": "Preciso de pedido médico?", "resposta": "Para o atendimento pelo convênio, a maioria dos planos pede o encaminhamento médico. No particular, você pode agendar a avaliação diretamente." },
+        { "pergunta": "Quanto tempo dura cada sessão?", "resposta": "Cerca de 50 minutos, sempre individual. No pilates clínico, as turmas têm até três pessoas." },
+        { "pergunta": "Quantas sessões vou precisar?", "resposta": "Depende da avaliação. A fisioterapeuta indica a frequência no plano de tratamento e revisa com você a cada reavaliação." },
+        { "pergunta": "Vocês atendem em casa?", "resposta": "Sim, na Vila Mariana e nos bairros próximos. Consulte a disponibilidade pelo WhatsApp." },
+        { "pergunta": "O que devo levar na avaliação?", "resposta": "Exames e relatórios que tiver, a carteirinha do convênio e roupa confortável." },
+        { "pergunta": "Como desmarco uma sessão?", "resposta": "Pelo WhatsApp, com pelo menos 24 horas de antecedência, para liberar o horário a outro paciente." }
+      ]
+    },
+    {
+      "tipo": "formulario",
+      "id": "contato",
+      "menu": "Contato",
+      "titulo": "Agende sua avaliação",
+      "texto": "Deixe seus dados e retornamos pelo WhatsApp para combinar o horário.",
+      "provedor": "formspree",
+      "chave": "",
+      "campos": [
+        { "nome": "nome", "rotulo": "Nome", "tipo": "text", "autocomplete": "name" },
+        { "nome": "telefone", "rotulo": "Telefone (WhatsApp)", "tipo": "tel", "autocomplete": "tel" },
+        { "nome": "email", "rotulo": "E-mail", "tipo": "email", "autocomplete": "email" },
+        { "nome": "convenio", "rotulo": "Convênio", "tipo": "select", "opcoes": ["Convênio Alfa", "Convênio Beta", "Convênio Gama", "Convênio Delta", "Particular"] },
+        { "nome": "mensagem", "rotulo": "O que você gostaria de tratar?", "tipo": "textarea", "obrigatorio": false }
+      ],
+      "consentimento": "Concordo com o uso dos meus dados para receber o retorno deste contato, conforme a",
+      "botao": "Pedir horário",
+      "mensagem_sucesso": "Recebemos seu pedido. Vamos chamar você no WhatsApp para combinar o horário."
+    },
+    { "tipo": "mapa", "id": "localizacao", "titulo": "Endereço e horário" },
+    {
+      "tipo": "rodape",
+      "texto": "Fisioterapia na Vila Mariana, São Paulo.",
+      "registros": ["Responsável técnica: Mariana Lopes · CREFITO-3/000000-F", "CNPJ 00.000.000/0000-00"]
+    },
+    { "tipo": "botao_whatsapp", "rotulo": "Agendar avaliação pelo WhatsApp", "mensagem": "Olá! Gostaria de agendar uma avaliação de fisioterapia." }
+  ]
+}
