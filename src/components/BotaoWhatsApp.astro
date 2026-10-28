@@ -12,13 +12,15 @@ const { secao, nicho } = Astro.props;
 const href = linkWhatsApp(nicho.contato.whatsapp, secao.mensagem ?? nicho.contato.mensagem_whatsapp);
 ---
 
-<a
-  href={href}
-  target="_blank"
-  rel="noopener"
-  aria-label={secao.rotulo}
-  title={secao.rotulo}
-  class="fixed right-4 bottom-4 z-40 inline-flex size-14 items-center justify-center rounded-full bg-[#1D7D4A] text-white shadow-lg transition-transform hover:scale-105 sm:right-6 sm:bottom-6"
->
-  <Icone nome="mensagem" class="size-7" />
-</a>
+<aside aria-label="Atalho para o WhatsApp">
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener"
+    aria-label={secao.rotulo}
+    title={secao.rotulo}
+    class="fixed right-4 bottom-4 z-40 inline-flex size-14 items-center justify-center rounded-full bg-[#1D7D4A] text-white shadow-lg transition-transform hover:scale-105 sm:right-6 sm:bottom-6"
+  >
+    <Icone nome="mensagem" class="size-7" />
+  </a>
+</aside>
