@@ -77,3 +77,13 @@ export function serializarJsonLd(dados: unknown): string {
     .replaceAll('&', '\\u0026');
 }
 
+/**
+ * robots.txt: crawling stays allowed even on demos, because crawlers only see the
+ * `noindex` meta of a page they are allowed to fetch.
+ */
+export function robotsTxt(site: string | undefined): string {
+  const linhas = ['User-agent: *', 'Allow: /'];
+  const sitemap = urlAbsoluta(site, '/sitemap-index.xml');
+  if (sitemap) linhas.push('', `Sitemap: ${sitemap}`);
+  return `${linhas.join('\n')}\n`;
+}

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { nichoSchema, type Nicho } from '../src/lib/schema.ts';
-import { gerarJsonLd, localeOg, serializarJsonLd, urlAbsoluta } from '../src/lib/seo.ts';
+import { gerarJsonLd, localeOg, robotsTxt, serializarJsonLd, urlAbsoluta } from '../src/lib/seo.ts';
 
 const ler = (nome: string): Record<string, any> =>
   JSON.parse(readFileSync(new URL(`../nichos/${nome}.json`, import.meta.url), 'utf8'));
@@ -89,4 +89,9 @@ test('escapes the JSON so it cannot close the script tag', () => {
   const texto = serializarJsonLd({ a: '</script><script>alert(1)</script>', b: 'x & y' });
   assert.equal(/[<>&]/.test(texto), false);
   assert.deepEqual(JSON.parse(texto), { a: '</script><script>alert(1)</script>', b: 'x & y' });
+});
+
+test('robots.txt allows crawling and points to the sitemap', () => {
+  assert.equal(robotsTxt('https://a.pages.dev/'), 'User-agent: *\nAllow: /\n\nSitemap: https://a.pages.dev/sitemap-index.xml\n');
+  assert.equal(robotsTxt(undefined), 'User-agent: *\nAllow: /\n');
 });
