@@ -13,6 +13,13 @@ updates:
         update-types:
           - "minor"
           - "patch"
+    ignore:
+      # Node types follow the runtime in .nvmrc (Node 24); bump them together with it.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # @astrojs/check pins its TypeScript peer range; adopt a new major once it supports it.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"

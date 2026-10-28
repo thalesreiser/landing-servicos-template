@@ -17,9 +17,15 @@ clientes (um arquivo por nicho em `nichos/`).
 - Rode `npm run check`, `npm test` e `npm run build` antes de dizer que terminou.
 - Nunca commitar dados reais, `.env` ou credenciais. Chaves públicas de
   formulário (Formspree/Web3Forms) ficam no JSON do nicho.
+- Deploy só pelo GitHub Actions (Cloudflare Pages). O token da Cloudflare existe
+  apenas como secret do repositório (`CLOUDFLARE_API_TOKEN`); nunca peça, imprima
+  ou grave o valor. Um nicho é publicado quando tem `publicacao.cloudflare_projeto`.
+- As matrizes do CI saem de `nichos/` (`scripts/matriz-ci.ts`); não edite nomes de
+  nicho no workflow. O check obrigatório da main é `ci-ok`.
 
 ## Comandos
 - `NICHO=exemplo npm run dev`
 - `NICHO=advocacia npm run build`
 - `npm run check`
 - `npm test`
+- `node scripts/matriz-ci.ts` (mostra o que o CI vai compilar e publicar)
