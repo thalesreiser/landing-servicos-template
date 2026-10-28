@@ -4,6 +4,8 @@
     "nome": "Ribeiro Antunes Advocacia",
     "titulo": "Ribeiro Antunes Advocacia | São Paulo",
     "descricao": "Escritório de advocacia em São Paulo com atuação em Família, Trabalho, Consumidor, Previdenciário, Imobiliário e Civil. Atendimento presencial e on-line.",
+    "url": "https://advocacia-demo.pages.dev",
+    "schema_tipo": "LegalService",
     "idioma": "pt-BR"
   },
   "tema": {

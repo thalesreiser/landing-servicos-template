@@ -35,8 +35,8 @@ src/
 ├── components/        # Hero, Servicos, Sobre, ComoFunciona, Depoimentos,
 │                      # FAQ, Formulario, Mapa, Rodape, BotaoWhatsApp
 ├── layouts/Base.astro # head, tema, aviso de demonstração, cabeçalho, rastreamento
-├── lib/               # schema do nicho (Zod), link do WhatsApp, endereço e mapa
-└── pages/             # index.astro (monta as seções) e política de privacidade
+├── lib/               # schema do nicho (Zod), WhatsApp, endereço e mapa, SEO (JSON-LD, imagem de compartilhamento)
+└── pages/             # index.astro (monta as seções), política de privacidade, og.png e robots.txt
 nichos/                # um JSON por nicho
 public/img/            # imagens, uma pasta por nicho
 politica-de-privacidade.md
@@ -49,7 +49,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | Chave          | Conteúdo                                                                 |
 | -------------- | ------------------------------------------------------------------------ |
 | `demo`         | `true` mostra o aviso "site de demonstração" e marca a página `noindex`  |
-| `site`         | nome, título e descrição (SEO)                                           |
+| `site`         | nome, título e descrição (SEO); `url` (endereço de produção) e `schema_tipo` (tipo schema.org), veja [SEO](#seo) |
 | `tema`         | cores (hexadecimal) e fontes; `fontes_url` carrega o Google Fonts        |
 | `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário |
 | `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais                   |
@@ -77,6 +77,26 @@ Os testes rodam sobre todos os nichos:
   Provimento 205/2021 da OAB, que proíbe, por exemplo, mencionar valores ou gratuidade,
   prometer resultados, usar expressões autopromocionais e anunciar especialidade sem
   título certificado.
+
+### SEO
+
+Gerado no build a partir do JSON, sem configuração extra:
+
+- **Meta tags:** título, descrição, `canonical`, Open Graph (`og:*`) e `twitter:card` nas duas páginas.
+- **Imagem de compartilhamento:** `/og.png` (1200×630), desenhada com as cores do tema, o nome
+  do site e o título do hero.
+- **JSON-LD (schema.org):** na página inicial, o negócio (nome, descrição, contato, endereço,
+  horário) e um `FAQPage` com as perguntas da seção `faq`.
+- **`sitemap-index.xml` e `robots.txt`:** o robots.txt libera o rastreamento e aponta para o sitemap.
+
+`site.url` é o endereço de produção, sem barra final (ex.: `https://advocacia-demo.pages.dev`).
+Sem ele, o build funciona, mas sem `canonical`, `og:url`, `og:image` e sitemap.
+`site.schema_tipo` aceita `LocalBusiness` (padrão), `LegalService`, `MedicalBusiness`,
+`MedicalClinic`, `Physiotherapy`, `Dentist`, `AccountingService`,
+`HomeAndConstructionBusiness` e `HealthAndBeautyBusiness`.
+
+Nos demos (`demo: true`), as páginas têm `<meta name="robots" content="noindex">`. O robots.txt
+não bloqueia o rastreamento de propósito: o buscador só vê o `noindex` se puder abrir a página.
 
 ### Formulário
 

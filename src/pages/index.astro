@@ -12,6 +12,7 @@ import Rodape from '../components/Rodape.astro';
 import Servicos from '../components/Servicos.astro';
 import Sobre from '../components/Sobre.astro';
 import { carregarNicho } from '../lib/nicho.ts';
+import { gerarJsonLd, serializarJsonLd } from '../lib/seo.ts';
 
 const nicho = carregarNicho();
 const secoes = nicho.secoes.filter((secao) => secao.ativo);
@@ -22,6 +23,7 @@ const botao = secoes.find((secao) => secao.tipo === 'botao_whatsapp');
 ---
 
 <Base nicho={nicho}>
+  <script is:inline slot="head" type="application/ld+json" set:html={serializarJsonLd(gerarJsonLd(nicho))} />
   {
     conteudo.map((secao) => {
       switch (secao.tipo) {
