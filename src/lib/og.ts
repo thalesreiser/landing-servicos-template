@@ -5,8 +5,9 @@ const MARGEM = 80;
 const TAMANHO_CHAMADA = 64;
 const ALTURA_LINHA = 80;
 const MAX_LINHAS = 3;
-// Average glyph width relative to the font size; conservative so lines stay inside the margins.
-const LARGURA_MEDIA = 0.6;
+// Average bold glyph width relative to the font size, measured on the widest fallback
+// (DejaVu); conservative so lines stay inside the margins.
+const LARGURA_MEDIA = { serif: 0.68, 'sans-serif': 0.6 } as const;
 // Fonts installed on Windows and on the Ubuntu CI runner; a bare generic family
 // resolves to a serif font on some systems.
 const PILHAS = {
@@ -57,10 +58,11 @@ export function quebrarLinhas(texto: string, maxCaracteres: number, maxLinhas: n
 /** 1200x630 share card (SVG) drawn from the niche name, hero title and theme. */
 export function svgCompartilhamento(nicho: Nicho): string {
   const { tema, site } = nicho;
-  const maxCaracteres = Math.floor((LARGURA_OG - 2 * MARGEM) / (TAMANHO_CHAMADA * LARGURA_MEDIA));
+  const familiaTitulo = familiaGenerica(tema.fonte_titulo);
+  const maxCaracteres = Math.floor((LARGURA_OG - 2 * MARGEM) / (TAMANHO_CHAMADA * LARGURA_MEDIA[familiaTitulo]));
   const linhas = quebrarLinhas(chamadaPrincipal(nicho), maxCaracteres, MAX_LINHAS);
   const dominio = site.url ? new URL(site.url).host : '';
-  const titulo = PILHAS[familiaGenerica(tema.fonte_titulo)];
+  const titulo = PILHAS[familiaTitulo];
   const texto = PILHAS[familiaGenerica(tema.fonte_texto)];
   const cor = tema.cor_primaria_contraste;
 
