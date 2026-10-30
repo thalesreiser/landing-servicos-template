@@ -15,14 +15,18 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
     <div class="mt-10 divide-y divide-texto/10 border-y border-texto/10">
       {
         secao.itens.map((item) => (
-          <details class="group py-5">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold">
+          <details class="group">
+            {/* The padding lives on the summary, so the whole row (44 px or more) is the click target. */}
+            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-5 text-lg font-semibold">
               {item.pergunta}
-              <span class="text-2xl text-primaria transition-transform group-open:rotate-45" aria-hidden="true">
+              <span
+                class="grid size-8 shrink-0 place-items-center rounded-full border border-texto/15 text-xl leading-none text-primaria transition-transform group-open:rotate-45"
+                aria-hidden="true"
+              >
                 +
               </span>
             </summary>
-            <p class="mt-3 text-texto-suave">{item.resposta}</p>
+            <p class="-mt-2 pb-5 text-texto-suave">{item.resposta}</p>
           </details>
         ))
       }
