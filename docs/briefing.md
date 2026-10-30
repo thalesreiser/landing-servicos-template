@@ -126,7 +126,9 @@ profissional.
 - "Especialista" só com título de especialização comprovado; prefira "áreas de atuação".
 - Evite descrever a estrutura do escritório como diferencial ("amplo", "moderno").
 - **Pedir** o nome e o número de inscrição na OAB de cada advogado (e o registro da
-  sociedade, se houver): o anúncio precisa identificá-los.
+  sociedade, se houver): o anúncio precisa identificá-los. Basta publicar uma vez, no perfil
+  de cada advogado (`equipe[].registro`); não repita o número no hero, nos registros da
+  seção "sobre" nem no rodapé.
 - Tom informativo e sóbrio: o site informa áreas de atuação e como entrar em contato.
 
 ### Fisioterapia (COFFITO, Resolução 532/2021)

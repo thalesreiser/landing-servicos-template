@@ -58,7 +58,7 @@
       "titulo": "Orientação jurídica em São Paulo, presencial e on-line",
       "subtitulo": "Família, Trabalho, Consumidor, Previdenciário, Imobiliário e Civil. No primeiro contato, entendemos a sua situação e explicamos os próximos passos.",
       "destaques": [
-        { "rotulo": "Sociedade de advogados", "valor": "OAB/SP nº 0.000" },
+        { "rotulo": "Atendimento", "valor": "Presencial e on-line" },
         { "rotulo": "Horário", "valor": "Seg. a sex., 9h às 18h" },
         { "rotulo": "Sigilo", "valor": "Estatuto da Advocacia e LGPD" }
       ],
@@ -98,8 +98,8 @@
         "alt": "Fileira de livros jurídicos encadernados em couro em uma estante."
       },
       "registros": [
-        { "rotulo": "Sociedade de advogados", "valor": "Registro OAB/SP nº 0.000" },
-        { "rotulo": "Atendimento", "valor": "Presencial e on-line" }
+        { "rotulo": "Abrangência", "valor": "São Paulo e outras cidades, pelo processo eletrônico" },
+        { "rotulo": "Contratação", "valor": "Proposta por escrito antes do início" }
       ],
       "equipe": [
         {
@@ -180,11 +180,7 @@
     {
       "tipo": "rodape",
       "texto": "Advocacia em São Paulo. Atendimento presencial e on-line.",
-      "registros": [
-        "Ribeiro Antunes Sociedade de Advogados · Registro OAB/SP nº 0.000",
-        "Helena Ribeiro Antunes · OAB/SP 000.000",
-        "Rafael Antunes · OAB/SP 000.001"
-      ]
+      "registros": ["Ribeiro Antunes Sociedade de Advogados"]
     },
     { "tipo": "botao_whatsapp", "rotulo": "Agendar atendimento pelo WhatsApp" }
   ]
