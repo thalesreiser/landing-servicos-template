@@ -29,3 +29,4 @@ clientes (um arquivo por nicho em `nichos/`).
 - `npm run check`
 - `npm test`
 - `node scripts/matriz-ci.ts` (mostra o que o CI vai compilar e publicar)
+- `npm run novo-nicho -- <nome>` (cria `nichos/<nome>.json` a partir do exemplo)
