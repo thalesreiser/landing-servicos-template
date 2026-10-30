@@ -20,10 +20,10 @@ livre para uso comercial. As pessoas retratadas não têm relação com os nomes
 
 | Arquivo | Foto | Autor |
 | --- | --- | --- |
-| `public/img/advocacia/hero.webp` | [Advogado escrevendo em um caderno](https://www.pexels.com/photo/professional-lawyer-writing-on-a-notebook-8112113/) | Pavel Danilyuk |
-| `public/img/advocacia/escritorio.webp` | [Livros em uma estante](https://www.pexels.com/photo/piled-books-on-a-shelf-3927126/) | Muhammad Jawadur Rahman |
-| `public/img/advocacia/helena.webp` | [Retrato de mulher de blazer preto](https://www.pexels.com/photo/professional-woman-in-black-blazer-portrait-30479371/) | Augusto Carneiro Junior |
-| `public/img/advocacia/rafael.webp` | [Retrato de homem de terno](https://www.pexels.com/photo/professional-portrait-of-a-businessman-in-suit-39974539/) | Sam Agdasi |
+| `src/assets/nichos/advocacia/hero.webp` | [Advogado escrevendo em um caderno](https://www.pexels.com/photo/professional-lawyer-writing-on-a-notebook-8112113/) | Pavel Danilyuk |
+| `src/assets/nichos/advocacia/escritorio.webp` | [Livros em uma estante](https://www.pexels.com/photo/piled-books-on-a-shelf-3927126/) | Muhammad Jawadur Rahman |
+| `src/assets/nichos/advocacia/helena.webp` | [Retrato de mulher de blazer preto](https://www.pexels.com/photo/professional-woman-in-black-blazer-portrait-30479371/) | Augusto Carneiro Junior |
+| `src/assets/nichos/advocacia/rafael.webp` | [Retrato de homem de terno](https://www.pexels.com/photo/professional-portrait-of-a-businessman-in-suit-39974539/) | Sam Agdasi |
 
 ## Como rodar
 
