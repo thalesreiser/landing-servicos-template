@@ -3,7 +3,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { misturar, razaoContraste } from '../src/lib/contraste.ts';
 import { nichoSchema } from '../src/lib/schema.ts';
-import { coresFaixa } from '../src/lib/tema.ts';
+import { coresFaixa, fundoMalha } from '../src/lib/tema.ts';
 
 const AA = 4.5;
 // Footer text sits at 80% opacity over the text color (Rodape.astro).
@@ -45,6 +45,16 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
       // Accent: step numbers (fundo), testimonial quote marks (fundo), plan chip markers (superfície).
       ['destaque sobre fundo', t.cor_destaque, t.cor_fundo],
       ['destaque sobre superfície', t.cor_destaque, t.cor_superficie],
+      // Hero mesh (any light background): heading, subtitle, kicker and secondary button.
+      ...(t.fundo_hero === 'liso' ? [] : [t.cor_fundo, t.cor_superficie]).flatMap((base, i): [string, string, string][] => {
+        const malha = fundoMalha(t, base);
+        const nome = i === 0 ? 'malha do hero sobre fundo' : 'malha do hero sobre superfície';
+        return [
+          [`texto na ${nome}`, t.cor_texto, malha],
+          [`texto suave na ${nome}`, t.cor_texto_suave, malha],
+          [`primária na ${nome}`, t.cor_primaria, malha],
+        ];
+      }),
       ['erro de formulário sobre fundo', COR_ERRO, t.cor_fundo],
       ['erro de formulário sobre superfície', COR_ERRO, t.cor_superficie],
       ['faixa primária: texto e botão invertido', faixa.texto, faixa.fundo],

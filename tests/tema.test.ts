@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { nichoSchema } from '../src/lib/schema.ts';
-import { coresFaixa, fundosDasSecoes, RAIOS, variaveisRaio } from '../src/lib/tema.ts';
+import { coresFaixa, fundoMalha, fundosDasSecoes, RAIOS, variaveisMalha, variaveisRaio } from '../src/lib/tema.ts';
 
 const exemplo: unknown = JSON.parse(readFileSync(new URL('../nichos/exemplo.json', import.meta.url), 'utf8'));
 
@@ -29,8 +29,26 @@ test('raio and card default to the medium, outlined look', () => {
   assert.equal(tema.card, 'contorno');
 });
 
-test('rejects an unknown radius or card style', () => {
-  for (const [campo, valor] of [['raio', 'redondo'], ['card', 'sombra']] as const) {
+test('animations default to subtle and accept none', () => {
+  const nicho = structuredClone(exemplo) as { tema: Record<string, unknown> };
+  delete nicho.tema.animacoes;
+  assert.equal(nichoSchema.parse(nicho).tema.animacoes, 'sutil');
+  nicho.tema.animacoes = 'nenhuma';
+  assert.equal(nichoSchema.parse(nicho).tema.animacoes, 'nenhuma');
+});
+
+test('the hero background defaults to the mesh and accepts flat', () => {
+  const nicho = structuredClone(exemplo) as { tema: Record<string, unknown> };
+  delete nicho.tema.fundo_hero;
+  assert.equal(nichoSchema.parse(nicho).tema.fundo_hero, 'malha');
+  nicho.tema.fundo_hero = 'liso';
+  assert.equal(nichoSchema.parse(nicho).tema.fundo_hero, 'liso');
+  nicho.tema.fundo_hero = 'gradiente';
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+});
+
+test('rejects an unknown radius, card style or animation level', () => {
+  for (const [campo, valor] of [['raio', 'redondo'], ['card', 'sombra'], ['animacoes', 'muitas']] as const) {
     const nicho = structuredClone(exemplo) as { tema: Record<string, unknown> };
     nicho.tema[campo] = valor;
     assert.equal(nichoSchema.safeParse(nicho).success, false, campo);
@@ -61,4 +79,16 @@ test('a form section cannot use the primary band', () => {
   assert.equal(nichoSchema.safeParse(nicho).success, false);
   nicho.secoes.find((s) => s.tipo === 'formulario')!.fundo = 'fundo';
   assert.equal(nichoSchema.safeParse(nicho).success, true);
+});
+
+test('hero mesh colors come from the theme, with low alpha', () => {
+  assert.deepEqual(variaveisMalha({ cor_primaria: '#1E3A5F', cor_destaque: '#7A5F2E' }), [
+    '--malha-a:rgb(30 58 95 / 0.05)',
+    '--malha-b:rgb(122 95 46 / 0.04)',
+  ]);
+});
+
+test('the darkest mesh point stacks both glows over the base', () => {
+  assert.equal(fundoMalha({ cor_primaria: '#FFFFFF', cor_destaque: '#FFFFFF' }, '#FFFFFF'), '#ffffff');
+  assert.equal(fundoMalha({ cor_primaria: '#000000', cor_destaque: '#000000' }, '#FFFFFF'), '#e8e8e8');
 });

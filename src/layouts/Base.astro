@@ -3,11 +3,12 @@ import { Font, type CssVariable } from 'astro:assets';
 import '../styles/global.css';
 import AvisoCookies from '../components/AvisoCookies.astro';
 import Icone from '../components/Icone.astro';
+import Revelar from '../components/Revelar.astro';
 import { temRastreamento } from '../lib/consentimento.ts';
 import { pilhaComFontes, variavelFonte } from '../lib/fontes.ts';
 import { ancoraSecao, type Nicho } from '../lib/schema.ts';
 import { ALTURA_OG, CAMINHO_OG, chamadaPrincipal, LARGURA_OG, localeOg, urlAbsoluta } from '../lib/seo.ts';
-import { coresFaixa, variaveisRaio } from '../lib/tema.ts';
+import { coresFaixa, variaveisMalha, variaveisRaio } from '../lib/tema.ts';
 import { linkWhatsApp } from '../lib/whatsapp.ts';
 
 interface Props {
@@ -39,6 +40,7 @@ const variaveisTema = [
   `--fonte-titulo:${pilhaComFontes(tema.fonte_titulo, tema.fontes, pilhas)}`,
   `--fonte-texto:${pilhaComFontes(tema.fonte_texto, tema.fontes, pilhas)}`,
   ...variaveisRaio(tema.raio),
+  ...variaveisMalha(tema),
 ].join(';');
 
 const menu = nicho.secoes
@@ -52,7 +54,7 @@ const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
 ---
 
 <!doctype html>
-<html lang={nicho.site.idioma} style={variaveisTema} data-card={tema.card}>
+<html lang={nicho.site.idioma} style={variaveisTema} data-card={tema.card} data-animacoes={tema.animacoes}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -84,6 +86,21 @@ const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
         The CssVariable type only lists the fonts of the niche being checked, hence the cast. */}
     {tema.fontes.map((fonte) => <Font cssVariable={variavelFonte(fonte.familia) as CssVariable} preload />)}
     {nicho.demo && <meta name="robots" content="noindex" />}
+    {/* Cross-document View Transitions: a native crossfade between pages, header kept in place. */}
+    {
+      tema.animacoes === 'sutil' && (
+        <style is:inline>
+          @media (prefers-reduced-motion: no-preference) {
+            @view-transition {
+              navigation: auto;
+            }
+            .cabecalho {
+              view-transition-name: cabecalho;
+            }
+          }
+        </style>
+      )
+    }
     <slot name="head" />
   </head>
   <body>
@@ -110,7 +127,7 @@ const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
       )
     }
 
-    <header class="sticky top-0 z-40 border-b border-texto/10 bg-fundo/95 backdrop-blur">
+    <header class="cabecalho sticky top-0 z-40 border-b border-texto/10 bg-fundo/95 backdrop-blur">
       <div class="container-site flex h-16 items-center justify-between gap-4">
         <a href="/" class="font-titulo text-base leading-tight font-semibold sm:text-lg">{nicho.site.nome}</a>
         {
@@ -119,7 +136,7 @@ const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
               <ul class="flex gap-5 text-sm">
                 {menu.map((item) => (
                   <li>
-                    <a href={item.href} class="whitespace-nowrap text-texto-suave hover:text-primaria">
+                    <a href={item.href} class="link-menu whitespace-nowrap text-texto-suave hover:text-primaria">
                       {item.texto}
                     </a>
                   </li>
@@ -145,5 +162,6 @@ const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
       <slot />
     </main>
     <slot name="depois" />
+    {tema.animacoes === 'sutil' && <Revelar />}
   </body>
 </html>

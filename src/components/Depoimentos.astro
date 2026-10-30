@@ -12,10 +12,11 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
 <section id={ancoraSecao(secao)} class="secao" aria-labelledby={idTitulo}>
   <div class="container-site">
     <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
-    <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-revelar-grupo>
       {
         secao.itens.map((item) => (
-          <li>
+          // Two columns (md to lg) with an odd count: the last testimonial takes the whole row.
+          <li class="md:max-lg:odd:last:col-span-2">
             <figure class="cartao h-full">
               <span class="block font-titulo text-5xl leading-none text-destaque" aria-hidden="true">“</span>
               <blockquote class="mt-2 text-lg">{item.texto}</blockquote>

@@ -16,7 +16,7 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
     <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
     {secao.subtitulo && <p class="mt-4 max-w-2xl text-lg text-texto-suave">{secao.subtitulo}</p>}
     {/* A timeline, not cards: vertical on phones and tablets, one row from lg (any number of steps). */}
-    <ol class="mt-10 grid lg:auto-cols-fr lg:grid-flow-col lg:gap-8">
+    <ol class="mt-10 grid lg:auto-cols-fr lg:grid-flow-col lg:gap-8" data-revelar-grupo>
       {
         secao.passos.map((passo, i) => (
           <li class="relative pb-8 pl-16 last:pb-0 lg:pb-0 lg:pl-0">
