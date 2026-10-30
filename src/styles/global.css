@@ -11,6 +11,11 @@
   --color-texto-suave: var(--cor-texto-suave);
   --font-titulo: var(--fonte-titulo);
   --font-texto: var(--fonte-texto);
+  /* Shape tokens from tema.raio: rounded-cartao, rounded-botao, rounded-campo. */
+  --radius-cartao: var(--raio);
+  --radius-botao: var(--raio-botao);
+  --radius-campo: var(--raio-campo);
+  --color-cartao: var(--cor-cartao);
 }
 
 /* Fixed error color: 6.3:1 or more on every niche background (tests/contraste.test.ts). */
@@ -30,6 +35,11 @@
     html {
       scroll-behavior: auto;
     }
+  }
+
+  :root {
+    /* Card background: the light color opposite to the section background. */
+    --cor-cartao: var(--cor-superficie);
   }
 
   body {
@@ -70,7 +80,7 @@
 }
 
 @utility botao {
-  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg px-6 py-3 text-base font-semibold transition-colors;
+  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-botao px-6 py-3 text-base font-semibold transition-colors;
 }
 
 @utility botao-primario {
@@ -79,6 +89,62 @@
 
 @utility botao-secundario {
   @apply botao border border-current text-primaria hover:bg-superficie;
+}
+
+/*
+  Cards follow tema.card (data-card on <html>): "contorno" has a thin border, "elevado" a soft
+  shadow tinted with the primary color, "linha" drops the box for an editorial top rule.
+  Kept in the components layer so utilities on an element can still adjust a single card.
+*/
+@layer components {
+  .cartao {
+    border: 1px solid color-mix(in oklab, var(--cor-texto) 10%, transparent);
+    border-radius: var(--raio);
+    background-color: var(--cor-cartao);
+    padding: 1.5rem;
+  }
+
+  .cartao-compacto {
+    padding: 1rem;
+  }
+
+  [data-card='elevado'] .cartao {
+    border-color: transparent;
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.04),
+      0 8px 24px -12px color-mix(in srgb, var(--cor-primaria) 35%, transparent);
+  }
+
+  [data-card='linha'] .cartao {
+    border-width: 1px 0 0;
+    border-color: color-mix(in oklab, var(--cor-texto) 15%, transparent);
+    border-radius: 0;
+    background-color: transparent;
+    padding: 1.5rem 0 0;
+  }
+
+  [data-card='linha'] .cartao-compacto {
+    padding: 1rem 0 0;
+  }
+
+  /* Icon tile of the service cards; "linha" shows the bare icon in the accent color. */
+  .cartao-icone {
+    display: inline-flex;
+    width: 3rem;
+    height: 3rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--raio-campo);
+    background-color: color-mix(in oklab, var(--cor-primaria) 10%, transparent);
+    color: var(--cor-primaria);
+  }
+
+  [data-card='linha'] .cartao-icone {
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    color: var(--cor-destaque);
+  }
 }
 
 /*

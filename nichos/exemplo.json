@@ -17,7 +17,9 @@
     "cor_texto": "#111827",
     "cor_texto_suave": "#4B5563",
     "fonte_titulo": "system-ui, sans-serif",
-    "fonte_texto": "system-ui, sans-serif"
+    "fonte_texto": "system-ui, sans-serif",
+    "raio": "medio",
+    "card": "contorno"
   },
   "contato": {
     "whatsapp": "5500900000000",

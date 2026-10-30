@@ -18,6 +18,8 @@
     "cor_texto_suave": "#4A5261",
     "fonte_titulo": "\"Source Serif 4\", Georgia, serif",
     "fonte_texto": "Inter, system-ui, sans-serif",
+    "raio": "reto",
+    "card": "linha",
     "fontes": [
       { "familia": "Source Serif 4", "pesos": [600], "eixos": { "opsz": [8, 60] } },
       { "familia": "Inter", "pesos": [400, 600] }

@@ -62,7 +62,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | -------------- | ------------------------------------------------------------------------ |
 | `demo`         | `true` mostra o aviso "site de demonstração" e marca a página `noindex`  |
 | `site`         | nome, título e descrição (SEO); `url` (endereço de produção) e `schema_tipo` (tipo schema.org), veja [SEO](#seo) |
-| `tema`         | cores (hexadecimal) e fontes, veja [Fontes](#fontes). `cor_destaque` é a assinatura do nicho: filete acima dos títulos, números dos passos, aspas dos depoimentos e marcadores dos convênios |
+| `tema`         | cores (hexadecimal), fontes e forma, veja [Fontes](#fontes) e [Forma](#forma-raio-e-cartões). `cor_destaque` é a assinatura do nicho: filete acima dos títulos, números dos passos, aspas dos depoimentos e marcadores dos convênios |
 | `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário |
 | `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais                   |
 | `revisao`      | `termos_vetados`: palavras que os textos nunca podem usar; os testes reprovam o nicho se alguma aparecer |
@@ -77,6 +77,17 @@ Cada item de `secoes` tem um `tipo` (`hero`, `servicos`, `sobre`, `como_funciona
 - `ativo: false`: esconde a seção sem apagá-la
 
 `nichos/exemplo.json` liga todas as seções e serve de referência.
+
+### Forma (raio e cartões)
+
+Dois campos opcionais de `tema` dão a cada nicho uma forma própria, além das cores e fontes:
+
+| Campo | Valores | Efeito |
+| --- | --- | --- |
+| `raio` | `reto`, `medio` (padrão), `suave` | cantos de cartões, imagens, botões, etiquetas e campos: `reto` usa 2 px em tudo; `medio`, 12 px nos cartões e 8 px nos botões; `suave`, 16 px nos cartões e botões em pílula |
+| `card` | `contorno` (padrão), `elevado`, `linha` | `contorno`: borda fina; `elevado`: sem borda, com sombra suave na cor primária; `linha`: sem caixa, só um filete no topo (lista editorial) e ícones soltos na cor de destaque |
+
+Nas demos: advocacia `reto` + `linha`, fisioterapia `suave` + `elevado`, exemplo `medio` + `contorno`.
 
 ### Destaques do hero
 

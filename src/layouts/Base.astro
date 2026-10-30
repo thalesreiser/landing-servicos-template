@@ -4,6 +4,7 @@ import '../styles/global.css';
 import { pilhaComFontes, variavelFonte } from '../lib/fontes.ts';
 import { ancoraSecao, type Nicho } from '../lib/schema.ts';
 import { ALTURA_OG, CAMINHO_OG, chamadaPrincipal, LARGURA_OG, localeOg, urlAbsoluta } from '../lib/seo.ts';
+import { variaveisRaio } from '../lib/tema.ts';
 import { linkWhatsApp } from '../lib/whatsapp.ts';
 
 interface Props {
@@ -26,6 +27,7 @@ const variaveisTema = [
   `--cor-texto-suave:${tema.cor_texto_suave}`,
   `--fonte-titulo:${pilhaComFontes(tema.fonte_titulo, tema.fontes, pilhas)}`,
   `--fonte-texto:${pilhaComFontes(tema.fonte_texto, tema.fontes, pilhas)}`,
+  ...variaveisRaio(tema.raio),
 ].join(';');
 
 const menu = nicho.secoes
@@ -42,7 +44,7 @@ const pixel = rastreamento.meta_pixel;
 ---
 
 <!doctype html>
-<html lang={nicho.site.idioma} style={variaveisTema}>
+<html lang={nicho.site.idioma} style={variaveisTema} data-card={tema.card}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

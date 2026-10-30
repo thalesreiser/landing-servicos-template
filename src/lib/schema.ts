@@ -2,6 +2,7 @@ import { z } from 'astro/zod';
 import { PROVEDORES_FONTE, separarPilha } from './fontes.ts';
 import { NOMES_ICONES } from './icones.ts';
 import { EXTENSOES_IMAGEM, PADRAO_SRC_IMAGEM } from './imagens.ts';
+import { CARTOES, RAIOS } from './tema.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
 export const TIPOS_SCHEMA = [
@@ -214,6 +215,9 @@ export const nichoSchema = z
       fonte_titulo: z.string(),
       fonte_texto: z.string(),
       fontes: z.array(fonte).default([]),
+      // Personality tokens: corner radius (reto, medio, suave) and card treatment (see src/lib/tema.ts).
+      raio: z.enum(RAIOS).default('medio'),
+      card: z.enum(CARTOES).default('contorno'),
     }),
     contato: z.object({
       whatsapp: z.string().regex(/^\d{12,13}$/, 'DDI + DDD + número, só dígitos, ex.: 5511999990000'),

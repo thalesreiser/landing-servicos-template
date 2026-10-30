@@ -18,6 +18,8 @@
     "cor_texto_suave": "#4A5A5E",
     "fonte_titulo": "Nunito, system-ui, sans-serif",
     "fonte_texto": "\"Nunito Sans\", system-ui, sans-serif",
+    "raio": "suave",
+    "card": "elevado",
     "fontes": [
       { "familia": "Nunito", "pesos": [700] },
       { "familia": "Nunito Sans", "pesos": [400, 600] }
