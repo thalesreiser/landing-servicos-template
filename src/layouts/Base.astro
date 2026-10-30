@@ -8,7 +8,7 @@ import { temRastreamento } from '../lib/consentimento.ts';
 import { pilhaComFontes, variavelFonte } from '../lib/fontes.ts';
 import { ancoraSecao, type Nicho } from '../lib/schema.ts';
 import { ALTURA_OG, CAMINHO_OG, chamadaPrincipal, LARGURA_OG, localeOg, urlAbsoluta } from '../lib/seo.ts';
-import { coresFaixa, variaveisRaio } from '../lib/tema.ts';
+import { coresFaixa, variaveisMalha, variaveisRaio } from '../lib/tema.ts';
 import { linkWhatsApp } from '../lib/whatsapp.ts';
 
 interface Props {
@@ -40,6 +40,7 @@ const variaveisTema = [
   `--fonte-titulo:${pilhaComFontes(tema.fonte_titulo, tema.fontes, pilhas)}`,
   `--fonte-texto:${pilhaComFontes(tema.fonte_texto, tema.fontes, pilhas)}`,
   ...variaveisRaio(tema.raio),
+  ...variaveisMalha(tema),
 ].join(';');
 
 const menu = nicho.secoes

@@ -186,6 +186,21 @@
 }
 
 /*
+  Hero mesh (tema.fundo_hero "malha"): two soft glows over the section background, the primary
+  color from the top-right and the accent from the bottom-left. Colors come from Base.astro
+  (--malha-a/b, see src/lib/tema.ts) and are covered by the contrast test. Not on primary bands.
+*/
+.hero-malha {
+  background-image:
+    radial-gradient(ellipse 65% 85% at 100% 0%, var(--malha-a), transparent 70%),
+    radial-gradient(ellipse 55% 75% at 0% 100%, var(--malha-b), transparent 70%);
+}
+
+.fundo-primaria .hero-malha {
+  background-image: none;
+}
+
+/*
   Header state on scroll: the hairline gives way to a soft shadow tinted with the primary color
   over the first 8rem of scrolling. Scroll-driven CSS, no JS; browsers without support keep the
   static border. Height never changes, so anchors and layout stay put.

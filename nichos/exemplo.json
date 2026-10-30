@@ -21,7 +21,8 @@
     "fonte_texto": "system-ui, sans-serif",
     "raio": "medio",
     "card": "contorno",
-    "animacoes": "sutil"
+    "animacoes": "sutil",
+    "fundo_hero": "malha"
   },
   "contato": {
     "whatsapp": "5500900000000",
