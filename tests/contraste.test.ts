@@ -50,7 +50,7 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
       ['faixa primária: texto e botão invertido', faixa.texto, faixa.fundo],
       ['faixa primária: texto suave', faixa.texto_suave, faixa.fundo],
       ['faixa primária: destaque', faixa.destaque, faixa.fundo],
-      ['rodapé e aviso de demonstração', t.cor_fundo, t.cor_texto],
+      ['rodapé, aviso de demonstração e aviso de cookies', t.cor_fundo, t.cor_texto],
       ['rodapé a 80%', misturar(t.cor_fundo, t.cor_texto, OPACIDADE_RODAPE), t.cor_texto],
     ];
     const reprovados = pares
