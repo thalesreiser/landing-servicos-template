@@ -13,6 +13,18 @@ Sites de demonstração, com nomes, contatos e endereços fictícios:
 | Fisioterapia | [`nichos/fisioterapia.json`](nichos/fisioterapia.json) | https://fisioterapia-demo.pages.dev |
 | Todas as seções (referência) | [`nichos/exemplo.json`](nichos/exemplo.json) | https://landing-servicos-exemplo.pages.dev |
 
+### Créditos das fotos
+
+As fotos da demo de advocacia são do [Pexels](https://www.pexels.com/license/), com licença
+livre para uso comercial. As pessoas retratadas não têm relação com os nomes fictícios da demo.
+
+| Arquivo | Foto | Autor |
+| --- | --- | --- |
+| `src/assets/nichos/advocacia/hero.webp` | [Advogado escrevendo em um caderno](https://www.pexels.com/photo/professional-lawyer-writing-on-a-notebook-8112113/) | Pavel Danilyuk |
+| `src/assets/nichos/advocacia/escritorio.webp` | [Livros em uma estante](https://www.pexels.com/photo/piled-books-on-a-shelf-3927126/) | Muhammad Jawadur Rahman |
+| `src/assets/nichos/advocacia/helena.webp` | [Retrato de mulher de blazer preto](https://www.pexels.com/photo/professional-woman-in-black-blazer-portrait-30479371/) | Augusto Carneiro Junior |
+| `src/assets/nichos/advocacia/rafael.webp` | [Retrato de homem de terno](https://www.pexels.com/photo/professional-portrait-of-a-businessman-in-suit-39974539/) | Sam Agdasi |
+
 ## Como rodar
 
 Requer Node.js 24 (veja `.nvmrc`).
@@ -36,9 +48,9 @@ src/
 │                      # FAQ, Formulario, Mapa, Rodape, BotaoWhatsApp
 ├── layouts/Base.astro # head, tema, aviso de demonstração, cabeçalho, rastreamento
 ├── lib/               # schema do nicho (Zod), WhatsApp, endereço e mapa, SEO (JSON-LD, imagem de compartilhamento)
-└── pages/             # index.astro (monta as seções), política de privacidade, og.png e robots.txt
+├── assets/nichos/     # imagens, uma pasta por nicho (otimizadas no build)
+└── pages/             # index.astro (monta as seções), política de privacidade, 404, og.png e robots.txt
 nichos/                # um JSON por nicho
-public/img/            # imagens, uma pasta por nicho
 politica-de-privacidade.md
 ```
 
@@ -50,7 +62,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | -------------- | ------------------------------------------------------------------------ |
 | `demo`         | `true` mostra o aviso "site de demonstração" e marca a página `noindex`  |
 | `site`         | nome, título e descrição (SEO); `url` (endereço de produção) e `schema_tipo` (tipo schema.org), veja [SEO](#seo) |
-| `tema`         | cores (hexadecimal) e fontes; `fontes_url` carrega o Google Fonts. `cor_destaque` é a assinatura do nicho: filete acima dos títulos, números dos passos, aspas dos depoimentos e marcadores dos convênios |
+| `tema`         | cores (hexadecimal) e fontes, veja [Fontes](#fontes). `cor_destaque` é a assinatura do nicho: filete acima dos títulos, números dos passos, aspas dos depoimentos e marcadores dos convênios |
 | `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário |
 | `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais                   |
 | `revisao`      | `termos_vetados`: palavras que os textos nunca podem usar; os testes reprovam o nicho se alguma aparecer |
@@ -77,6 +89,53 @@ Os testes rodam sobre todos os nichos:
   Provimento 205/2021 da OAB, que proíbe, por exemplo, mencionar valores ou gratuidade,
   prometer resultados, usar expressões autopromocionais e anunciar especialidade sem
   título certificado.
+
+### Fontes
+
+`tema.fonte_titulo` e `tema.fonte_texto` são pilhas de fontes do CSS. As famílias listadas em
+`tema.fontes` são baixadas no build e servidas pelo próprio site (Fonts API do Astro), com
+pré-carregamento e uma fonte de reserva com métricas ajustadas, para o texto não "pular" quando
+a fonte chega. Nada é carregado de servidores de terceiros.
+
+```json
+"fonte_titulo": "\"Source Serif 4\", Georgia, serif",
+"fonte_texto": "Inter, system-ui, sans-serif",
+"fontes": [
+  { "familia": "Source Serif 4", "pesos": [600], "eixos": { "opsz": [8, 60] } },
+  { "familia": "Inter", "pesos": [400, 600] }
+]
+```
+
+- `familia`: nome exato no provedor; precisa aparecer em `fonte_titulo` ou `fonte_texto`.
+- `pesos`: só os pesos que a página usa (cada um é um download).
+- `provedor`: `google` (padrão), `bunny` ou `fontsource`.
+- `eixos`: opcional, outros eixos variáveis além do peso (ex.: `opsz`), só no Google.
+
+As fontes que vêm depois da família na pilha servem de reserva. Sem `fontes`, o site usa só as
+fontes do sistema (como o nicho `exemplo`).
+
+### Imagens
+
+As imagens de cada nicho ficam em `src/assets/nichos/<nicho>/` (não em `public/`), para o build
+gerar versões AVIF e WebP em vários tamanhos (`srcset`/`sizes`). No JSON, `src` é o caminho
+relativo a essa pasta:
+
+```json
+"imagem": { "src": "hero.jpg", "alt": "Fachada do escritório" }
+"foto": { "src": "equipe/helena.jpg", "alt": "Retrato de Helena Ribeiro Antunes" }
+```
+
+- Formatos aceitos: `.jpg`, `.jpeg`, `.png`, `.webp` e `.avif`. Use o original em boa
+  resolução (por exemplo, 1600 px de largura para o hero e o "sobre", 400 px para retratos);
+  o build nunca amplia a imagem.
+- Largura e altura vêm do próprio arquivo. O hero carrega com prioridade; as demais, sob demanda.
+- Um arquivo que não existe falha o build (e o `npm test`) com o caminho esperado.
+- Imagens decorativas usam `"alt": ""`.
+
+### Página 404
+
+`src/pages/404.astro` gera o `404.html`: a Cloudflare Pages o devolve com status 404 para
+endereços que não existem, com o layout do nicho, link para a página inicial e `noindex`.
 
 ### SEO
 
@@ -139,6 +198,38 @@ O GitHub Actions compila cada nicho e publica na Cloudflare Pages os que têm
 Sem os secrets, o job de deploy só emite um aviso e o CI continua verde. O token nunca vai
 para o código, para o `.env` ou para mensagens; para trocá-lo, gere um novo na Cloudflare,
 rode o `gh secret set` de novo e revogue o antigo.
+
+## Como criar um cliente novo
+
+1. Faça o briefing com o roteiro de [`docs/briefing.md`](docs/briefing.md): perguntas por
+   tema, o campo do JSON que cada uma preenche, materiais a pedir e o que o conselho da
+   profissão não permite publicar.
+2. Crie o JSON a partir do exemplo:
+
+   ```bash
+   npm run novo-nicho -- clinica-sorriso
+   ```
+
+   O script copia `nichos/exemplo.json` para `nichos/clinica-sorriso.json`. O nome aceita
+   letras minúsculas, números e hífens, e um nicho que já existe nunca é sobrescrito. A
+   cópia sai **sem** `publicacao` e sem `site.url`, para não publicar por cima do site de
+   exemplo na Cloudflare.
+3. Preencha o JSON: `site` (nome, título, descrição), `tema` (cores e fontes), `contato`,
+   `rastreamento` (se houver), `revisao.termos_vetados` (termos proibidos pelo conselho) e
+   o conteúdo de cada item de `secoes`. Desligue com `ativo: false` o que o cliente não quer.
+4. Imagens em `public/img/<nicho>/`, referenciadas no JSON pelo caminho a partir de
+   `public/` (ex.: `/img/clinica-sorriso/equipe.jpg`), com `alt`, `largura` e `altura`.
+   Essa convenção pode mudar com o trabalho em andamento de otimização de imagens.
+5. Rode `npm test`: o nicho novo passa pelo schema, pelo teste de contraste (4,5:1) e pelo
+   de termos vetados. Depois, `NICHO=clinica-sorriso npm run build`.
+6. Para publicar, acrescente `"publicacao": { "cloudflare_projeto": "<projeto>" }` e o
+   `site.url` correspondente; o CI cria o projeto e faz o deploy (veja
+   [Publicação](#publicação-cloudflare-pages)).
+
+A cópia continua com `demo: true`: neste repositório todo nicho é um demo com dados
+fictícios, e o teste exige isso. O site de um cliente real fica no repositório (ou fork)
+do próprio cliente, com `demo: false`, dados reais e o projeto da Cloudflare dele. Antes de
+entregar, siga o [`docs/checklist-entrega.md`](docs/checklist-entrega.md).
 
 ## Licença
 

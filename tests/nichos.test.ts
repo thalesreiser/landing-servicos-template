@@ -73,3 +73,22 @@ test('rejects a WhatsApp number without country code', () => {
   nicho.contato.whatsapp = '11999990000';
   assert.equal(nichoSchema.safeParse(nicho).success, false);
 });
+
+test('rejects a self-hosted font that no font stack uses', () => {
+  const nicho = exemplo() as ReturnType<typeof exemplo> & { tema: Record<string, unknown> };
+  nicho.tema.fontes = [{ familia: 'Inter', pesos: [400] }];
+  const resultado = nichoSchema.safeParse(nicho);
+  assert.equal(resultado.success, false);
+  assert.match(resultado.error!.issues[0]!.message, /"Inter" não aparece/);
+  nicho.tema.fonte_texto = 'Inter, system-ui, sans-serif';
+  assert.equal(nichoSchema.safeParse(nicho).success, true);
+});
+
+test('image src must be a path inside the niche assets folder', () => {
+  const nicho = exemplo();
+  const hero = nicho.secoes.find((s) => s.tipo === 'hero')!;
+  hero.imagem = { src: '/img/exemplo/hero.webp', alt: '' };
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+  hero.imagem = { src: 'hero.webp', alt: '' };
+  assert.equal(nichoSchema.safeParse(nicho).success, true);
+});

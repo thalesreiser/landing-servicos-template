@@ -18,7 +18,10 @@
     "cor_texto_suave": "#4A5261",
     "fonte_titulo": "\"Source Serif 4\", Georgia, serif",
     "fonte_texto": "Inter, system-ui, sans-serif",
-    "fontes_url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap"
+    "fontes": [
+      { "familia": "Source Serif 4", "pesos": [600], "eixos": { "opsz": [8, 60] } },
+      { "familia": "Inter", "pesos": [400, 600] }
+    ]
   },
   "contato": {
     "whatsapp": "5500900000000",
@@ -51,7 +54,11 @@
       "titulo": "Orientação jurídica em São Paulo, presencial e on-line",
       "subtitulo": "Família, Trabalho, Consumidor, Previdenciário, Imobiliário e Civil. No primeiro contato, entendemos a sua situação e explicamos os próximos passos.",
       "acao_principal": { "tipo": "whatsapp", "texto": "Agendar atendimento" },
-      "acao_secundaria": { "tipo": "link", "texto": "Ver áreas de atuação", "href": "#areas" }
+      "acao_secundaria": { "tipo": "link", "texto": "Ver áreas de atuação", "href": "#areas" },
+      "imagem": {
+        "src": "hero.webp",
+        "alt": "Advogado de terno escuro fazendo anotações em sua mesa de trabalho, em escritório com estante de madeira e estátua da Justiça."
+      }
     },
     {
       "tipo": "servicos",
@@ -77,6 +84,10 @@
         "A Ribeiro Antunes Advocacia atende pessoas e pequenas empresas em São Paulo e, por meio do processo eletrônico, em outras cidades.",
         "Cada caso é conduzido por uma advogada ou um advogado responsável, com explicações em linguagem acessível e registro por escrito das decisões tomadas em conjunto com o cliente."
       ],
+      "imagem": {
+        "src": "escritorio.webp",
+        "alt": "Fileira de livros jurídicos encadernados em couro em uma estante."
+      },
       "registros": [
         { "rotulo": "Sociedade de advogados", "valor": "Registro OAB/SP nº 0.000" },
         { "rotulo": "Atendimento", "valor": "Presencial e on-line" }
@@ -86,13 +97,21 @@
           "nome": "Helena Ribeiro Antunes",
           "cargo": "Advogada, sócia",
           "registro": "OAB/SP 000.000",
-          "bio": "Atua em Direito de Família e Sucessões e em Direito Civil."
+          "bio": "Atua em Direito de Família e Sucessões e em Direito Civil.",
+          "foto": {
+            "src": "helena.webp",
+            "alt": "Retrato de Helena Ribeiro Antunes, de cabelos loiros, blazer preto e blusa cinza, sobre fundo cinza claro."
+          }
         },
         {
           "nome": "Rafael Antunes",
           "cargo": "Advogado, sócio",
           "registro": "OAB/SP 000.001",
-          "bio": "Atua em Direito do Trabalho e em Direito Previdenciário."
+          "bio": "Atua em Direito do Trabalho e em Direito Previdenciário.",
+          "foto": {
+            "src": "rafael.webp",
+            "alt": "Retrato de Rafael Antunes, de cabelos escuros, terno cinza e gravata, sobre fundo claro."
+          }
         }
       ]
     },
