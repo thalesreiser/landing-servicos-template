@@ -146,6 +146,38 @@ Sem os secrets, o job de deploy só emite um aviso e o CI continua verde. O toke
 para o código, para o `.env` ou para mensagens; para trocá-lo, gere um novo na Cloudflare,
 rode o `gh secret set` de novo e revogue o antigo.
 
+## Como criar um cliente novo
+
+1. Faça o briefing com o roteiro de [`docs/briefing.md`](docs/briefing.md): perguntas por
+   tema, o campo do JSON que cada uma preenche, materiais a pedir e o que o conselho da
+   profissão não permite publicar.
+2. Crie o JSON a partir do exemplo:
+
+   ```bash
+   npm run novo-nicho -- clinica-sorriso
+   ```
+
+   O script copia `nichos/exemplo.json` para `nichos/clinica-sorriso.json`. O nome aceita
+   letras minúsculas, números e hífens, e um nicho que já existe nunca é sobrescrito. A
+   cópia sai **sem** `publicacao` e sem `site.url`, para não publicar por cima do site de
+   exemplo na Cloudflare.
+3. Preencha o JSON: `site` (nome, título, descrição), `tema` (cores e fontes), `contato`,
+   `rastreamento` (se houver), `revisao.termos_vetados` (termos proibidos pelo conselho) e
+   o conteúdo de cada item de `secoes`. Desligue com `ativo: false` o que o cliente não quer.
+4. Imagens em `public/img/<nicho>/`, referenciadas no JSON pelo caminho a partir de
+   `public/` (ex.: `/img/clinica-sorriso/equipe.jpg`), com `alt`, `largura` e `altura`.
+   Essa convenção pode mudar com o trabalho em andamento de otimização de imagens.
+5. Rode `npm test`: o nicho novo passa pelo schema, pelo teste de contraste (4,5:1) e pelo
+   de termos vetados. Depois, `NICHO=clinica-sorriso npm run build`.
+6. Para publicar, acrescente `"publicacao": { "cloudflare_projeto": "<projeto>" }` e o
+   `site.url` correspondente; o CI cria o projeto e faz o deploy (veja
+   [Publicação](#publicação-cloudflare-pages)).
+
+A cópia continua com `demo: true`: neste repositório todo nicho é um demo com dados
+fictícios, e o teste exige isso. O site de um cliente real fica no repositório (ou fork)
+do próprio cliente, com `demo: false`, dados reais e o projeto da Cloudflare dele. Antes de
+entregar, siga o [`docs/checklist-entrega.md`](docs/checklist-entrega.md).
+
 ## Licença
 
 [MIT](LICENSE)
