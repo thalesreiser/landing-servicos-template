@@ -13,6 +13,18 @@ Sites de demonstração, com nomes, contatos e endereços fictícios:
 | Fisioterapia | [`nichos/fisioterapia.json`](nichos/fisioterapia.json) | https://fisioterapia-demo.pages.dev |
 | Todas as seções (referência) | [`nichos/exemplo.json`](nichos/exemplo.json) | https://landing-servicos-exemplo.pages.dev |
 
+### Créditos das fotos
+
+As fotos da demo de advocacia são do [Pexels](https://www.pexels.com/license/), com licença
+livre para uso comercial. As pessoas retratadas não têm relação com os nomes fictícios da demo.
+
+| Arquivo | Foto | Autor |
+| --- | --- | --- |
+| `public/img/advocacia/hero.webp` | [Advogado escrevendo em um caderno](https://www.pexels.com/photo/professional-lawyer-writing-on-a-notebook-8112113/) | Pavel Danilyuk |
+| `public/img/advocacia/escritorio.webp` | [Livros em uma estante](https://www.pexels.com/photo/piled-books-on-a-shelf-3927126/) | Muhammad Jawadur Rahman |
+| `public/img/advocacia/helena.webp` | [Retrato de mulher de blazer preto](https://www.pexels.com/photo/professional-woman-in-black-blazer-portrait-30479371/) | Augusto Carneiro Junior |
+| `public/img/advocacia/rafael.webp` | [Retrato de homem de terno](https://www.pexels.com/photo/professional-portrait-of-a-businessman-in-suit-39974539/) | Sam Agdasi |
+
 ## Como rodar
 
 Requer Node.js 24 (veja `.nvmrc`).
