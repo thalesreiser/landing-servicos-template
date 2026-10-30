@@ -255,8 +255,11 @@ footer{margin-top:32px;color:var(--suave);font-size:13px}
   body{font-size:12px}
   header{padding:18px 16px}
   h1{font-size:22px}
-  h2{margin-top:20px;break-after:avoid}
+  h2{margin-top:20px;break-after:avoid;break-inside:avoid}
   th,td{padding:8px 10px}
+  .nome{font-size:13px}
+  .explicacao,.nota{font-size:11px}
+  .limites,thead th,footer{font-size:10px}
   .valor .numero{font-size:17px}
   tr,.caixa{break-inside:avoid}
 }
