@@ -2,7 +2,7 @@ import { z } from 'astro/zod';
 import { PROVEDORES_FONTE, separarPilha } from './fontes.ts';
 import { NOMES_ICONES } from './icones.ts';
 import { EXTENSOES_IMAGEM, PADRAO_SRC_IMAGEM } from './imagens.ts';
-import { CARTOES, FUNDOS, RAIOS } from './tema.ts';
+import { ANIMACOES, CARTOES, FUNDOS, RAIOS } from './tema.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
 export const TIPOS_SCHEMA = [
@@ -227,6 +227,8 @@ export const nichoSchema = z
       // Personality tokens: corner radius (reto, medio, suave) and card treatment (see src/lib/tema.ts).
       raio: z.enum(RAIOS).default('medio'),
       card: z.enum(CARTOES).default('contorno'),
+      // Motion: subtle reveal and micro-interactions, or none (see src/lib/tema.ts).
+      animacoes: z.enum(ANIMACOES).default('sutil'),
     }),
     contato: z.object({
       whatsapp: z.string().regex(/^\d{12,13}$/, 'DDI + DDD + número, só dígitos, ex.: 5511999990000'),

@@ -9,6 +9,11 @@ export type Raio = (typeof RAIOS)[number];
 export const CARTOES = ['contorno', 'elevado', 'linha'] as const;
 export type Cartao = (typeof CARTOES)[number];
 
+// Motion (global.css): "sutil" turns on scroll reveal, micro-interactions, the animated FAQ and
+// page transitions; "nenhuma" turns all of it off. prefers-reduced-motion always wins.
+export const ANIMACOES = ['sutil', 'nenhuma'] as const;
+export type Animacoes = (typeof ANIMACOES)[number];
+
 const FORMAS: Record<Raio, { cartao: string; botao: string; campo: string }> = {
   reto: { cartao: '2px', botao: '2px', campo: '2px' },
   medio: { cartao: '12px', botao: '8px', campo: '8px' },

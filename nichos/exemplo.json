@@ -20,7 +20,8 @@
     "fonte_titulo": "system-ui, sans-serif",
     "fonte_texto": "system-ui, sans-serif",
     "raio": "medio",
-    "card": "contorno"
+    "card": "contorno",
+    "animacoes": "sutil"
   },
   "contato": {
     "whatsapp": "5500900000000",

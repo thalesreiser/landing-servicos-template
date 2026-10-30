@@ -29,8 +29,16 @@ test('raio and card default to the medium, outlined look', () => {
   assert.equal(tema.card, 'contorno');
 });
 
-test('rejects an unknown radius or card style', () => {
-  for (const [campo, valor] of [['raio', 'redondo'], ['card', 'sombra']] as const) {
+test('animations default to subtle and accept none', () => {
+  const nicho = structuredClone(exemplo) as { tema: Record<string, unknown> };
+  delete nicho.tema.animacoes;
+  assert.equal(nichoSchema.parse(nicho).tema.animacoes, 'sutil');
+  nicho.tema.animacoes = 'nenhuma';
+  assert.equal(nichoSchema.parse(nicho).tema.animacoes, 'nenhuma');
+});
+
+test('rejects an unknown radius, card style or animation level', () => {
+  for (const [campo, valor] of [['raio', 'redondo'], ['card', 'sombra'], ['animacoes', 'muitas']] as const) {
     const nicho = structuredClone(exemplo) as { tema: Record<string, unknown> };
     nicho.tema[campo] = valor;
     assert.equal(nichoSchema.safeParse(nicho).success, false, campo);
