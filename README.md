@@ -37,7 +37,7 @@ src/
 ├── layouts/Base.astro # head, tema, aviso de demonstração, cabeçalho, rastreamento
 ├── lib/               # schema do nicho (Zod), WhatsApp, endereço e mapa, SEO (JSON-LD, imagem de compartilhamento)
 ├── assets/nichos/     # imagens, uma pasta por nicho (otimizadas no build)
-└── pages/             # index.astro (monta as seções), política de privacidade, og.png e robots.txt
+└── pages/             # index.astro (monta as seções), política de privacidade, 404, og.png e robots.txt
 nichos/                # um JSON por nicho
 politica-de-privacidade.md
 ```
@@ -119,6 +119,11 @@ relativo a essa pasta:
 - Largura e altura vêm do próprio arquivo. O hero carrega com prioridade; as demais, sob demanda.
 - Um arquivo que não existe falha o build (e o `npm test`) com o caminho esperado.
 - Imagens decorativas usam `"alt": ""`.
+
+### Página 404
+
+`src/pages/404.astro` gera o `404.html`: a Cloudflare Pages o devolve com status 404 para
+endereços que não existem, com o layout do nicho, link para a página inicial e `noindex`.
 
 ### SEO
 
