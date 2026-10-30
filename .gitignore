@@ -27,3 +27,6 @@ pnpm-debug.log*
 
 # Cloudflare Wrangler local state
 .wrangler/
+
+# lab performance reports (npm run metricas)
+relatorios-metricas/

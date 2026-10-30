@@ -57,6 +57,7 @@ const { google_analytics, meta_pixel, aviso_cookies: aviso } = Astro.props.nicho
     type Escolha,
     type Ferramentas,
   } from '../lib/consentimento.ts';
+  import { eventoVital } from '../lib/vitais.ts';
 
   type Fila = ((...argumentos: unknown[]) => void) & Record<string, unknown>;
 
@@ -106,6 +107,23 @@ const { google_analytics, meta_pixel, aviso_cookies: aviso } = Astro.props.nicho
     carregarScript('https://connect.facebook.net/en_US/fbevents.js');
   }
 
+  // Real-user TTFB, LCP, INP and CLS as GA4 events. web-vitals is a separate chunk fetched only
+  // after consent, once the page has loaded and the main thread is idle; its observers are
+  // buffered, so starting late still captures this page view.
+  function medirVitais(enviar: (argumentos: unknown[]) => void): void {
+    const iniciar = () => {
+      import('web-vitals')
+        .then(({ onTTFB, onLCP, onINP, onCLS }) => {
+          for (const medir of [onTTFB, onLCP, onINP, onCLS]) medir((metrica) => enviar(eventoVital(metrica)));
+        })
+        .catch(() => {});
+    };
+    const agendar = () =>
+      'requestIdleCallback' in window ? window.requestIdleCallback(iniciar, { timeout: 5000 }) : setTimeout(iniciar, 1);
+    if (document.readyState === 'complete') agendar();
+    else window.addEventListener('load', agendar, { once: true });
+  }
+
   const aviso = document.querySelector<HTMLElement>('[data-aviso-cookies]');
   if (aviso) {
     const ferramentas: Ferramentas = {
@@ -123,6 +141,12 @@ const { google_analytics, meta_pixel, aviso_cookies: aviso } = Astro.props.nicho
       carregado = true;
       if (ferramentas.google_analytics) carregarGoogleAnalytics(ferramentas.google_analytics);
       if (ferramentas.meta_pixel) carregarMetaPixel(ferramentas.meta_pixel);
+      // Checked again on each report: a later "Recusar" stops sending.
+      if (ferramentas.google_analytics) {
+        medirVitais((argumentos) => {
+          if (podeRastrear(escolha)) window.gtag?.(...argumentos);
+        });
+      }
     };
 
     const fechar = () => {

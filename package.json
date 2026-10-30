@@ -12,18 +12,22 @@
     "check": "astro check",
     "test": "node --test \"tests/**/*.test.ts\"",
     "novo-nicho": "node scripts/novo-nicho.ts",
-    "astro": "astro"
+    "astro": "astro",
+    "metricas": "node scripts/metricas.ts"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.4.2",
     "sharp": "^0.35.5",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "web-vitals": "6.2.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
     "@types/node": "^24.19.2",
+    "lighthouse": "13.5.0",
+    "puppeteer-core": "25.16.0",
     "typescript": "^6.0.3"
   },
   "description": "Configurable services landing page template (Astro + Tailwind): one JSON file per niche",

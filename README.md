@@ -273,6 +273,117 @@ O modo de demonstração do formulário (`chave` vazia) não envia eventos. No G
 relatórios, crie uma dimensão personalizada de escopo de evento com o parâmetro `method`. No
 Gerenciador de Eventos da Meta, `Contact` e `Lead` são eventos padrão e já aparecem sozinhos.
 
+## Métricas de desempenho
+
+Duas fontes que se complementam:
+
+- **Laboratório** (`npm run metricas`): mede a página publicada em condições controladas e gera
+  um relatório para mostrar ao cliente.
+- **Visitantes reais** (GA4): com o Google Analytics configurado e os cookies aceitos, cada
+  visita envia os números medidos no aparelho de quem visitou.
+
+Os indicadores são os Core Web Vitals, que o Google usa para avaliar a experiência da página,
+mais o tempo de resposta do servidor:
+
+| Indicador | O que mede | Bom | Ruim |
+| --- | --- | --- | --- |
+| TTFB | tempo até o servidor começar a enviar a página | até 0,8 s | acima de 1,8 s |
+| LCP | tempo até o maior elemento da tela (título ou foto de abertura) aparecer | até 2,5 s | acima de 4 s |
+| INP | atraso entre um toque ou clique e a resposta na tela | até 200 ms | acima de 500 ms |
+| CLS | quanto o conteúdo muda de lugar sozinho durante o carregamento | até 0,1 | acima de 0,25 |
+
+Entre "Bom" e "Ruim", a faixa é "Precisa melhorar". As faixas e a formatação ficam em
+`src/lib/metricas.ts`.
+
+### Relatório de laboratório
+
+```bash
+npm run metricas -- https://advocacia-demo.pages.dev   # uma página
+npm run metricas -- --todos                            # todo nicho com site.url e publicacao
+npm run metricas -- <url> --saida relatorios --execucoes 5
+```
+
+| Opção | Padrão | Efeito |
+| --- | --- | --- |
+| `--saida <pasta>` | `relatorios-metricas/` (fora do git) | onde gravar os arquivos |
+| `--execucoes <n>` | `3` | medições por dispositivo; o relatório mostra a mediana |
+| `--lighthouse` | desligado | grava também o relatório completo do Lighthouse de cada medição |
+
+Precisa do Google Chrome instalado; para usar outro (ou o Edge), aponte `CHROME_PATH` para o
+executável. Cada endereço leva de 2 a 4 minutos com 3 medições. O resultado são dois arquivos,
+`<nicho>-<data>.html` e `<nicho>-<data>.json`:
+
+- o **HTML** é o relatório para o cliente: autocontido (abre sem internet), com o nome e as
+  cores do nicho, e sai bem impresso em PDF (Ctrl+P, "Salvar como PDF", com "Gráficos de
+  fundo" marcado);
+- o **JSON** guarda a mediana e cada medição, para comparar ao longo do tempo.
+
+Como mede: o [Lighthouse](https://developer.chrome.com/docs/lighthouse) abre a página sem cache
+com o perfil de celular (aparelho intermediário simulado, 4G lenta, processador 4× mais lento) e
+o de computador, várias vezes. O LCP, o CLS, o TBT, o peso da página e as notas vêm do
+Lighthouse. Depois de cada medição do Lighthouse, o script faz uma visita comum, sem cache, com
+a tela e o processador do perfil, e dela saem os outros dois:
+
+- **TTFB:** tempo real até o primeiro byte, incluindo DNS e conexão, medido desta conexão;
+- **INP:** o script rola até o menu, um item do FAQ e um campo do formulário (os que a página
+  tiver), toca neles e mede a resposta com a Event Timing API do navegador, a mesma que o
+  `web-vitals` usa. Nada é clicado no aviso de cookies.
+
+O TBT (tempo de bloqueio) aparece como estimativa complementar do INP.
+
+Dicas:
+
+- O processador da máquina influencia o resultado no celular. Feche programas pesados e evite
+  rodar builds ao mesmo tempo; o JSON guarda o `indice_maquina` do Lighthouse de cada medição
+  (abaixo de uns 700, a máquina estava ocupada ou é lenta).
+- Para o relatório que vai ao cliente, use `--execucoes 5`.
+- O comando não roda no CI: ele depende da rede até o site publicado e da máquina que mede,
+  e uma variação normal entre medições quebraria o build sem motivo.
+
+### Como ler e o que dizer ao cliente
+
+- Cada indicador traz o valor, a faixa do Google e a cor: verde (Bom), amarelo (Precisa
+  melhorar) e vermelho (Ruim). O celular é o que mais pesa: a maioria das visitas vem dele.
+- Uma frase que se sustenta: "Nos testes de laboratório, os quatro indicadores ficaram na faixa
+  'Bom' do Google no celular e no computador, e a página inteira tem X KB."
+- Não prometa posição na busca. Desempenho é um dos sinais que o Google considera, ao lado da
+  relevância do conteúdo. A avaliação que o Google usa vem de visitantes reais do Chrome
+  (relatório CrUX, 28 dias), aparece no Search Console (Core Web Vitals) e no
+  [PageSpeed Insights](https://pagespeed.web.dev) quando o site tem tráfego suficiente, e pode
+  ser diferente da de laboratório.
+- Nas demos, a nota de SEO fica abaixo de 100 por causa do `noindex` (veja [SEO](#seo)); o
+  relatório explica isso numa nota. No site definitivo do cliente, ela some.
+
+### Visitantes reais (GA4)
+
+Com `rastreamento.google_analytics` no JSON, depois de "Aceitar" no aviso de cookies, a página
+mede TTFB, LCP, INP e CLS com a biblioteca [`web-vitals`](https://github.com/GoogleChrome/web-vitals)
+e envia cada um como evento do GA4. Sem GA ou sem consentimento, nada disso carrega: a
+biblioteca é um arquivo separado, baixado só depois do aceite, quando a página terminou de
+carregar e o navegador está ocioso, por isso não afeta o Lighthouse. Se o visitante recusar
+depois, os envios param.
+
+| Evento | Parâmetros |
+| --- | --- |
+| `TTFB`, `LCP`, `INP`, `CLS` | `metric_value` (valor, em ms; CLS sem unidade), `metric_rating` (`good`, `needs-improvement` ou `poor`), `metric_delta`, `metric_id` e `value` (o delta arredondado; no CLS, multiplicado por 1000) |
+
+Para ver no GA4:
+
+1. Em **Administrador › Definições personalizadas**, crie uma dimensão personalizada de escopo
+   de evento com o parâmetro `metric_rating` e uma métrica personalizada de escopo de evento
+   com `metric_value` (unidade padrão). Elas só passam a valer para os eventos recebidos depois.
+2. Em **Relatórios › Engajamento › Eventos** aparecem `LCP`, `INP`, `CLS` e `TTFB`, com a
+   contagem de cada um.
+3. Em **Explorar › Exploração livre**, use as dimensões "Nome do evento" e `metric_rating` e a
+   métrica "Contagem de eventos": a parte de `good` em cada indicador é a porcentagem de visitas
+   com experiência boa. Com a métrica `metric_value`, dá para ver a média.
+4. Para conferir a instalação, abra o site, aceite os cookies e veja os eventos em
+   **Relatórios › Tempo real** (o INP e o CLS chegam quando a aba é fechada ou trocada).
+
+O GA4 só recebe as visitas de quem aceitou os cookies, então é uma amostra. O Google avalia o
+75º percentil (o valor que 75% das visitas atingem); o GA4 não calcula percentis na interface,
+mas a exportação para o BigQuery permite.
+
 ## Publicação (Cloudflare Pages)
 
 O GitHub Actions compila cada nicho e publica na Cloudflare Pages os que têm
