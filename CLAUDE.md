@@ -6,7 +6,7 @@ clientes (um arquivo por nicho em `nichos/`).
 - Astro + Tailwind CSS. Nada de frameworks extras (React, Vue, bibliotecas de UI)
   sem perguntar. Formulário via Formspree ou Web3Forms, sem backend.
 - O código não muda entre clientes: tudo que é específico de um cliente fica no
-  JSON do nicho (`nichos/<nicho>.json`) e em `public/img/<nicho>/`.
+  JSON do nicho (`nichos/<nicho>.json`) e em `src/assets/nichos/<nicho>/` (imagens).
 - Componentes recebem dados por props; nenhum texto de cliente fixo em `src/`.
 - Textos da interface em português do Brasil. Commits, branches e PRs em inglês.
 - Acessível (rótulos, contraste, foco visível, `alt` em imagens) e responsivo

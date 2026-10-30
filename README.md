@@ -20,10 +20,10 @@ livre para uso comercial. As pessoas retratadas não têm relação com os nomes
 
 | Arquivo | Foto | Autor |
 | --- | --- | --- |
-| `public/img/advocacia/hero.webp` | [Advogado escrevendo em um caderno](https://www.pexels.com/photo/professional-lawyer-writing-on-a-notebook-8112113/) | Pavel Danilyuk |
-| `public/img/advocacia/escritorio.webp` | [Livros em uma estante](https://www.pexels.com/photo/piled-books-on-a-shelf-3927126/) | Muhammad Jawadur Rahman |
-| `public/img/advocacia/helena.webp` | [Retrato de mulher de blazer preto](https://www.pexels.com/photo/professional-woman-in-black-blazer-portrait-30479371/) | Augusto Carneiro Junior |
-| `public/img/advocacia/rafael.webp` | [Retrato de homem de terno](https://www.pexels.com/photo/professional-portrait-of-a-businessman-in-suit-39974539/) | Sam Agdasi |
+| `src/assets/nichos/advocacia/hero.webp` | [Advogado escrevendo em um caderno](https://www.pexels.com/photo/professional-lawyer-writing-on-a-notebook-8112113/) | Pavel Danilyuk |
+| `src/assets/nichos/advocacia/escritorio.webp` | [Livros em uma estante](https://www.pexels.com/photo/piled-books-on-a-shelf-3927126/) | Muhammad Jawadur Rahman |
+| `src/assets/nichos/advocacia/helena.webp` | [Retrato de mulher de blazer preto](https://www.pexels.com/photo/professional-woman-in-black-blazer-portrait-30479371/) | Augusto Carneiro Junior |
+| `src/assets/nichos/advocacia/rafael.webp` | [Retrato de homem de terno](https://www.pexels.com/photo/professional-portrait-of-a-businessman-in-suit-39974539/) | Sam Agdasi |
 
 ## Como rodar
 
@@ -48,9 +48,9 @@ src/
 │                      # FAQ, Formulario, Mapa, Rodape, BotaoWhatsApp
 ├── layouts/Base.astro # head, tema, aviso de demonstração, cabeçalho, rastreamento
 ├── lib/               # schema do nicho (Zod), WhatsApp, endereço e mapa, SEO (JSON-LD, imagem de compartilhamento)
-└── pages/             # index.astro (monta as seções), política de privacidade, og.png e robots.txt
+├── assets/nichos/     # imagens, uma pasta por nicho (otimizadas no build)
+└── pages/             # index.astro (monta as seções), política de privacidade, 404, og.png e robots.txt
 nichos/                # um JSON por nicho
-public/img/            # imagens, uma pasta por nicho
 politica-de-privacidade.md
 ```
 
@@ -62,7 +62,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | -------------- | ------------------------------------------------------------------------ |
 | `demo`         | `true` mostra o aviso "site de demonstração" e marca a página `noindex`  |
 | `site`         | nome, título e descrição (SEO); `url` (endereço de produção) e `schema_tipo` (tipo schema.org), veja [SEO](#seo) |
-| `tema`         | cores (hexadecimal) e fontes; `fontes_url` carrega o Google Fonts        |
+| `tema`         | cores (hexadecimal) e fontes, veja [Fontes](#fontes)                     |
 | `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário |
 | `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais                   |
 | `revisao`      | `termos_vetados`: palavras que os textos nunca podem usar; os testes reprovam o nicho se alguma aparecer |
@@ -89,6 +89,53 @@ Os testes rodam sobre todos os nichos:
   Provimento 205/2021 da OAB, que proíbe, por exemplo, mencionar valores ou gratuidade,
   prometer resultados, usar expressões autopromocionais e anunciar especialidade sem
   título certificado.
+
+### Fontes
+
+`tema.fonte_titulo` e `tema.fonte_texto` são pilhas de fontes do CSS. As famílias listadas em
+`tema.fontes` são baixadas no build e servidas pelo próprio site (Fonts API do Astro), com
+pré-carregamento e uma fonte de reserva com métricas ajustadas, para o texto não "pular" quando
+a fonte chega. Nada é carregado de servidores de terceiros.
+
+```json
+"fonte_titulo": "\"Source Serif 4\", Georgia, serif",
+"fonte_texto": "Inter, system-ui, sans-serif",
+"fontes": [
+  { "familia": "Source Serif 4", "pesos": [600], "eixos": { "opsz": [8, 60] } },
+  { "familia": "Inter", "pesos": [400, 600] }
+]
+```
+
+- `familia`: nome exato no provedor; precisa aparecer em `fonte_titulo` ou `fonte_texto`.
+- `pesos`: só os pesos que a página usa (cada um é um download).
+- `provedor`: `google` (padrão), `bunny` ou `fontsource`.
+- `eixos`: opcional, outros eixos variáveis além do peso (ex.: `opsz`), só no Google.
+
+As fontes que vêm depois da família na pilha servem de reserva. Sem `fontes`, o site usa só as
+fontes do sistema (como o nicho `exemplo`).
+
+### Imagens
+
+As imagens de cada nicho ficam em `src/assets/nichos/<nicho>/` (não em `public/`), para o build
+gerar versões AVIF e WebP em vários tamanhos (`srcset`/`sizes`). No JSON, `src` é o caminho
+relativo a essa pasta:
+
+```json
+"imagem": { "src": "hero.jpg", "alt": "Fachada do escritório" }
+"foto": { "src": "equipe/helena.jpg", "alt": "Retrato de Helena Ribeiro Antunes" }
+```
+
+- Formatos aceitos: `.jpg`, `.jpeg`, `.png`, `.webp` e `.avif`. Use o original em boa
+  resolução (por exemplo, 1600 px de largura para o hero e o "sobre", 400 px para retratos);
+  o build nunca amplia a imagem.
+- Largura e altura vêm do próprio arquivo. O hero carrega com prioridade; as demais, sob demanda.
+- Um arquivo que não existe falha o build (e o `npm test`) com o caminho esperado.
+- Imagens decorativas usam `"alt": ""`.
+
+### Página 404
+
+`src/pages/404.astro` gera o `404.html`: a Cloudflare Pages o devolve com status 404 para
+endereços que não existem, com o layout do nicho, link para a página inicial e `noindex`.
 
 ### SEO
 

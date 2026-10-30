@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Rodape from '../components/Rodape.astro';
+import { carregarNicho } from '../lib/nicho.ts';
+
+// Built as dist/404.html: Cloudflare Pages serves it with status 404 for unknown paths
+// (without it, Pages answers every path with index.html).
+const nicho = carregarNicho();
+const rodape = nicho.secoes.find((secao) => secao.tipo === 'rodape' && secao.ativo);
+---
+
+<Base nicho={nicho} titulo={`Página não encontrada | ${nicho.site.nome}`} descricao="O endereço aberto não existe neste site.">
+  {!nicho.demo && <meta slot="head" name="robots" content="noindex" />}
+  <section class="secao container-site max-w-3xl">
+    <p class="text-sm font-semibold tracking-wide text-primaria uppercase">Erro 404</p>
+    <h1 class="mt-4 titulo-secao">Página não encontrada</h1>
+    <p class="mt-6 text-lg text-texto-suave">O endereço que você abriu não existe ou mudou de lugar.</p>
+    <a href="/" class="botao-primario mt-8">Voltar para a página inicial</a>
+  </section>
+  <Fragment slot="depois">
+    {rodape?.tipo === 'rodape' && <Rodape secao={rodape} nicho={nicho} />}
+  </Fragment>
+</Base>
