@@ -79,23 +79,11 @@
       ]
     },
     {
-      "tipo": "sobre",
-      "id": "equipe",
-      "menu": "Equipe",
-      "titulo": "A clínica e a equipe",
-      "paragrafos": [
-        "A Clínica Ponto de Apoio atende na Vila Mariana desde 2015, com salas individuais e um estúdio de pilates.",
-        "Cada paciente é acompanhado pela mesma fisioterapeuta do início ao fim do tratamento, com reavaliações periódicas para ajustar o plano."
-      ],
-      "registros": [
-        { "rotulo": "Responsável técnica", "valor": "Mariana Lopes · CREFITO-3/000000-F" },
-        { "rotulo": "Sessões", "valor": "Individuais, de 50 minutos" }
-      ],
-      "equipe": [
-        { "nome": "Mariana Lopes", "cargo": "Fisioterapeuta, responsável técnica", "registro": "CREFITO-3/000000-F", "bio": "Fisioterapia ortopédica e esportiva." },
-        { "nome": "Camila Rocha", "cargo": "Fisioterapeuta", "registro": "CREFITO-3/000001-F", "bio": "Fisioterapia neurológica e atendimento domiciliar." },
-        { "nome": "Bruno Tavares", "cargo": "Fisioterapeuta", "registro": "CREFITO-3/000002-F", "bio": "Pilates clínico e postura." }
-      ]
+      "tipo": "convenios",
+      "menu": "Convênios",
+      "titulo": "Convênios",
+      "texto": "Atendemos pelos convênios abaixo e também no particular, com recibo para pedir reembolso ao seu plano.",
+      "itens": ["Convênio Alfa", "Convênio Beta", "Convênio Gama", "Convênio Delta", "Particular com recibo"]
     },
     {
       "tipo": "como_funciona",
@@ -114,11 +102,23 @@
       }
     },
     {
-      "tipo": "convenios",
-      "menu": "Convênios",
-      "titulo": "Convênios",
-      "texto": "Atendemos pelos convênios abaixo e também no particular, com recibo para pedir reembolso ao seu plano.",
-      "itens": ["Convênio Alfa", "Convênio Beta", "Convênio Gama", "Convênio Delta", "Particular com recibo"]
+      "tipo": "sobre",
+      "id": "equipe",
+      "menu": "Equipe",
+      "titulo": "A clínica e a equipe",
+      "paragrafos": [
+        "A Clínica Ponto de Apoio atende na Vila Mariana desde 2015, com salas individuais e um estúdio de pilates.",
+        "Cada paciente é acompanhado pela mesma fisioterapeuta do início ao fim do tratamento, com reavaliações periódicas para ajustar o plano."
+      ],
+      "registros": [
+        { "rotulo": "Responsável técnica", "valor": "Mariana Lopes · CREFITO-3/000000-F" },
+        { "rotulo": "Sessões", "valor": "Individuais, de 50 minutos" }
+      ],
+      "equipe": [
+        { "nome": "Mariana Lopes", "cargo": "Fisioterapeuta, responsável técnica", "registro": "CREFITO-3/000000-F", "bio": "Fisioterapia ortopédica e esportiva." },
+        { "nome": "Camila Rocha", "cargo": "Fisioterapeuta", "registro": "CREFITO-3/000001-F", "bio": "Fisioterapia neurológica e atendimento domiciliar." },
+        { "nome": "Bruno Tavares", "cargo": "Fisioterapeuta", "registro": "CREFITO-3/000002-F", "bio": "Pilates clínico e postura." }
+      ]
     },
     {
       "tipo": "depoimentos",
