@@ -66,11 +66,78 @@ const src = secao.embed_url ?? urlMapa(endereco!);
         )
       }
     </div>
-    <iframe
-      src={src}
-      title={`Mapa: ${nicho.site.nome}`}
-      class="h-80 w-full rounded-cartao border-0 lg:h-full lg:min-h-96"
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"></iframe>
+    {/*
+      Facade: no request reaches Google until the visitor asks for the map (LGPD, and about
+      0.5 MB less on the first load). The box keeps its size when the iframe replaces the
+      placeholder, so nothing moves. Without JS the button stays hidden and the
+      "Abrir no Google Maps" link still works.
+    */}
+    <div
+      class="relative h-80 w-full overflow-hidden rounded-cartao lg:h-full lg:min-h-96"
+      data-mapa={src}
+      data-mapa-titulo={`Mapa: ${nicho.site.nome}`}
+    >
+      <div class="mapa-fachada absolute inset-0 grid place-items-center p-4 sm:p-6" data-mapa-fachada>
+        <div class="max-w-sm rounded-cartao border border-texto/15 bg-fundo p-5 text-center shadow-sm">
+          <Icone nome="local" class="mx-auto size-8 text-primaria" />
+          <p class="mt-2 font-semibold">{endereco ? formatarEndereco(endereco) : nicho.site.nome}</p>
+          <p class="mt-1 text-sm text-texto-suave">O mapa é do Google Maps e só carrega quando você pedir.</p>
+          {/* invisible (not hidden) keeps the button's space, so revealing it shifts nothing. */}
+          <button type="button" class="botao-primario invisible mt-4 w-full sm:w-auto" data-mapa-carregar>
+            <Icone nome="local" class="size-5 shrink-0" />
+            <span data-mapa-rotulo>Carregar mapa</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+
+<script>
+  for (const caixa of document.querySelectorAll<HTMLElement>('[data-mapa]')) {
+    const fachada = caixa.querySelector<HTMLElement>('[data-mapa-fachada]');
+    const botao = caixa.querySelector<HTMLButtonElement>('[data-mapa-carregar]');
+    if (!fachada || !botao) continue;
+    botao.classList.remove('invisible');
+    botao.addEventListener(
+      'click',
+      () => {
+        botao.setAttribute('aria-disabled', 'true');
+        const rotulo = botao.querySelector('[data-mapa-rotulo]');
+        if (rotulo) rotulo.textContent = 'Carregando mapa...';
+        const iframe = document.createElement('iframe');
+        iframe.src = caixa.dataset.mapa!;
+        iframe.title = caixa.dataset.mapaTitulo!;
+        iframe.referrerPolicy = 'no-referrer-when-downgrade';
+        iframe.className = 'absolute inset-0 size-full border-0';
+        // The placeholder stays on top until the map has loaded; keyboard focus then moves into it.
+        iframe.addEventListener('load', () => {
+          const tinhaFoco = document.activeElement === botao;
+          fachada.remove();
+          if (tinhaFoco) iframe.focus();
+        });
+        caixa.prepend(iframe);
+      },
+      { once: true },
+    );
+  }
+</script>
+
+<style>
+  /* Placeholder drawn in the theme colors: a street grid and two avenues, no image request. */
+  .mapa-fachada {
+    --linha: color-mix(in srgb, var(--cor-primaria) 10%, transparent);
+    --avenida: color-mix(in srgb, var(--cor-primaria) 16%, transparent);
+    background-color: var(--cor-cartao);
+    background-image:
+      linear-gradient(115deg, transparent 44%, var(--avenida) 44%, var(--avenida) 47%, transparent 47%),
+      linear-gradient(20deg, transparent 62%, var(--avenida) 62%, var(--avenida) 64.5%, transparent 64.5%),
+      linear-gradient(var(--linha) 2px, transparent 2px),
+      linear-gradient(90deg, var(--linha) 2px, transparent 2px);
+    background-size:
+      100% 100%,
+      100% 100%,
+      3rem 3rem,
+      3rem 3rem;
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 import Imagem from './Imagem.astro';
+import { gradeEquipe } from '../lib/equipe.ts';
 import { iniciais } from '../lib/iniciais.ts';
 import { ancoraSecao, type SecaoDo } from '../lib/schema.ts';
 
@@ -12,17 +13,7 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
 // Without an image, the records take the right column on desktop instead of sitting under the text.
 const registrosAoLado = !secao.imagem && (secao.registros?.length ?? 0) > 0;
 const equipe = secao.equipe ?? [];
-// Team grid follows the head count, so two people never leave an empty third column.
-const gradeEquipe =
-  equipe.length === 1
-    ? 'max-w-md'
-    : equipe.length === 2
-      ? 'max-w-4xl sm:grid-cols-2'
-      : equipe.length === 4
-        ? 'sm:grid-cols-2 lg:grid-cols-4'
-        : 'sm:grid-cols-2 lg:grid-cols-3';
-// 3 people: on tablets (two columns) the third card takes the whole row instead of half of it.
-const ultimoLargo = equipe.length === 3 ? 'sm:max-lg:last:col-span-2' : undefined;
+const grade = gradeEquipe(equipe.length);
 ---
 
 <section id={ancoraSecao(secao)} class="secao" aria-labelledby={idTitulo}>
@@ -70,10 +61,10 @@ const ultimoLargo = equipe.length === 3 ? 'sm:max-lg:last:col-span-2' : undefine
 
     {
       equipe.length > 0 && (
-        <ul class:list={['mt-14 grid gap-6 sm:gap-8', gradeEquipe]} data-revelar-grupo>
+        <ul class:list={['mt-14 grid gap-6 sm:gap-8', grade.lista]} data-revelar-grupo>
           {equipe.map((pessoa) =>
             pessoa.foto ? (
-              <li class:list={['cartao text-center', ultimoLargo]}>
+              <li class:list={['cartao text-center', grade.cartao]}>
                 <Imagem imagem={pessoa.foto} sizes="8rem" larguras={[128, 256, 384]} class="mx-auto size-32 rounded-full object-cover" />
                 <h3 class="mt-4 text-xl font-semibold">{pessoa.nome}</h3>
                 <p class="text-destaque">{pessoa.cargo}</p>
@@ -82,7 +73,7 @@ const ultimoLargo = equipe.length === 3 ? 'sm:max-lg:last:col-span-2' : undefine
               </li>
             ) : (
               // No photo: a typographic monogram with the initials, aligned to the left.
-              <li class:list={['cartao', ultimoLargo]}>
+              <li class:list={['cartao', grade.cartao]}>
                 <div class="flex items-center gap-4">
                   <span
                     class="grid size-14 shrink-0 place-items-center rounded-cartao bg-primaria font-titulo text-xl font-semibold text-primaria-contraste"
