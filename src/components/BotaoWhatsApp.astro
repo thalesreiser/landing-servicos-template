@@ -15,7 +15,7 @@ const href = linkWhatsApp(nicho.contato.whatsapp, secao.mensagem ?? nicho.contat
 {/* Mobile: labelled bar at the bottom of the screen. Desktop: round button. */}
 <aside aria-label="Atalho para o WhatsApp" class="atalho-whatsapp">
   <div class="fixed inset-x-0 bottom-0 z-40 border-t border-texto/10 bg-fundo/95 p-3 backdrop-blur sm:hidden">
-    <a href={href} target="_blank" rel="noopener" class="botao w-full bg-[#1D7D4A] text-white hover:opacity-90">
+    <a href={href} target="_blank" rel="noopener" class="botao w-full bg-[#1D7D4A] px-3 text-[15px] leading-tight text-white hover:opacity-90">
       <Icone nome="mensagem" class="size-5 shrink-0" />
       {secao.rotulo}
     </a>
