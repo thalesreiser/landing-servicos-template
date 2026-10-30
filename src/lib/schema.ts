@@ -124,6 +124,11 @@ const campo = z.object({
   obrigatorio: z.boolean().default(true),
   autocomplete: z.string().optional(),
   opcoes: z.array(z.string()).optional(),
+  placeholder: z.string().optional(),
+  // Hint under the label (e.g. "Duas ou três frases bastam.").
+  ajuda: z.string().optional(),
+  // Message shown under the field when it is invalid (default depends on the type).
+  erro: z.string().optional(),
 });
 
 const formulario = z.object({
@@ -131,6 +136,8 @@ const formulario = z.object({
   tipo: z.literal('formulario'),
   titulo: z.string(),
   texto: z.string().optional(),
+  // Text of a WhatsApp link shown above the form, for visitors who prefer to chat.
+  alternativa_whatsapp: z.string().optional(),
   provedor: z.enum(['formspree', 'web3forms']),
   // Public form id (Formspree) or access key (Web3Forms). Empty = demo mode, nothing is sent.
   chave: z.string().default(''),

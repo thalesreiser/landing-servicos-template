@@ -5,7 +5,7 @@ import type { Nicho, SecaoDo } from '../lib/schema.ts';
 interface Props {
   secao: SecaoDo<'rodape'>;
   nicho: Nicho;
-  /** Leaves room at the bottom so the floating WhatsApp button never covers the last lines. */
+  /** Leaves room at the bottom so the WhatsApp bar (mobile) or round button (desktop) never covers the last lines. */
   comBotaoFixo?: boolean;
 }
 

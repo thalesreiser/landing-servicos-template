@@ -11,11 +11,12 @@ interface Props {
 const { secao, nicho } = Astro.props;
 ---
 
-<section id={ancoraSecao(secao)} class="secao bg-superficie">
+{/* data-hero: the WhatsApp shortcut stays hidden while this section is on screen. */}
+<section id={ancoraSecao(secao)} class="secao bg-superficie" data-hero>
   <div class:list={['container-site grid items-center gap-10', secao.imagem && 'lg:grid-cols-2']}>
     <div>
       {secao.selo && <p class="mb-4 text-sm font-semibold tracking-wide text-primaria uppercase">{secao.selo}</p>}
-      <h1 class="text-4xl leading-tight font-semibold tracking-tight sm:text-5xl">{secao.titulo}</h1>
+      <h1 class="text-[2rem] leading-[1.15] font-semibold tracking-tight sm:text-5xl sm:leading-tight">{secao.titulo}</h1>
       <p class="mt-6 max-w-2xl text-lg text-texto-suave">{secao.subtitulo}</p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">
         <a {...atributosAcao(secao.acao_principal, nicho.contato)} class="botao-primario">

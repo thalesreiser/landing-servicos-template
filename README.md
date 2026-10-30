@@ -62,7 +62,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | -------------- | ------------------------------------------------------------------------ |
 | `demo`         | `true` mostra o aviso "site de demonstração" e marca a página `noindex`  |
 | `site`         | nome, título e descrição (SEO); `url` (endereço de produção) e `schema_tipo` (tipo schema.org), veja [SEO](#seo) |
-| `tema`         | cores (hexadecimal) e fontes, veja [Fontes](#fontes)                     |
+| `tema`         | cores (hexadecimal) e fontes, veja [Fontes](#fontes). `cor_destaque` é a assinatura do nicho: filete acima dos títulos, números dos passos, aspas dos depoimentos e marcadores dos convênios |
 | `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário |
 | `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais                   |
 | `revisao`      | `termos_vetados`: palavras que os textos nunca podem usar; os testes reprovam o nicho se alguma aparecer |
@@ -163,6 +163,12 @@ Funciona com [Formspree](https://formspree.io) ou [Web3Forms](https://web3forms.
 sem backend. Em `chave`, use o id do formulário (Formspree) ou a access key (Web3Forms);
 os dois são públicos por natureza. Com `chave` vazia, o formulário fica em modo de
 demonstração e não envia nada.
+
+Cada item de `campos` aceita, além de `nome`, `rotulo`, `tipo` e `obrigatorio`:
+`placeholder`, `ajuda` (texto de apoio abaixo do rótulo) e `erro` (mensagem mostrada
+abaixo do campo quando ele está inválido; o padrão é "Preencha este campo."). Com
+`alternativa_whatsapp`, a seção mostra acima do formulário um link para o WhatsApp
+com esse texto.
 
 ## Publicação (Cloudflare Pages)
 

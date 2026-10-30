@@ -11,7 +11,7 @@
   "tema": {
     "cor_primaria": "#1E3A5F",
     "cor_primaria_contraste": "#FFFFFF",
-    "cor_destaque": "#8A6D3B",
+    "cor_destaque": "#7A5F2E",
     "cor_fundo": "#FBFAF7",
     "cor_superficie": "#F1EEE8",
     "cor_texto": "#1C2430",
@@ -52,7 +52,7 @@
       "tipo": "hero",
       "selo": "Advocacia · São Paulo",
       "titulo": "Orientação jurídica em São Paulo, presencial e on-line",
-      "subtitulo": "Atuação em Direito de Família e Sucessões, do Trabalho, do Consumidor, Previdenciário, Imobiliário e Civil. O primeiro contato serve para entender a sua situação e indicar os próximos passos.",
+      "subtitulo": "Família, Trabalho, Consumidor, Previdenciário, Imobiliário e Civil. No primeiro contato, entendemos a sua situação e explicamos os próximos passos.",
       "acao_principal": { "tipo": "whatsapp", "texto": "Agendar atendimento" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver áreas de atuação", "href": "#areas" },
       "imagem": {
@@ -144,17 +144,18 @@
       "id": "contato",
       "menu": "Contato",
       "titulo": "Agende um atendimento",
-      "texto": "Conte brevemente a sua situação. Retornamos em até um dia útil para marcar a reunião. Não envie documentos por aqui.",
+      "texto": "Conte brevemente a sua situação. Retornamos em até um dia útil para marcar a reunião.",
+      "alternativa_whatsapp": "Prefere o WhatsApp? Chame agora",
       "provedor": "formspree",
       "chave": "",
       "campos": [
         { "nome": "nome", "rotulo": "Nome", "tipo": "text", "autocomplete": "name" },
-        { "nome": "telefone", "rotulo": "Telefone", "tipo": "tel", "autocomplete": "tel" },
+        { "nome": "telefone", "rotulo": "Telefone", "tipo": "tel", "autocomplete": "tel", "placeholder": "(11) 90000-0000" },
         { "nome": "email", "rotulo": "E-mail", "tipo": "email", "autocomplete": "email" },
-        { "nome": "caso", "rotulo": "Descreva o seu caso", "tipo": "textarea" }
+        { "nome": "caso", "rotulo": "Resumo da situação", "tipo": "textarea", "ajuda": "Duas ou três frases bastam. Não inclua documentos." }
       ],
       "consentimento": "Concordo com o uso dos meus dados para receber o retorno deste contato, conforme a",
-      "botao": "Enviar mensagem",
+      "botao": "Pedir agendamento",
       "mensagem_sucesso": "Mensagem recebida. Retornaremos em até um dia útil."
     },
     { "tipo": "mapa", "id": "localizacao", "titulo": "Onde estamos" },

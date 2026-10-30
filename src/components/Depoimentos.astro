@@ -17,7 +17,8 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
         secao.itens.map((item) => (
           <li>
             <figure class="h-full rounded-xl bg-fundo p-6">
-              <blockquote class="text-lg">“{item.texto}”</blockquote>
+              <span class="block font-titulo text-5xl leading-none text-destaque" aria-hidden="true">“</span>
+              <blockquote class="mt-2 text-lg">{item.texto}</blockquote>
               <figcaption class="mt-4">
                 <span class="font-semibold">{item.nome}</span>
                 {item.detalhe && <span class="block text-sm text-texto-suave">{item.detalhe}</span>}
