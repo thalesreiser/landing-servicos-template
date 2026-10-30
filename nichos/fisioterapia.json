@@ -29,6 +29,7 @@
   "contato": {
     "whatsapp": "5500900000000",
     "mensagem_whatsapp": "Olá! Gostaria de agendar uma avaliação de fisioterapia.",
+    "rotulo_cabecalho": "Agendar avaliação",
     "email": "contato@example.com",
     "telefone": "(00) 0000-0000",
     "endereco": {

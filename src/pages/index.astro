@@ -26,7 +26,7 @@ const fundos = fundosDasSecoes(conteudo);
 const classesFundo = { fundo: 'fundo-fundo', superficie: 'fundo-superficie', primaria: 'fundo-primaria' } as const;
 ---
 
-<Base nicho={nicho}>
+<Base nicho={nicho} comAtalhoWhatsApp={botao !== undefined}>
   <script is:inline slot="head" type="application/ld+json" set:html={serializarJsonLd(gerarJsonLd(nicho))} />
   {
     conteudo.map((secao, i) => (

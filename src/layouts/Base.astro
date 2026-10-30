@@ -2,6 +2,7 @@
 import { Font, type CssVariable } from 'astro:assets';
 import '../styles/global.css';
 import AvisoCookies from '../components/AvisoCookies.astro';
+import Icone from '../components/Icone.astro';
 import { temRastreamento } from '../lib/consentimento.ts';
 import { pilhaComFontes, variavelFonte } from '../lib/fontes.ts';
 import { ancoraSecao, type Nicho } from '../lib/schema.ts';
@@ -13,9 +14,11 @@ interface Props {
   nicho: Nicho;
   titulo?: string;
   descricao?: string;
+  /** The page has the WhatsApp bar (BotaoWhatsApp), so phones drop the header button. */
+  comAtalhoWhatsApp?: boolean;
 }
 
-const { nicho, titulo = nicho.site.titulo, descricao = nicho.site.descricao } = Astro.props;
+const { nicho, titulo = nicho.site.titulo, descricao = nicho.site.descricao, comAtalhoWhatsApp = false } = Astro.props;
 const { tema, contato, rastreamento } = nicho;
 
 const pilhas = [tema.fonte_titulo, tema.fonte_texto];
@@ -129,9 +132,10 @@ const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
           href={linkWhatsApp(contato.whatsapp, contato.mensagem_whatsapp)}
           target="_blank"
           rel="noopener"
-          class="botao-primario min-h-10 px-4 py-2 text-sm"
+          class:list={['botao-primario min-h-11 shrink-0 gap-2 px-4 py-2 text-sm', comAtalhoWhatsApp && 'max-sm:hidden']}
         >
-          WhatsApp
+          <Icone nome="mensagem" class="size-4 shrink-0" />
+          {contato.rotulo_cabecalho}
         </a>
       </div>
     </header>

@@ -226,6 +226,8 @@ export const nichoSchema = z
     contato: z.object({
       whatsapp: z.string().regex(/^\d{12,13}$/, 'DDI + DDD + número, só dígitos, ex.: 5511999990000'),
       mensagem_whatsapp: z.string(),
+      // Text of the WhatsApp button in the header (e.g. "Agendar").
+      rotulo_cabecalho: z.string().min(1).default('WhatsApp'),
       email: z.email(),
       telefone: z.string().optional(),
       endereco: z

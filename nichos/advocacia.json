@@ -29,6 +29,7 @@
   "contato": {
     "whatsapp": "5500900000000",
     "mensagem_whatsapp": "Olá! Gostaria de agendar um atendimento com o escritório.",
+    "rotulo_cabecalho": "Agendar",
     "email": "contato@example.com",
     "telefone": "(00) 0000-0000",
     "endereco": {

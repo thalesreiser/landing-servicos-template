@@ -101,3 +101,11 @@ test('hero accepts up to four highlights', () => {
   (hero.destaques as unknown[]).push({ rotulo: 'Quinto', valor: 'Valor' });
   assert.equal(nichoSchema.safeParse(nicho).success, false);
 });
+
+test('header WhatsApp button label defaults to "WhatsApp"', () => {
+  const nicho = exemplo();
+  delete nicho.contato.rotulo_cabecalho;
+  assert.equal(nichoSchema.parse(nicho).contato.rotulo_cabecalho, 'WhatsApp');
+  nicho.contato.rotulo_cabecalho = 'Agendar';
+  assert.equal(nichoSchema.parse(nicho).contato.rotulo_cabecalho, 'Agendar');
+});
