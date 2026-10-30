@@ -38,7 +38,7 @@
   }
 
   :root {
-    /* Card background: the light color opposite to the section background. */
+    /* Card background: the light color opposite to the section background (see fundo-*). */
     --cor-cartao: var(--cor-superficie);
   }
 
@@ -63,6 +63,35 @@
 
 @utility secao {
   @apply py-16 sm:py-24;
+}
+
+/*
+  Section backgrounds (index.astro wraps each section in one of these). A primary band
+  redefines the theme colors inside it, so components need no variant of their own:
+  text, muted text and accent take the band colors from tests/contraste.test.ts, and
+  primary buttons invert (contrast color background, primary text).
+*/
+@utility fundo-fundo {
+  --cor-cartao: var(--cor-superficie);
+  background-color: var(--cor-fundo);
+}
+
+@utility fundo-superficie {
+  --cor-cartao: var(--cor-fundo);
+  background-color: var(--cor-superficie);
+}
+
+@utility fundo-primaria {
+  --cor-primaria: var(--faixa-texto);
+  --cor-primaria-contraste: var(--faixa-fundo);
+  --cor-texto: var(--faixa-texto);
+  --cor-texto-suave: var(--faixa-texto-suave);
+  --cor-destaque: var(--faixa-destaque);
+  --cor-fundo: var(--faixa-fundo);
+  --cor-superficie: var(--faixa-fundo);
+  --cor-cartao: transparent;
+  background-color: var(--faixa-fundo);
+  color: var(--faixa-texto);
 }
 
 @utility titulo-secao {
@@ -121,6 +150,12 @@
     border-radius: 0;
     background-color: transparent;
     padding: 1.5rem 0 0;
+  }
+
+  /* On a primary band, cards are transparent: a light outline keeps their shape. */
+  .fundo-primaria .cartao {
+    border-color: color-mix(in oklab, var(--cor-texto) 25%, transparent);
+    box-shadow: none;
   }
 
   [data-card='linha'] .cartao-compacto {

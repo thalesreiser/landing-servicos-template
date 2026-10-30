@@ -75,6 +75,7 @@ Cada item de `secoes` tem um `tipo` (`hero`, `servicos`, `sobre`, `como_funciona
 - `id`: âncora da seção (padrão: o próprio tipo)
 - `menu`: texto do link no cabeçalho
 - `ativo: false`: esconde a seção sem apagá-la
+- `fundo`: `fundo`, `superficie` ou `primaria`, veja [Fundos das seções](#fundos-das-seções)
 
 `nichos/exemplo.json` liga todas as seções e serve de referência.
 
@@ -88,6 +89,19 @@ Dois campos opcionais de `tema` dão a cada nicho uma forma própria, além das 
 | `card` | `contorno` (padrão), `elevado`, `linha` | `contorno`: borda fina; `elevado`: sem borda, com sombra suave na cor primária; `linha`: sem caixa, só um filete no topo (lista editorial) e ícones soltos na cor de destaque |
 
 Nas demos: advocacia `reto` + `linha`, fisioterapia `suave` + `elevado`, exemplo `medio` + `contorno`.
+
+### Fundos das seções
+
+Sem `fundo`, as seções alternam `superficie` e `fundo` (o hero começa em `superficie`), então
+duas seções seguidas nunca têm a mesma cor, qualquer que seja a ordem do JSON. Com `fundo`, a
+seção usa a cor pedida, e a alternância continua a partir dela.
+
+`"fundo": "primaria"` cria uma faixa de contraste na cor primária: o texto passa a
+`cor_primaria_contraste`, o texto suave a essa cor com 90% de opacidade, os botões primários
+se invertem e a cor de destaque vira `tema.cor_destaque_faixa` (opcional; o padrão é
+`cor_primaria_contraste`). Use uma faixa por página, no máximo. O formulário não aceita
+`primaria`. O teste de contraste confere as cores da faixa em todos os nichos, mesmo nos que
+ainda não usam uma.
 
 ### Destaques do hero
 

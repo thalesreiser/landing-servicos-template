@@ -12,6 +12,7 @@
     "cor_primaria": "#1A64D6",
     "cor_primaria_contraste": "#FFFFFF",
     "cor_destaque": "#B45309",
+    "cor_destaque_faixa": "#FFF1DC",
     "cor_fundo": "#FFFFFF",
     "cor_superficie": "#F4F6FA",
     "cor_texto": "#111827",
@@ -86,6 +87,7 @@
     },
     {
       "tipo": "depoimentos",
+      "fundo": "primaria",
       "titulo": "Depoimentos",
       "itens": [
         { "nome": "Cliente Exemplo", "detalhe": "São Paulo/SP", "texto": "Depoimento fictício de um cliente." },

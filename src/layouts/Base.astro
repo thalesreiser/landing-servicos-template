@@ -4,7 +4,7 @@ import '../styles/global.css';
 import { pilhaComFontes, variavelFonte } from '../lib/fontes.ts';
 import { ancoraSecao, type Nicho } from '../lib/schema.ts';
 import { ALTURA_OG, CAMINHO_OG, chamadaPrincipal, LARGURA_OG, localeOg, urlAbsoluta } from '../lib/seo.ts';
-import { variaveisRaio } from '../lib/tema.ts';
+import { coresFaixa, variaveisRaio } from '../lib/tema.ts';
 import { linkWhatsApp } from '../lib/whatsapp.ts';
 
 interface Props {
@@ -17,6 +17,7 @@ const { nicho, titulo = nicho.site.titulo, descricao = nicho.site.descricao } = 
 const { tema, contato, rastreamento } = nicho;
 
 const pilhas = [tema.fonte_titulo, tema.fonte_texto];
+const faixa = coresFaixa(tema);
 const variaveisTema = [
   `--cor-primaria:${tema.cor_primaria}`,
   `--cor-primaria-contraste:${tema.cor_primaria_contraste}`,
@@ -25,6 +26,11 @@ const variaveisTema = [
   `--cor-superficie:${tema.cor_superficie}`,
   `--cor-texto:${tema.cor_texto}`,
   `--cor-texto-suave:${tema.cor_texto_suave}`,
+  // Fixed values for primary bands, which redefine the --cor-* variables inside them.
+  `--faixa-fundo:${faixa.fundo}`,
+  `--faixa-texto:${faixa.texto}`,
+  `--faixa-texto-suave:${faixa.texto_suave}`,
+  `--faixa-destaque:${faixa.destaque}`,
   `--fonte-titulo:${pilhaComFontes(tema.fonte_titulo, tema.fontes, pilhas)}`,
   `--fonte-texto:${pilhaComFontes(tema.fonte_texto, tema.fontes, pilhas)}`,
   ...variaveisRaio(tema.raio),
