@@ -111,8 +111,30 @@
   }
 }
 
+/*
+  Buttons lift by 1px with a soft shadow on hover and press in on click (tema.animacoes "sutil",
+  pointer devices only, never with reduced motion). translate/scale never move the layout.
+*/
 @utility botao {
-  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-botao px-6 py-3 text-base font-semibold transition-colors;
+  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-botao px-6 py-3 text-base font-semibold;
+  transition-property: color, background-color, border-color, opacity, box-shadow, translate, scale;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    :where([data-animacoes='sutil']) &:hover {
+      translate: 0 -1px;
+      box-shadow: 0 10px 20px -12px color-mix(in srgb, var(--cor-primaria) 60%, transparent);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :where([data-animacoes='sutil']) &:active {
+      translate: 0 0;
+      scale: 0.98;
+      box-shadow: none;
+    }
+  }
 }
 
 @utility botao-primario {
@@ -182,6 +204,64 @@
     height: auto;
     background-color: transparent;
     color: var(--cor-destaque);
+  }
+
+  /*
+    Hover (pointer devices, tema.animacoes "sutil"): the outline takes the primary color, a raised
+    card deepens its shadow, an editorial top rule turns to the accent, and the icon grows a little.
+    Color and shadow only on the card; the icon's scale is skipped with reduced motion.
+  */
+  .cartao {
+    transition:
+      border-color 250ms ease-out,
+      box-shadow 250ms ease-out;
+  }
+
+  .cartao-icone {
+    transition: scale 250ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  @media (hover: hover) {
+    [data-animacoes='sutil'] .cartao:hover {
+      border-color: color-mix(in oklab, var(--cor-primaria) 35%, transparent);
+    }
+
+    [data-animacoes='sutil'][data-card='elevado'] .cartao:hover {
+      border-color: transparent;
+      box-shadow:
+        0 1px 2px rgb(0 0 0 / 0.04),
+        0 16px 32px -14px color-mix(in srgb, var(--cor-primaria) 45%, transparent);
+    }
+
+    [data-animacoes='sutil'][data-card='linha'] .cartao:hover {
+      border-top-color: var(--cor-destaque);
+    }
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    [data-animacoes='sutil'] .cartao:hover .cartao-icone {
+      scale: 1.08;
+    }
+  }
+
+  /* Header links: an underline that grows from the left on hover and keyboard focus. */
+  .link-menu {
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px;
+    padding-block: 0.25rem;
+    transition: color 200ms;
+  }
+
+  .link-menu:hover,
+  .link-menu:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-animacoes='sutil'] .link-menu {
+      transition:
+        color 200ms,
+        background-size 250ms ease-out;
+    }
   }
 }
 
