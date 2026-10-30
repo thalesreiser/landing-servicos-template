@@ -37,6 +37,9 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
       ['botão primário', t.cor_primaria_contraste, t.cor_primaria],
       ['primária sobre fundo', t.cor_primaria, t.cor_fundo],
       ['primária sobre superfície', t.cor_primaria, t.cor_superficie],
+      // Accent: step numbers (fundo), testimonial quote marks (fundo), plan chip markers (superfície).
+      ['destaque sobre fundo', t.cor_destaque, t.cor_fundo],
+      ['destaque sobre superfície', t.cor_destaque, t.cor_superficie],
       ['rodapé e aviso de demonstração', t.cor_fundo, t.cor_texto],
       ['rodapé a 80%', misturar(t.cor_fundo, t.cor_texto, OPACIDADE_RODAPE), t.cor_texto],
     ];
