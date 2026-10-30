@@ -17,7 +17,7 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
-    /* Keeps focused fields clear of the floating WhatsApp button. */
+    /* Keeps focused fields clear of the WhatsApp bar (about 4.5rem) and round button (5rem). */
     scroll-padding-bottom: 6rem;
   }
 
@@ -64,4 +64,34 @@
 
 @utility botao-secundario {
   @apply botao border border-current text-primaria hover:bg-superficie;
+}
+
+/*
+  WhatsApp shortcut (BotaoWhatsApp.astro): the inline script sets data-oculto while the hero
+  is on screen. visibility: hidden also takes the links out of the tab order and the a11y tree.
+*/
+.atalho-whatsapp > * {
+  transition:
+    transform 200ms ease-out,
+    opacity 200ms ease-out;
+}
+
+.atalho-whatsapp {
+  transition: visibility 200ms;
+}
+
+.atalho-whatsapp[data-oculto] {
+  visibility: hidden;
+}
+
+.atalho-whatsapp[data-oculto] > * {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atalho-whatsapp,
+  .atalho-whatsapp > * {
+    transition: none;
+  }
 }
