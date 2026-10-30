@@ -21,6 +21,8 @@ const gradeEquipe =
       : equipe.length === 4
         ? 'sm:grid-cols-2 lg:grid-cols-4'
         : 'sm:grid-cols-2 lg:grid-cols-3';
+// 3 people: on tablets (two columns) the third card takes the whole row instead of half of it.
+const ultimoLargo = equipe.length === 3 ? 'sm:max-lg:last:col-span-2' : undefined;
 ---
 
 <section id={ancoraSecao(secao)} class="secao" aria-labelledby={idTitulo}>
@@ -70,7 +72,7 @@ const gradeEquipe =
         <ul class:list={['mt-14 grid gap-6 sm:gap-8', gradeEquipe]} data-revelar-grupo>
           {equipe.map((pessoa) =>
             pessoa.foto ? (
-              <li class="cartao text-center">
+              <li class:list={['cartao text-center', ultimoLargo]}>
                 <Imagem imagem={pessoa.foto} sizes="8rem" larguras={[128, 256, 384]} class="mx-auto size-32 rounded-full object-cover" />
                 <h3 class="mt-4 text-xl font-semibold">{pessoa.nome}</h3>
                 <p class="text-destaque">{pessoa.cargo}</p>
@@ -79,7 +81,7 @@ const gradeEquipe =
               </li>
             ) : (
               // No photo: a typographic monogram with the initials, aligned to the left.
-              <li class="cartao">
+              <li class:list={['cartao', ultimoLargo]}>
                 <div class="flex items-center gap-4">
                   <span
                     class="grid size-14 shrink-0 place-items-center rounded-cartao bg-primaria font-titulo text-xl font-semibold text-primaria-contraste"

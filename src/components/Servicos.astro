@@ -18,7 +18,8 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
       {
         secao.itens.map((item) => (
           // Phones: icon beside the text, so each card is shorter. From sm: icon on top.
-          <li class="cartao flex items-start gap-4 sm:block">
+          // Two columns (sm to lg) with an odd count: the last card takes the whole row.
+          <li class="cartao flex items-start gap-4 sm:block sm:max-lg:odd:last:col-span-2">
             <span class="cartao-icone shrink-0">
               <Icone nome={item.icone} />
             </span>
