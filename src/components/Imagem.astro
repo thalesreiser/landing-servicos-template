@@ -23,7 +23,6 @@ const {
   larguras = [480, 720, 960, 1280],
 } = Astro.props;
 
-// <picture> uses display: contents so grid/flex classes on the image keep working.
 const { default: arquivo } = await resolverImagem(arquivos, NICHO, imagem.src)();
 const srcset = largurasImagem(arquivo.width, larguras);
 // The <img> fallback is the largest srcset width (not the full original), as JPEG unless the source is PNG.
@@ -31,6 +30,8 @@ const largura = Math.max(...srcset);
 const altura = Math.round((largura * arquivo.height) / arquivo.width);
 ---
 
+{/* display: contents on <picture> (sources hidden, so they never take grid cells) keeps the
+    grid/flex classes passed for the image working as on a plain <img>. */}
 <Picture
   src={arquivo}
   alt={imagem.alt}
@@ -44,5 +45,5 @@ const altura = Math.round((largura * arquivo.height) / arquivo.width);
   loading={prioridade ? 'eager' : 'lazy'}
   fetchpriority={prioridade ? 'high' : 'auto'}
   decoding="async"
-  pictureAttributes={{ class: 'contents' }}
+  pictureAttributes={{ class: 'contents [&>source]:hidden' }}
 />
