@@ -107,14 +107,15 @@
       "menu": "Contato",
       "titulo": "Fale conosco",
       "texto": "Responderemos em até um dia útil.",
+      "alternativa_whatsapp": "Prefere o WhatsApp? Chame agora",
       "provedor": "formspree",
       "chave": "",
       "campos": [
         { "nome": "nome", "rotulo": "Nome", "tipo": "text", "autocomplete": "name" },
-        { "nome": "telefone", "rotulo": "Telefone", "tipo": "tel", "autocomplete": "tel" },
+        { "nome": "telefone", "rotulo": "Telefone", "tipo": "tel", "autocomplete": "tel", "placeholder": "(11) 90000-0000" },
         { "nome": "email", "rotulo": "E-mail", "tipo": "email", "autocomplete": "email" },
         { "nome": "assunto", "rotulo": "Assunto", "tipo": "select", "opcoes": ["Orçamento", "Dúvida", "Outro"] },
-        { "nome": "mensagem", "rotulo": "Mensagem", "tipo": "textarea" }
+        { "nome": "mensagem", "rotulo": "Mensagem", "tipo": "textarea", "ajuda": "Conte em poucas linhas o que você precisa.", "erro": "Escreva uma mensagem curta." }
       ],
       "consentimento": "Concordo com o uso dos meus dados para receber o retorno deste contato, conforme a",
       "botao": "Enviar mensagem",

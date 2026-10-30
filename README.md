@@ -105,6 +105,12 @@ sem backend. Em `chave`, use o id do formulário (Formspree) ou a access key (We
 os dois são públicos por natureza. Com `chave` vazia, o formulário fica em modo de
 demonstração e não envia nada.
 
+Cada item de `campos` aceita, além de `nome`, `rotulo`, `tipo` e `obrigatorio`:
+`placeholder`, `ajuda` (texto de apoio abaixo do rótulo) e `erro` (mensagem mostrada
+abaixo do campo quando ele está inválido; o padrão é "Preencha este campo."). Com
+`alternativa_whatsapp`, a seção mostra acima do formulário um link para o WhatsApp
+com esse texto.
+
 ## Publicação (Cloudflare Pages)
 
 O GitHub Actions compila cada nicho e publica na Cloudflare Pages os que têm

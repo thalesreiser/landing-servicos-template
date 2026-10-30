@@ -13,6 +13,11 @@
   --font-texto: var(--fonte-texto);
 }
 
+/* Fixed error color: 6.3:1 or more on every niche background (tests/contraste.test.ts). */
+@theme {
+  --color-erro: #b42318;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

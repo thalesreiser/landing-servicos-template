@@ -9,6 +9,8 @@ const AA = 4.5;
 const OPACIDADE_RODAPE = 0.8;
 // Fixed color of the floating WhatsApp button (BotaoWhatsApp.astro).
 const VERDE_WHATSAPP = '#1D7D4A';
+// Fixed color of form field errors (--color-erro in global.css).
+const COR_ERRO = '#B42318';
 
 test('contrast ratio matches the WCAG reference values', () => {
   assert.equal(razaoContraste('#000000', '#FFFFFF'), 21);
@@ -40,6 +42,8 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
       // Accent: step numbers (fundo), testimonial quote marks (fundo), plan chip markers (superfície).
       ['destaque sobre fundo', t.cor_destaque, t.cor_fundo],
       ['destaque sobre superfície', t.cor_destaque, t.cor_superficie],
+      ['erro de formulário sobre fundo', COR_ERRO, t.cor_fundo],
+      ['erro de formulário sobre superfície', COR_ERRO, t.cor_superficie],
       ['rodapé e aviso de demonstração', t.cor_fundo, t.cor_texto],
       ['rodapé a 80%', misturar(t.cor_fundo, t.cor_texto, OPACIDADE_RODAPE), t.cor_texto],
     ];

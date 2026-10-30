@@ -42,7 +42,7 @@ const botao = secoes.find((secao) => secao.tipo === 'botao_whatsapp');
         case 'faq':
           return <FAQ secao={secao} />;
         case 'formulario':
-          return <Formulario secao={secao} />;
+          return <Formulario secao={secao} nicho={nicho} />;
         case 'mapa':
           return <Mapa secao={secao} nicho={nicho} />;
       }
