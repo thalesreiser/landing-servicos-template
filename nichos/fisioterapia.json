@@ -46,8 +46,8 @@
     {
       "tipo": "hero",
       "selo": "Fisioterapia · Vila Mariana",
-      "titulo": "Fisioterapia com avaliação individual e plano de tratamento acompanhado",
-      "subtitulo": "Ortopédica, esportiva, neurológica, pilates clínico e atendimento domiciliar. A primeira sessão é uma avaliação completa com a fisioterapeuta que vai acompanhar o seu tratamento.",
+      "titulo": "Fisioterapia individual na Vila Mariana",
+      "subtitulo": "A primeira sessão é uma avaliação completa. Depois, a mesma fisioterapeuta acompanha o seu plano e o revisa com você a cada etapa.",
       "acao_principal": { "tipo": "whatsapp", "texto": "Agendar avaliação pelo WhatsApp" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver serviços", "href": "#servicos" }
     },
