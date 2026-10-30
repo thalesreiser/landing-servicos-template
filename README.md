@@ -304,11 +304,15 @@ executável. Cada endereço leva de 2 a 4 minutos com 3 medições. O resultado 
 Como mede: o [Lighthouse](https://developer.chrome.com/docs/lighthouse) abre a página sem cache
 com o perfil de celular (aparelho intermediário simulado, 4G lenta, processador 4× mais lento) e
 o de computador, várias vezes. O LCP, o CLS, o TBT, o peso da página e as notas vêm do
-Lighthouse. O TTFB é o tempo real até o primeiro byte (incluindo DNS e conexão), medido desta
-conexão. O INP precisa de interação: depois do carregamento, o script rola até um item do FAQ,
-um campo do formulário e o menu (os que a página tiver), toca neles e mede a resposta com a
-Event Timing API do navegador, a mesma que o `web-vitals` usa. Nada é clicado no aviso de
-cookies. O TBT (tempo de bloqueio) aparece como estimativa complementar do INP.
+Lighthouse. Depois de cada medição do Lighthouse, o script faz uma visita comum, sem cache, com
+a tela e o processador do perfil, e dela saem os outros dois:
+
+- **TTFB:** tempo real até o primeiro byte, incluindo DNS e conexão, medido desta conexão;
+- **INP:** o script rola até o menu, um item do FAQ e um campo do formulário (os que a página
+  tiver), toca neles e mede a resposta com a Event Timing API do navegador, a mesma que o
+  `web-vitals` usa. Nada é clicado no aviso de cookies.
+
+O TBT (tempo de bloqueio) aparece como estimativa complementar do INP.
 
 Dicas:
 

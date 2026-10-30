@@ -117,30 +117,29 @@ declare global {
   }
 }
 
-async function medir(
-  navegador: Browser,
-  url: string,
-  dispositivo: Dispositivo,
-): Promise<{ execucao: Execucao; interacoes: string[]; lhr: Result }> {
+async function emContexto<T>(navegador: Browser, acao: (page: Page) => Promise<T>): Promise<T> {
+  // Each browser context starts with an empty cache, cookies and storage: a first visit.
   const contexto = await navegador.createBrowserContext();
-  const page = await contexto.newPage();
   try {
-    const lhr = (await navigation(page, url, { config: CONFIGS[dispositivo] }))?.lhr;
-    if (!lhr) throw new Error('o Lighthouse não devolveu resultado');
-    if (lhr.runtimeError) throw new Error(lhr.runtimeError.message);
+    return await acao(await contexto.newPage());
+  } finally {
+    await contexto.close();
+  }
+}
 
-    // TTFB as web-vitals defines it: navigation start to the first byte, including DNS, TCP and TLS.
-    const ttfb = await page.evaluate(() => {
-      const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
-      return nav && nav.responseStart > 0 ? nav.responseStart - nav.startTime : undefined;
-    });
-
-    // INP from the page's own Event Timing entries. A Lighthouse timespan was tried first, but it
-    // records screenshots in its trace, which inflated presentation delay several times over.
+/**
+ * A plain visit after the Lighthouse run, in a fresh context with the device's screen and CPU:
+ * TTFB from navigation timing and INP from Event Timing over the scripted taps. The page
+ * Lighthouse leaves behind is restored from the back/forward cache, so its timings are not
+ * usable, and a Lighthouse timespan records screenshots in its trace, which inflated INP's
+ * presentation delay several times over.
+ */
+async function visitar(navegador: Browser, url: string, dispositivo: Dispositivo): Promise<{ ttfb?: number; inp?: number; interacoes: string[] }> {
+  return emContexto(navegador, async (page) => {
     const { tela, cpu, toque } = EMULACAO[dispositivo];
     await page.setViewport(tela);
     await page.emulateCPUThrottling(cpu);
-    await page.evaluate(() => {
+    await page.evaluateOnNewDocument(() => {
       window.__eventos = [];
       const registrar = (lista: PerformanceObserverEntryList) => {
         for (const e of lista.getEntries() as PerformanceEventTiming[]) {
@@ -151,37 +150,54 @@ async function medir(
       new PerformanceObserver(registrar).observe({ type: 'event', durationThreshold: 16, buffered: true } as PerformanceObserverInit);
       new PerformanceObserver(registrar).observe({ type: 'first-input', buffered: true });
     });
+    await page.goto(url, { waitUntil: 'load' });
+    await esperar(1500);
+    // TTFB as web-vitals defines it: navigation start to the first byte, including DNS, TCP and TLS.
+    const ttfb = await page.evaluate(() => {
+      const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+      return nav && nav.responseStart > 0 ? nav.responseStart - nav.startTime : undefined;
+    });
     const interacoes = await interagir(page, toque);
-    const eventos = await page.evaluate(() => window.__eventos ?? []);
+    const inp = inpDeEventos(await page.evaluate(() => window.__eventos ?? []));
+    return { ...(ttfb === undefined ? {} : { ttfb }), ...(inp === undefined ? {} : { inp }), interacoes };
+  });
+}
 
-    const metricas: Partial<Record<Metrica, number>> = {
-      TTFB: ttfb ?? numero(lhr, 'server-response-time'),
-      LCP: numero(lhr, 'largest-contentful-paint'),
-      INP: inpDeEventos(eventos),
-      CLS: numero(lhr, 'cumulative-layout-shift'),
-      TBT: numero(lhr, 'total-blocking-time'),
-    };
-    const requisicoes = lhr.audits['network-requests']?.details;
-    return {
-      execucao: {
-        metricas,
-        notas: {
-          desempenho: nota(lhr, 'performance'),
-          acessibilidade: nota(lhr, 'accessibility'),
-          boas_praticas: nota(lhr, 'best-practices'),
-          seo: nota(lhr, 'seo'),
-        },
-        peso_bytes: numero(lhr, 'total-byte-weight'),
-        requisicoes: requisicoes && 'items' in requisicoes ? requisicoes.items.length : undefined,
-        indexavel: lhr.audits['is-crawlable']?.score !== 0,
-        indice_maquina: lhr.environment.benchmarkIndex,
+async function medir(
+  navegador: Browser,
+  url: string,
+  dispositivo: Dispositivo,
+): Promise<{ execucao: Execucao; interacoes: string[]; lhr: Result }> {
+  const lhr = await emContexto(navegador, async (page) => (await navigation(page, url, { config: CONFIGS[dispositivo] }))?.lhr);
+  if (!lhr) throw new Error('o Lighthouse não devolveu resultado');
+  if (lhr.runtimeError) throw new Error(lhr.runtimeError.message);
+  const { ttfb, inp, interacoes } = await visitar(navegador, url, dispositivo);
+
+  const metricas: Partial<Record<Metrica, number>> = {
+    TTFB: ttfb,
+    LCP: numero(lhr, 'largest-contentful-paint'),
+    INP: inp,
+    CLS: numero(lhr, 'cumulative-layout-shift'),
+    TBT: numero(lhr, 'total-blocking-time'),
+  };
+  const requisicoes = lhr.audits['network-requests']?.details;
+  return {
+    execucao: {
+      metricas,
+      notas: {
+        desempenho: nota(lhr, 'performance'),
+        acessibilidade: nota(lhr, 'accessibility'),
+        boas_praticas: nota(lhr, 'best-practices'),
+        seo: nota(lhr, 'seo'),
       },
-      interacoes,
-      lhr,
-    };
-  } finally {
-    await contexto.close();
-  }
+      peso_bytes: numero(lhr, 'total-byte-weight'),
+      requisicoes: requisicoes && 'items' in requisicoes ? requisicoes.items.length : undefined,
+      indexavel: lhr.audits['is-crawlable']?.score !== 0,
+      indice_maquina: lhr.environment.benchmarkIndex,
+    },
+    interacoes,
+    lhr,
+  };
 }
 
 async function relatorioDe(
