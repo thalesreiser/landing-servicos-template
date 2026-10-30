@@ -55,6 +55,8 @@ const hero = z.object({
   acao_principal: acao,
   acao_secundaria: acao.optional(),
   imagem: imagem.optional(),
+  // Short facts (registration, schedule, service mode): a side panel when there is no image, chips otherwise.
+  destaques: z.array(z.object({ rotulo: z.string(), valor: z.string() })).min(1).max(4).optional(),
 });
 
 const servicos = z.object({

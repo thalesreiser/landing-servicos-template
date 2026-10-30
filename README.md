@@ -78,6 +78,23 @@ Cada item de `secoes` tem um `tipo` (`hero`, `servicos`, `sobre`, `como_funciona
 
 `nichos/exemplo.json` liga todas as seções e serve de referência.
 
+### Destaques do hero
+
+`hero.destaques` (opcional, até 4 itens) lista fatos curtos, como registro no conselho,
+horário ou modalidade de atendimento:
+
+```json
+"destaques": [
+  { "rotulo": "Sessões", "valor": "Individuais, de 50 minutos" },
+  { "rotulo": "Horário", "valor": "Seg. a sex. 7h–20h · sáb. 8h–12h" }
+]
+```
+
+Sem `imagem`, eles ocupam um painel à direita do título no desktop e viram etiquetas abaixo
+dos botões no celular (só os 3 primeiros). Com `imagem`, a foto fica à direita e todos os
+destaques aparecem como etiquetas abaixo dos botões. Use só fatos verificáveis: os textos
+passam pelo teste de termos vetados como qualquer outro.
+
 ### Regras de conteúdo e acessibilidade
 
 Os testes rodam sobre todos os nichos:

@@ -51,6 +51,12 @@
       "selo": "Fisioterapia · Vila Mariana",
       "titulo": "Fisioterapia individual na Vila Mariana",
       "subtitulo": "A primeira sessão é uma avaliação completa. Depois, a mesma fisioterapeuta acompanha o seu plano e o revisa com você a cada etapa.",
+      "destaques": [
+        { "rotulo": "Convênios", "valor": "4 convênios e particular com recibo" },
+        { "rotulo": "Sessões", "valor": "Individuais, de 50 minutos" },
+        { "rotulo": "Horário", "valor": "Seg. a sex. 7h–20h · sáb. 8h–12h" },
+        { "rotulo": "Atendimento domiciliar", "valor": "Vila Mariana e bairros próximos" }
+      ],
       "acao_principal": { "tipo": "whatsapp", "texto": "Agendar avaliação pelo WhatsApp" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver serviços", "href": "#servicos" }
     },
