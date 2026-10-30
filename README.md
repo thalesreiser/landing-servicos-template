@@ -247,6 +247,21 @@ abaixo do campo quando ele está inválido; o padrão é "Preencha este campo.")
 `alternativa_whatsapp`, a seção mostra acima do formulário um link para o WhatsApp
 com esse texto.
 
+### Mapa
+
+A seção `mapa` mostra o endereço, o horário e os contatos ao lado de um mapa do Google Maps,
+gerado de `contato.endereco` (ou de `embed_url`, se o JSON tiver um link de incorporação).
+
+- O mapa só carrega quando o visitante clica em "Carregar mapa". Até lá, o espaço mostra um
+  desenho de ruas nas cores do tema, com o endereço e o botão, e nenhuma requisição vai ao
+  Google: o mapa incorporado baixa cerca de 40 arquivos e 0,5 MB e grava cookies do Google,
+  então ele espera a ação do visitante, como o GA4 espera o "Aceitar".
+- O mapa não carrega sozinho ao rolar até ele, de propósito: rolar não é pedir o mapa, e o
+  Lighthouse rola a página inteira, então o peso voltaria ao relatório.
+- O quadro tem a mesma altura antes e depois do clique (sem deslocar o layout). O botão
+  funciona pelo teclado e, depois do carregamento, o foco vai para o mapa.
+- Sem JavaScript, o botão não aparece; o link "Abrir no Google Maps" continua ao lado.
+
 ### Rastreamento e cookies
 
 Com `rastreamento.google_analytics` ou `rastreamento.meta_pixel` no JSON, o site mostra um
@@ -255,6 +270,8 @@ script de terceiros.
 
 - O GA4 e o Pixel só carregam depois de "Aceitar"; antes disso, nenhuma requisição vai ao
   Google ou à Meta. A escolha fica no `localStorage` e o aviso não volta.
+- O mapa do Google Maps não depende do aviso: ele só carrega com o clique em "Carregar mapa"
+  (veja [Mapa](#mapa)).
 - "Preferências de cookies", no rodapé, reabre o aviso para mudar a escolha.
 - `rastreamento.aviso_cookies` troca os textos (`texto`, `aceitar`, `recusar`); os padrões
   são genéricos, em português.
