@@ -17,12 +17,12 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
     <div class="mt-10 divide-y divide-texto/10 border-y border-texto/10" data-revelar-grupo>
       {
         secao.itens.map((item) => (
-          <details class="group">
+          <details class="faq-item group">
             {/* The padding lives on the summary, so the whole row (44 px or more) is the click target. */}
-            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-5 text-lg font-semibold">
+            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-5 text-lg font-semibold transition-colors hover:text-primaria">
               {item.pergunta}
               <span
-                class="grid size-8 shrink-0 place-items-center rounded-full border border-texto/15 text-xl leading-none text-primaria transition-transform group-open:rotate-45"
+                class="grid size-8 shrink-0 place-items-center rounded-full border border-texto/15 text-xl leading-none text-primaria transition-transform group-open:rotate-45 motion-reduce:transition-none"
                 aria-hidden="true"
               >
                 +
