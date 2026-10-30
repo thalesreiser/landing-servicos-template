@@ -186,6 +186,31 @@
 }
 
 /*
+  Header state on scroll: the hairline gives way to a soft shadow tinted with the primary color
+  over the first 8rem of scrolling. Scroll-driven CSS, no JS; browsers without support keep the
+  static border. Height never changes, so anchors and layout stay put.
+*/
+@keyframes cabecalho-rolado {
+  to {
+    border-bottom-color: transparent;
+    box-shadow: 0 10px 30px -18px color-mix(in srgb, var(--cor-primaria) 55%, transparent);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  [data-animacoes='sutil'] .cabecalho {
+    animation: cabecalho-rolado linear both;
+  }
+
+  /* Separate, more specific rule: the minifier would otherwise fold the timeline into the
+     animation shorthand, which browsers reject. */
+  [data-animacoes='sutil'] header.cabecalho {
+    animation-timeline: scroll(root);
+    animation-range: 0 8rem;
+  }
+}
+
+/*
   Scroll reveal: the inline script in Base.astro adds .revelar (hidden) and then .revelado when
   the element scrolls in. The animation fills backwards only, so once it ends the element's own
   transitions (hover, focus) work as usual. Focus inside a hidden block shows it at once.
