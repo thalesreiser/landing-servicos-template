@@ -50,7 +50,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | -------------- | ------------------------------------------------------------------------ |
 | `demo`         | `true` mostra o aviso "site de demonstração" e marca a página `noindex`  |
 | `site`         | nome, título e descrição (SEO); `url` (endereço de produção) e `schema_tipo` (tipo schema.org), veja [SEO](#seo) |
-| `tema`         | cores (hexadecimal) e fontes; `fontes_url` carrega o Google Fonts        |
+| `tema`         | cores (hexadecimal) e fontes, veja [Fontes](#fontes)                     |
 | `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário |
 | `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais                   |
 | `revisao`      | `termos_vetados`: palavras que os textos nunca podem usar; os testes reprovam o nicho se alguma aparecer |
@@ -77,6 +77,30 @@ Os testes rodam sobre todos os nichos:
   Provimento 205/2021 da OAB, que proíbe, por exemplo, mencionar valores ou gratuidade,
   prometer resultados, usar expressões autopromocionais e anunciar especialidade sem
   título certificado.
+
+### Fontes
+
+`tema.fonte_titulo` e `tema.fonte_texto` são pilhas de fontes do CSS. As famílias listadas em
+`tema.fontes` são baixadas no build e servidas pelo próprio site (Fonts API do Astro), com
+pré-carregamento e uma fonte de reserva com métricas ajustadas, para o texto não "pular" quando
+a fonte chega. Nada é carregado de servidores de terceiros.
+
+```json
+"fonte_titulo": "\"Source Serif 4\", Georgia, serif",
+"fonte_texto": "Inter, system-ui, sans-serif",
+"fontes": [
+  { "familia": "Source Serif 4", "pesos": [600], "eixos": { "opsz": [8, 60] } },
+  { "familia": "Inter", "pesos": [400, 600] }
+]
+```
+
+- `familia`: nome exato no provedor; precisa aparecer em `fonte_titulo` ou `fonte_texto`.
+- `pesos`: só os pesos que a página usa (cada um é um download).
+- `provedor`: `google` (padrão), `bunny` ou `fontsource`.
+- `eixos`: opcional, outros eixos variáveis além do peso (ex.: `opsz`), só no Google.
+
+As fontes que vêm depois da família na pilha servem de reserva. Sem `fontes`, o site usa só as
+fontes do sistema (como o nicho `exemplo`).
 
 ### SEO
 

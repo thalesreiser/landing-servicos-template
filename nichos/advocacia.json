@@ -18,7 +18,10 @@
     "cor_texto_suave": "#4A5261",
     "fonte_titulo": "\"Source Serif 4\", Georgia, serif",
     "fonte_texto": "Inter, system-ui, sans-serif",
-    "fontes_url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap"
+    "fontes": [
+      { "familia": "Source Serif 4", "pesos": [600], "eixos": { "opsz": [8, 60] } },
+      { "familia": "Inter", "pesos": [400, 600] }
+    ]
   },
   "contato": {
     "whatsapp": "5500900000000",

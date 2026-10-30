@@ -1,4 +1,5 @@
 import { z } from 'astro/zod';
+import { PROVEDORES_FONTE, separarPilha } from './fontes.ts';
 import { NOMES_ICONES } from './icones.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
@@ -15,6 +16,15 @@ export const TIPOS_SCHEMA = [
 ] as const;
 
 const cor = z.string().regex(/^#[0-9a-fA-F]{6}$/, 'use uma cor hexadecimal, ex.: #1F6FEB');
+
+// A family self-hosted from a font provider at build time (see src/lib/fontes.ts).
+const fonte = z.object({
+  familia: z.string().min(1),
+  // Only the weights the page uses: each one is a file the visitor downloads.
+  pesos: z.array(z.number().int().min(100).max(900).multipleOf(100)).min(1),
+  provedor: z.enum(PROVEDORES_FONTE).default('google'),
+  eixos: z.record(z.string().regex(/^[a-z]{4}$/), z.tuple([z.number(), z.number()])).optional(),
+});
 
 const imagem = z.object({
   src: z.string().min(1),
@@ -194,7 +204,7 @@ export const nichoSchema = z
       cor_texto_suave: cor,
       fonte_titulo: z.string(),
       fonte_texto: z.string(),
-      fontes_url: z.url().optional(),
+      fontes: z.array(fonte).default([]),
     }),
     contato: z.object({
       whatsapp: z.string().regex(/^\d{12,13}$/, 'DDI + DDD + número, só dígitos, ex.: 5511999990000'),
@@ -237,6 +247,12 @@ export const nichoSchema = z
     if (repetidos.length > 0) {
       ctx.addIssue({ code: 'custom', path: ['secoes'], message: `ids de seção repetidos: ${[...new Set(repetidos)].join(', ')}` });
     }
+    const pilhas = [nicho.tema.fonte_titulo, nicho.tema.fonte_texto].flatMap(separarPilha).map((nome) => nome.toLowerCase());
+    nicho.tema.fontes.forEach((f, i) => {
+      if (!pilhas.includes(f.familia.toLowerCase())) {
+        ctx.addIssue({ code: 'custom', path: ['tema', 'fontes', i, 'familia'], message: `"${f.familia}" não aparece em fonte_titulo nem em fonte_texto` });
+      }
+    });
     const precisaEndereco = nicho.secoes.some((s) => s.tipo === 'mapa' && !s.embed_url);
     if (precisaEndereco && !nicho.contato.endereco) {
       ctx.addIssue({ code: 'custom', path: ['contato', 'endereco'], message: 'a seção mapa precisa de embed_url ou de contato.endereco' });
