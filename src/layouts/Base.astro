@@ -95,8 +95,12 @@ const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
 
     {
       nicho.demo && (
-        <aside aria-label="Aviso de demonstração" class="bg-texto px-4 py-2 text-center text-sm text-fundo">
-          <p>
+        <aside aria-label="Aviso de demonstração" class="bg-texto px-4 py-1.5 text-center text-xs text-fundo sm:py-2 sm:text-sm">
+          {/* One line on phones; the full notice from sm up. */}
+          <p class="sm:hidden">
+            <strong>Demonstração</strong> · dados fictícios
+          </p>
+          <p class="hidden sm:block">
             <strong>Site de demonstração.</strong> Nomes, fotos e contatos são fictícios.
           </p>
         </aside>
