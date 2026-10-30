@@ -186,6 +186,34 @@
 }
 
 /*
+  Scroll reveal: the inline script in Base.astro adds .revelar (hidden) and then .revelado when
+  the element scrolls in. The animation fills backwards only, so once it ends the element's own
+  transitions (hover, focus) work as usual. Focus inside a hidden block shows it at once.
+*/
+@keyframes revelar {
+  from {
+    opacity: 0;
+    translate: 0 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .revelar:not(.revelado):not(:focus-within) {
+    opacity: 0;
+  }
+
+  .revelado {
+    animation: revelar 600ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--i, 0) * 70ms) backwards;
+  }
+}
+
+@media print {
+  .revelar {
+    opacity: 1 !important;
+  }
+}
+
+/*
   WhatsApp shortcut (BotaoWhatsApp.astro): the inline script sets data-oculto while the hero
   is on screen. visibility: hidden also takes the links out of the tab order and the a11y tree.
 */

@@ -12,7 +12,7 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
 <section id={ancoraSecao(secao)} class="secao" aria-labelledby={idTitulo}>
   <div class="container-site">
     <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
-    <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-revelar-grupo>
       {
         secao.itens.map((item) => (
           <li>

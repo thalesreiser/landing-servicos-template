@@ -14,7 +14,7 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
   <div class="container-site">
     <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
     {secao.subtitulo && <p class="mt-4 max-w-2xl text-lg text-texto-suave">{secao.subtitulo}</p>}
-    <ul class="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+    <ul class="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3" data-revelar-grupo>
       {
         secao.itens.map((item) => (
           // Phones: icon beside the text, so each card is shorter. From sm: icon on top.

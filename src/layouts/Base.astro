@@ -3,6 +3,7 @@ import { Font, type CssVariable } from 'astro:assets';
 import '../styles/global.css';
 import AvisoCookies from '../components/AvisoCookies.astro';
 import Icone from '../components/Icone.astro';
+import Revelar from '../components/Revelar.astro';
 import { temRastreamento } from '../lib/consentimento.ts';
 import { pilhaComFontes, variavelFonte } from '../lib/fontes.ts';
 import { ancoraSecao, type Nicho } from '../lib/schema.ts';
@@ -145,5 +146,6 @@ const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
       <slot />
     </main>
     <slot name="depois" />
+    {tema.animacoes === 'sutil' && <Revelar />}
   </body>
 </html>
