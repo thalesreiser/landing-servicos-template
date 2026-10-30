@@ -29,6 +29,7 @@
   "contato": {
     "whatsapp": "5500900000000",
     "mensagem_whatsapp": "Olá! Gostaria de agendar uma avaliação de fisioterapia.",
+    "rotulo_cabecalho": "Agendar avaliação",
     "email": "contato@example.com",
     "telefone": "(00) 0000-0000",
     "endereco": {
@@ -69,13 +70,36 @@
       "titulo": "Serviços",
       "subtitulo": "Sessões individuais de 50 minutos, com exercícios e orientações para fazer em casa.",
       "itens": [
-        { "icone": "atividade", "titulo": "Ortopédica e traumatológica", "descricao": "Reabilitação após fraturas, cirurgias e lesões de joelho, ombro, coluna e tornozelo." },
-        { "icone": "estrela", "titulo": "Esportiva", "descricao": "Tratamento de lesões do esporte e preparo para o retorno aos treinos." },
-        { "icone": "pessoas", "titulo": "Neurológica", "descricao": "Atendimento a pessoas após AVC, com doença de Parkinson e outras condições neurológicas." },
-        { "icone": "coracao", "titulo": "Pilates clínico", "descricao": "Exercícios em aparelhos e no solo, com turmas de até três pessoas." },
-        { "icone": "check", "titulo": "Postura e coluna", "descricao": "Avaliação postural e exercícios para dores na coluna ligadas à rotina e ao trabalho." },
+        { "icone": "osso", "titulo": "Ortopédica e traumatológica", "descricao": "Reabilitação após fraturas, cirurgias e lesões de joelho, ombro, coluna e tornozelo." },
+        { "icone": "corrida", "titulo": "Esportiva", "descricao": "Tratamento de lesões do esporte e preparo para o retorno aos treinos." },
+        { "icone": "cerebro", "titulo": "Neurológica", "descricao": "Atendimento a pessoas após AVC, com doença de Parkinson e outras condições neurológicas." },
+        { "icone": "mao", "titulo": "Pilates clínico", "descricao": "Exercícios em aparelhos e no solo, com turmas de até três pessoas." },
+        { "icone": "coluna", "titulo": "Postura e coluna", "descricao": "Avaliação postural e exercícios para dores na coluna ligadas à rotina e ao trabalho." },
         { "icone": "casa", "titulo": "Atendimento domiciliar", "descricao": "Sessões na casa do paciente, para quem tem dificuldade de se deslocar." }
       ]
+    },
+    {
+      "tipo": "convenios",
+      "menu": "Convênios",
+      "titulo": "Convênios",
+      "texto": "Atendemos pelos convênios abaixo e também no particular, com recibo para pedir reembolso ao seu plano.",
+      "itens": ["Convênio Alfa", "Convênio Beta", "Convênio Gama", "Convênio Delta", "Particular com recibo"]
+    },
+    {
+      "tipo": "como_funciona",
+      "fundo": "primaria",
+      "menu": "Como funciona",
+      "titulo": "Como funciona",
+      "passos": [
+        { "titulo": "Agendamento", "descricao": "Você escolhe o horário que preferir, pelo WhatsApp ou pelo formulário." },
+        { "titulo": "Avaliação", "descricao": "Na primeira sessão, a fisioterapeuta avalia a sua queixa, o histórico e os exames que você trouxer." },
+        { "titulo": "Plano de tratamento", "descricao": "Você recebe os objetivos, a frequência indicada e os exercícios para casa." },
+        { "titulo": "Reavaliação", "descricao": "A cada etapa, o plano é revisto com você e ajustado conforme a evolução." }
+      ],
+      "chamada": {
+        "texto": "O primeiro passo é a avaliação. Escolha o horário pelo WhatsApp.",
+        "acao": { "tipo": "whatsapp", "texto": "Agendar avaliação" }
+      }
     },
     {
       "tipo": "sobre",
@@ -95,25 +119,6 @@
         { "nome": "Camila Rocha", "cargo": "Fisioterapeuta", "registro": "CREFITO-3/000001-F", "bio": "Fisioterapia neurológica e atendimento domiciliar." },
         { "nome": "Bruno Tavares", "cargo": "Fisioterapeuta", "registro": "CREFITO-3/000002-F", "bio": "Pilates clínico e postura." }
       ]
-    },
-    {
-      "tipo": "como_funciona",
-      "fundo": "primaria",
-      "menu": "Como funciona",
-      "titulo": "Como funciona",
-      "passos": [
-        { "titulo": "Agendamento", "descricao": "Você escolhe o horário que preferir, pelo WhatsApp ou pelo formulário." },
-        { "titulo": "Avaliação", "descricao": "Na primeira sessão, a fisioterapeuta avalia a sua queixa, o histórico e os exames que você trouxer." },
-        { "titulo": "Plano de tratamento", "descricao": "Você recebe os objetivos, a frequência indicada e os exercícios para casa." },
-        { "titulo": "Reavaliação", "descricao": "A cada etapa, o plano é revisto com você e ajustado conforme a evolução." }
-      ]
-    },
-    {
-      "tipo": "convenios",
-      "menu": "Convênios",
-      "titulo": "Convênios",
-      "texto": "Atendemos pelos convênios abaixo e também no particular, com recibo para pedir reembolso ao seu plano.",
-      "itens": ["Convênio Alfa", "Convênio Beta", "Convênio Gama", "Convênio Delta", "Particular com recibo"]
     },
     {
       "tipo": "depoimentos",
@@ -136,7 +141,11 @@
         { "pergunta": "Vocês atendem em casa?", "resposta": "Sim, na Vila Mariana e nos bairros próximos. Consulte a disponibilidade pelo WhatsApp." },
         { "pergunta": "O que devo levar na avaliação?", "resposta": "Exames e relatórios que tiver, a carteirinha do convênio e roupa confortável." },
         { "pergunta": "Como desmarco uma sessão?", "resposta": "Pelo WhatsApp, com pelo menos 24 horas de antecedência, para liberar o horário a outro paciente." }
-      ]
+      ],
+      "chamada": {
+        "texto": "Não encontrou a sua dúvida? Pergunte pelo WhatsApp.",
+        "acao": { "tipo": "whatsapp", "texto": "Enviar dúvida pelo WhatsApp", "mensagem": "Olá! Tenho uma dúvida sobre o atendimento da clínica." }
+      }
     },
     {
       "tipo": "formulario",

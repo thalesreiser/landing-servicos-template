@@ -1,11 +1,13 @@
 ---
-import { ancoraSecao, type SecaoDo } from '../lib/schema.ts';
+import Chamada from './Chamada.astro';
+import { ancoraSecao, type Nicho, type SecaoDo } from '../lib/schema.ts';
 
 interface Props {
   secao: SecaoDo<'como_funciona'>;
+  nicho: Nicho;
 }
 
-const { secao } = Astro.props;
+const { secao, nicho } = Astro.props;
 const idTitulo = `${ancoraSecao(secao)}-titulo`;
 ---
 
@@ -13,24 +15,32 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
   <div class="container-site">
     <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
     {secao.subtitulo && <p class="mt-4 max-w-2xl text-lg text-texto-suave">{secao.subtitulo}</p>}
-    <ol class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+    {/* A timeline, not cards: vertical on phones and tablets, one row from lg (any number of steps). */}
+    <ol class="mt-10 grid lg:auto-cols-fr lg:grid-flow-col lg:gap-8">
       {
         secao.passos.map((passo, i) => (
-          <li class="cartao relative">
+          <li class="relative pb-8 pl-16 last:pb-0 lg:pb-0 lg:pl-0">
             <span
-              class="flex size-10 items-center justify-center rounded-full border-2 border-destaque font-semibold text-destaque"
+              class="absolute top-0 left-0 flex size-10 items-center justify-center rounded-full border-2 border-destaque font-semibold text-destaque lg:static"
               aria-hidden="true"
             >
               {i + 1}
             </span>
-            <h3 class="mt-4 text-lg font-semibold">
+            {i < secao.passos.length - 1 && (
+              <span
+                class="absolute top-12 bottom-2 left-5 w-px bg-texto/20 lg:top-5 lg:bottom-auto lg:left-14 lg:-right-4 lg:h-px lg:w-auto"
+                aria-hidden="true"
+              />
+            )}
+            <h3 class="pt-1.5 text-lg font-semibold lg:mt-4 lg:pt-0">
               <span class="sr-only">Passo {i + 1}: </span>
               {passo.titulo}
             </h3>
-            <p class="mt-2 text-texto-suave">{passo.descricao}</p>
+            <p class="mt-2 max-w-prose text-texto-suave">{passo.descricao}</p>
           </li>
         ))
       }
     </ol>
+    {secao.chamada && <Chamada chamada={secao.chamada} contato={nicho.contato} />}
   </div>
 </section>

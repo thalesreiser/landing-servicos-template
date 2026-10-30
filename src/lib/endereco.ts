@@ -17,3 +17,8 @@ export function formatarEndereco(endereco: Endereco): string {
 export function urlMapa(endereco: Endereco): string {
   return `https://www.google.com/maps?q=${encodeURIComponent(formatarEndereco(endereco))}&output=embed`;
 }
+
+/** Google Maps search link (opens the app on phones), for the "Abrir no Google Maps" button. */
+export function urlAbrirMapa(endereco: Endereco): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(formatarEndereco(endereco))}`;
+}

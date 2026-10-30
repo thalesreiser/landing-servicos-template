@@ -1,5 +1,6 @@
 ---
 import Imagem from './Imagem.astro';
+import { iniciais } from '../lib/iniciais.ts';
 import { ancoraSecao, type SecaoDo } from '../lib/schema.ts';
 
 interface Props {
@@ -8,19 +9,37 @@ interface Props {
 
 const { secao } = Astro.props;
 const idTitulo = `${ancoraSecao(secao)}-titulo`;
+// Without an image, the records take the right column on desktop instead of sitting under the text.
+const registrosAoLado = !secao.imagem && (secao.registros?.length ?? 0) > 0;
+const equipe = secao.equipe ?? [];
+// Team grid follows the head count, so two people never leave an empty third column.
+const gradeEquipe =
+  equipe.length === 1
+    ? 'max-w-md'
+    : equipe.length === 2
+      ? 'max-w-4xl sm:grid-cols-2'
+      : equipe.length === 4
+        ? 'sm:grid-cols-2 lg:grid-cols-4'
+        : 'sm:grid-cols-2 lg:grid-cols-3';
 ---
 
 <section id={ancoraSecao(secao)} class="secao" aria-labelledby={idTitulo}>
   <div class="container-site">
-    <div class:list={['grid items-center gap-10', secao.imagem && 'lg:grid-cols-2']}>
+    <div
+      class:list={[
+        'grid gap-10',
+        secao.imagem ? 'items-center lg:grid-cols-2' : 'items-start',
+        registrosAoLado && 'lg:grid-cols-[3fr_2fr] lg:gap-16',
+      ]}
+    >
       {secao.imagem && <Imagem imagem={secao.imagem} class="aspect-[4/5] w-full rounded-cartao object-cover lg:order-last" />}
       <div>
         <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
-        <div class="mt-6 space-y-4 text-lg text-texto-suave">
+        <div class="mt-6 max-w-[60ch] space-y-4 text-lg text-texto-suave">
           {secao.paragrafos.map((paragrafo) => <p>{paragrafo}</p>)}
         </div>
         {
-          secao.registros && (
+          secao.registros && !registrosAoLado && (
             <dl class="mt-8 grid gap-4 sm:grid-cols-2">
               {secao.registros.map((registro) => (
                 <div class="cartao cartao-compacto">
@@ -32,22 +51,52 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
           )
         }
       </div>
+      {
+        registrosAoLado && (
+          <dl class="grid gap-4 sm:grid-cols-2 lg:mt-20 lg:grid-cols-1">
+            {secao.registros!.map((registro) => (
+              <div class="cartao cartao-compacto">
+                <dt class="text-sm text-texto-suave">{registro.rotulo}</dt>
+                <dd class="mt-1 font-semibold">{registro.valor}</dd>
+              </div>
+            ))}
+          </dl>
+        )
+      }
     </div>
 
     {
-      secao.equipe && (
-        <ul class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {secao.equipe.map((pessoa) => (
-            <li class="cartao text-center">
-              {pessoa.foto && (
+      equipe.length > 0 && (
+        <ul class:list={['mt-14 grid gap-6 sm:gap-8', gradeEquipe]}>
+          {equipe.map((pessoa) =>
+            pessoa.foto ? (
+              <li class="cartao text-center">
                 <Imagem imagem={pessoa.foto} sizes="8rem" larguras={[128, 256, 384]} class="mx-auto size-32 rounded-full object-cover" />
-              )}
-              <h3 class="mt-4 text-xl font-semibold">{pessoa.nome}</h3>
-              <p class="text-primaria">{pessoa.cargo}</p>
-              {pessoa.registro && <p class="mt-1 text-sm text-texto-suave">{pessoa.registro}</p>}
-              {pessoa.bio && <p class="mt-3 text-texto-suave">{pessoa.bio}</p>}
-            </li>
-          ))}
+                <h3 class="mt-4 text-xl font-semibold">{pessoa.nome}</h3>
+                <p class="text-destaque">{pessoa.cargo}</p>
+                {pessoa.registro && <p class="mt-1 text-sm text-texto-suave tabular-nums">{pessoa.registro}</p>}
+                {pessoa.bio && <p class="mt-3 text-texto-suave">{pessoa.bio}</p>}
+              </li>
+            ) : (
+              // No photo: a typographic monogram with the initials, aligned to the left.
+              <li class="cartao">
+                <div class="flex items-center gap-4">
+                  <span
+                    class="grid size-14 shrink-0 place-items-center rounded-cartao bg-primaria font-titulo text-xl font-semibold text-primaria-contraste"
+                    aria-hidden="true"
+                  >
+                    {iniciais(pessoa.nome)}
+                  </span>
+                  <div>
+                    <h3 class="text-xl font-semibold">{pessoa.nome}</h3>
+                    <p class="text-destaque">{pessoa.cargo}</p>
+                  </div>
+                </div>
+                {pessoa.registro && <p class="mt-4 text-sm text-texto-suave tabular-nums">{pessoa.registro}</p>}
+                {pessoa.bio && <p class="mt-2 text-texto-suave">{pessoa.bio}</p>}
+              </li>
+            ),
+          )}
         </ul>
       )
     }

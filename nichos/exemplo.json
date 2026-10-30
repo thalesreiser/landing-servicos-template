@@ -83,7 +83,11 @@
         { "titulo": "Conversa inicial", "descricao": "Entendemos o seu caso e tiramos as primeiras dúvidas." },
         { "titulo": "Proposta", "descricao": "Você recebe escopo, prazo e valores por escrito." },
         { "titulo": "Início", "descricao": "Com tudo combinado, o trabalho começa." }
-      ]
+      ],
+      "chamada": {
+        "texto": "Chamada opcional ao fim da seção, com texto e botão.",
+        "acao": { "tipo": "link", "texto": "Ir para o formulário", "href": "#contato" }
+      }
     },
     {
       "tipo": "depoimentos",
@@ -108,7 +112,11 @@
       "itens": [
         { "pergunta": "Como faço para agendar?", "resposta": "Pelo WhatsApp ou pelo formulário desta página." },
         { "pergunta": "Atende on-line?", "resposta": "Sim, por videochamada." }
-      ]
+      ],
+      "chamada": {
+        "texto": "Não encontrou a sua dúvida?",
+        "acao": { "tipo": "whatsapp", "texto": "Perguntar pelo WhatsApp", "mensagem": "Olá! Tenho uma dúvida." }
+      }
     },
     {
       "tipo": "formulario",

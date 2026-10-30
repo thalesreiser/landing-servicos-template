@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { formatarEndereco, urlMapa } from '../src/lib/endereco.ts';
+import { formatarEndereco, urlAbrirMapa, urlMapa } from '../src/lib/endereco.ts';
 
 const endereco = { logradouro: 'Rua A, 10', bairro: 'Centro', cidade: 'São Paulo', uf: 'SP', cep: '01000-000' };
 
@@ -17,4 +17,11 @@ test('builds a keyless Google Maps embed URL', () => {
   assert.equal(url.origin + url.pathname, 'https://www.google.com/maps');
   assert.equal(url.searchParams.get('q'), 'Rua A, 10 - Centro, São Paulo/SP, 01000-000');
   assert.equal(url.searchParams.get('output'), 'embed');
+});
+
+test('builds a Google Maps search link for the address', () => {
+  const url = new URL(urlAbrirMapa(endereco));
+  assert.equal(url.origin + url.pathname, 'https://www.google.com/maps/search/');
+  assert.equal(url.searchParams.get('api'), '1');
+  assert.equal(url.searchParams.get('query'), 'Rua A, 10 - Centro, São Paulo/SP, 01000-000');
 });

@@ -63,7 +63,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | `demo`         | `true` mostra o aviso "site de demonstração" e marca a página `noindex`  |
 | `site`         | nome, título e descrição (SEO); `url` (endereço de produção) e `schema_tipo` (tipo schema.org), veja [SEO](#seo) |
 | `tema`         | cores (hexadecimal), fontes e forma, veja [Fontes](#fontes) e [Forma](#forma-raio-e-cartões). `cor_destaque` é a assinatura do nicho: filete acima dos títulos, números dos passos, aspas dos depoimentos e marcadores dos convênios |
-| `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário |
+| `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário; `rotulo_cabecalho` é o texto do botão de WhatsApp do cabeçalho (padrão "WhatsApp"; no celular, ele some quando a página tem a barra do `botao_whatsapp`) |
 | `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais; `aviso_cookies` (textos do aviso), veja [Rastreamento](#rastreamento-e-cookies) |
 | `revisao`      | `termos_vetados`: palavras que os textos nunca podem usar; os testes reprovam o nicho se alguma aparecer |
 | `publicacao`   | `cloudflare_projeto`: projeto da Cloudflare Pages; sem ele, o nicho só é compilado no CI |
@@ -78,6 +78,11 @@ Cada item de `secoes` tem um `tipo` (`hero`, `servicos`, `sobre`, `como_funciona
 - `fundo`: `fundo`, `superficie` ou `primaria`, veja [Fundos das seções](#fundos-das-seções)
 
 `nichos/exemplo.json` liga todas as seções e serve de referência.
+
+Ícones aceitos em `servicos.itens[].icone` (desenhos em `src/lib/icones.ts`): `balanca`, `maleta`,
+`casa`, `pessoas`, `documento`, `escudo`, `coracao`, `atividade`, `calendario`, `relogio`, `celular`,
+`email`, `local`, `check`, `mensagem`, `estrela` e, para a área de saúde, `osso`, `corrida`,
+`cerebro`, `coluna` e `mao`. No celular, o ícone fica à esquerda do texto, para o cartão ser mais baixo.
 
 ### Forma (raio e cartões)
 
@@ -119,6 +124,19 @@ Sem `imagem`, eles ocupam um painel à direita do título no desktop e viram eti
 dos botões no celular (só os 3 primeiros). Com `imagem`, a foto fica à direita e todos os
 destaques aparecem como etiquetas abaixo dos botões. Use só fatos verificáveis: os textos
 passam pelo teste de termos vetados como qualquer outro.
+
+### Chamadas no meio da página
+
+`como_funciona` e `faq` aceitam `chamada` (opcional): uma linha de texto e um botão ao fim da
+seção, para o visitante não precisar rolar até o formulário. A `acao` é a mesma do hero
+(`whatsapp`, com `mensagem` opcional, ou `link`):
+
+```json
+"chamada": {
+  "texto": "Não encontrou a sua dúvida? Pergunte pelo WhatsApp.",
+  "acao": { "tipo": "whatsapp", "texto": "Enviar dúvida pelo WhatsApp", "mensagem": "Olá! Tenho uma dúvida." }
+}
+```
 
 ### Regras de conteúdo e acessibilidade
 
@@ -285,9 +303,9 @@ rode o `gh secret set` de novo e revogue o antigo.
 3. Preencha o JSON: `site` (nome, título, descrição), `tema` (cores e fontes), `contato`,
    `rastreamento` (se houver), `revisao.termos_vetados` (termos proibidos pelo conselho) e
    o conteúdo de cada item de `secoes`. Desligue com `ativo: false` o que o cliente não quer.
-4. Imagens em `public/img/<nicho>/`, referenciadas no JSON pelo caminho a partir de
-   `public/` (ex.: `/img/clinica-sorriso/equipe.jpg`), com `alt`, `largura` e `altura`.
-   Essa convenção pode mudar com o trabalho em andamento de otimização de imagens.
+4. Imagens em `src/assets/nichos/<nicho>/`, referenciadas no JSON pelo caminho relativo a
+   essa pasta (ex.: `"src": "equipe.jpg"`), sempre com `alt`. Largura e altura vêm do
+   próprio arquivo; o build gera as versões otimizadas (veja [Imagens](#imagens)).
 5. Rode `npm test`: o nicho novo passa pelo schema, pelo teste de contraste (4,5:1) e pelo
    de termos vetados. Depois, `NICHO=clinica-sorriso npm run build`.
 6. Para publicar, acrescente `"publicacao": { "cloudflare_projeto": "<projeto>" }` e o

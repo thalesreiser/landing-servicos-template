@@ -23,7 +23,7 @@ entendidos pelos dois lados.
 
 | Pergunta | Campo |
 | --- | --- |
-| Tem logotipo? Em quais formatos (SVG, PNG com fundo transparente)? | `public/img/<nicho>/` |
+| Tem logotipo? Em quais formatos (SVG, PNG com fundo transparente)? | `src/assets/nichos/<nicho>/` (o template ainda não exibe logotipo: o cabeçalho mostra `site.nome` em texto) |
 | Quais são as cores da marca (códigos, se houver manual)? | `tema.cor_primaria`, `tema.cor_destaque` |
 | Prefere um visual claro e sóbrio ou mais colorido? | `tema.cor_fundo`, `tema.cor_superficie`, `tema.cor_texto` |
 | Usa alguma fonte da marca? | `tema.fonte_titulo`, `tema.fonte_texto`, `tema.fontes` |
@@ -126,7 +126,9 @@ profissional.
 - "Especialista" só com título de especialização comprovado; prefira "áreas de atuação".
 - Evite descrever a estrutura do escritório como diferencial ("amplo", "moderno").
 - **Pedir** o nome e o número de inscrição na OAB de cada advogado (e o registro da
-  sociedade, se houver): o anúncio precisa identificá-los.
+  sociedade, se houver): o anúncio precisa identificá-los. Basta publicar uma vez, no perfil
+  de cada advogado (`equipe[].registro`); não repita o número no hero, nos registros da
+  seção "sobre" nem no rodapé.
 - Tom informativo e sóbrio: o site informa áreas de atuação e como entrar em contato.
 
 ### Fisioterapia (COFFITO, Resolução 532/2021)
