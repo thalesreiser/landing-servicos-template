@@ -107,7 +107,11 @@
         { "titulo": "Avaliação", "descricao": "Na primeira sessão, a fisioterapeuta avalia a sua queixa, o histórico e os exames que você trouxer." },
         { "titulo": "Plano de tratamento", "descricao": "Você recebe os objetivos, a frequência indicada e os exercícios para casa." },
         { "titulo": "Reavaliação", "descricao": "A cada etapa, o plano é revisto com você e ajustado conforme a evolução." }
-      ]
+      ],
+      "chamada": {
+        "texto": "O primeiro passo é a avaliação. Escolha o horário pelo WhatsApp.",
+        "acao": { "tipo": "whatsapp", "texto": "Agendar avaliação" }
+      }
     },
     {
       "tipo": "convenios",
@@ -137,7 +141,11 @@
         { "pergunta": "Vocês atendem em casa?", "resposta": "Sim, na Vila Mariana e nos bairros próximos. Consulte a disponibilidade pelo WhatsApp." },
         { "pergunta": "O que devo levar na avaliação?", "resposta": "Exames e relatórios que tiver, a carteirinha do convênio e roupa confortável." },
         { "pergunta": "Como desmarco uma sessão?", "resposta": "Pelo WhatsApp, com pelo menos 24 horas de antecedência, para liberar o horário a outro paciente." }
-      ]
+      ],
+      "chamada": {
+        "texto": "Não encontrou a sua dúvida? Pergunte pelo WhatsApp.",
+        "acao": { "tipo": "whatsapp", "texto": "Enviar dúvida pelo WhatsApp", "mensagem": "Olá! Tenho uma dúvida sobre o atendimento da clínica." }
+      }
     },
     {
       "tipo": "formulario",

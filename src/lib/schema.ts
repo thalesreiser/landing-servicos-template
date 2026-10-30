@@ -39,6 +39,9 @@ const acao = z.discriminatedUnion('tipo', [
   z.object({ tipo: z.literal('link'), texto: z.string(), href: z.string() }),
 ]);
 
+// Call to action at the end of a section (como_funciona, faq): an optional line of text and a button.
+const chamada = z.object({ texto: z.string().optional(), acao });
+
 // Fields every section accepts: `id` is the anchor (defaults to the type),
 // `menu` adds the section to the header nav, `ativo: false` hides it and `fundo`
 // fixes its background (otherwise the light backgrounds alternate, see src/lib/tema.ts).
@@ -96,6 +99,7 @@ const comoFunciona = z.object({
   titulo: z.string(),
   subtitulo: z.string().optional(),
   passos: z.array(z.object({ titulo: z.string(), descricao: z.string() })).min(1),
+  chamada: chamada.optional(),
 });
 
 const depoimentos = z.object({
@@ -120,6 +124,7 @@ const faq = z.object({
   tipo: z.literal('faq'),
   titulo: z.string(),
   itens: z.array(z.object({ pergunta: z.string(), resposta: z.string() })).min(1),
+  chamada: chamada.optional(),
 });
 
 const campo = z.object({
@@ -300,6 +305,7 @@ export type Nicho = z.output<typeof nichoSchema>;
 export type Secao = Nicho['secoes'][number];
 export type SecaoDo<T extends Secao['tipo']> = Extract<Secao, { tipo: T }>;
 export type Acao = z.output<typeof acao>;
+export type Chamada = z.output<typeof chamada>;
 export type Imagem = z.output<typeof imagem>;
 
 /** Anchor id of a section: its `id`, or its type in kebab-case. */

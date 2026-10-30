@@ -109,3 +109,12 @@ test('header WhatsApp button label defaults to "WhatsApp"', () => {
   nicho.contato.rotulo_cabecalho = 'Agendar';
   assert.equal(nichoSchema.parse(nicho).contato.rotulo_cabecalho, 'Agendar');
 });
+
+test('como_funciona and faq accept an end-of-section call to action', () => {
+  const nicho = exemplo();
+  const faq = nicho.secoes.find((s) => s.tipo === 'faq')!;
+  faq.chamada = { acao: { tipo: 'link', texto: 'Contato', href: '#contato' } };
+  assert.equal(nichoSchema.safeParse(nicho).success, true);
+  faq.chamada = { texto: 'Sem botão' };
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+});

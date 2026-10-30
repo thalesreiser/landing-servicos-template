@@ -134,7 +134,11 @@
         { "titulo": "Reunião de análise", "descricao": "Conversa presencial ou por videochamada para entender o caso e os documentos disponíveis." },
         { "titulo": "Proposta por escrito", "descricao": "Você recebe o escopo do trabalho, as etapas previstas e as condições de contratação." },
         { "titulo": "Acompanhamento", "descricao": "Atualizações a cada movimentação relevante, por um canal direto com o advogado responsável." }
-      ]
+      ],
+      "chamada": {
+        "texto": "Para começar, envie uma mensagem com um breve resumo da situação.",
+        "acao": { "tipo": "whatsapp", "texto": "Agendar atendimento" }
+      }
     },
     {
       "tipo": "faq",
@@ -147,7 +151,11 @@
         { "pergunta": "Vocês atendem fora de São Paulo?", "resposta": "Sim, conforme o caso. Com o processo eletrônico, é possível atuar em processos de outras cidades e estados." },
         { "pergunta": "Como acompanho o andamento do meu caso?", "resposta": "Você recebe atualizações a cada movimentação relevante e pode falar diretamente com o advogado responsável." },
         { "pergunta": "As informações que eu enviar ficam em sigilo?", "resposta": "Sim. Elas são protegidas pelo sigilo profissional previsto no Estatuto da Advocacia e tratadas conforme a Lei Geral de Proteção de Dados." }
-      ]
+      ],
+      "chamada": {
+        "texto": "Não encontrou a sua dúvida? Pergunte ao escritório pelo WhatsApp.",
+        "acao": { "tipo": "whatsapp", "texto": "Enviar dúvida pelo WhatsApp", "mensagem": "Olá! Tenho uma dúvida sobre o atendimento do escritório." }
+      }
     },
     {
       "tipo": "formulario",

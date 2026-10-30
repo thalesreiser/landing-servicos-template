@@ -1,11 +1,13 @@
 ---
-import { ancoraSecao, type SecaoDo } from '../lib/schema.ts';
+import Chamada from './Chamada.astro';
+import { ancoraSecao, type Nicho, type SecaoDo } from '../lib/schema.ts';
 
 interface Props {
   secao: SecaoDo<'faq'>;
+  nicho: Nicho;
 }
 
-const { secao } = Astro.props;
+const { secao, nicho } = Astro.props;
 const idTitulo = `${ancoraSecao(secao)}-titulo`;
 ---
 
@@ -31,5 +33,6 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
         ))
       }
     </div>
+    {secao.chamada && <Chamada chamada={secao.chamada} contato={nicho.contato} />}
   </div>
 </section>

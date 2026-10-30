@@ -1,0 +1,19 @@
+---
+import { atributosAcao } from '../lib/acao.ts';
+import type { Chamada, Nicho } from '../lib/schema.ts';
+
+interface Props {
+  chamada: Chamada;
+  contato: Nicho['contato'];
+}
+
+const { chamada, contato } = Astro.props;
+---
+
+{/* Mid-page call to action, so visitors do not have to scroll to the form. */}
+<div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+  {chamada.texto && <p class="max-w-xl text-lg text-texto-suave">{chamada.texto}</p>}
+  <a {...atributosAcao(chamada.acao, contato)} class="botao-primario shrink-0">
+    {chamada.acao.texto}
+  </a>
+</div>

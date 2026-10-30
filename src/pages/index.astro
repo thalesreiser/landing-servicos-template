@@ -40,13 +40,13 @@ const classesFundo = { fundo: 'fundo-fundo', superficie: 'fundo-superficie', pri
             case 'sobre':
               return <Sobre secao={secao} />;
             case 'como_funciona':
-              return <ComoFunciona secao={secao} />;
+              return <ComoFunciona secao={secao} nicho={nicho} />;
             case 'depoimentos':
               return <Depoimentos secao={secao} />;
             case 'convenios':
               return <Convenios secao={secao} />;
             case 'faq':
-              return <FAQ secao={secao} />;
+              return <FAQ secao={secao} nicho={nicho} />;
             case 'formulario':
               return <Formulario secao={secao} nicho={nicho} />;
             case 'mapa':

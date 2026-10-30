@@ -125,6 +125,19 @@ dos botões no celular (só os 3 primeiros). Com `imagem`, a foto fica à direit
 destaques aparecem como etiquetas abaixo dos botões. Use só fatos verificáveis: os textos
 passam pelo teste de termos vetados como qualquer outro.
 
+### Chamadas no meio da página
+
+`como_funciona` e `faq` aceitam `chamada` (opcional): uma linha de texto e um botão ao fim da
+seção, para o visitante não precisar rolar até o formulário. A `acao` é a mesma do hero
+(`whatsapp`, com `mensagem` opcional, ou `link`):
+
+```json
+"chamada": {
+  "texto": "Não encontrou a sua dúvida? Pergunte pelo WhatsApp.",
+  "acao": { "tipo": "whatsapp", "texto": "Enviar dúvida pelo WhatsApp", "mensagem": "Olá! Tenho uma dúvida." }
+}
+```
+
 ### Regras de conteúdo e acessibilidade
 
 Os testes rodam sobre todos os nichos:
