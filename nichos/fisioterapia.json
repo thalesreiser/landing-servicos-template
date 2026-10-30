@@ -70,11 +70,11 @@
       "titulo": "Serviços",
       "subtitulo": "Sessões individuais de 50 minutos, com exercícios e orientações para fazer em casa.",
       "itens": [
-        { "icone": "atividade", "titulo": "Ortopédica e traumatológica", "descricao": "Reabilitação após fraturas, cirurgias e lesões de joelho, ombro, coluna e tornozelo." },
-        { "icone": "estrela", "titulo": "Esportiva", "descricao": "Tratamento de lesões do esporte e preparo para o retorno aos treinos." },
-        { "icone": "pessoas", "titulo": "Neurológica", "descricao": "Atendimento a pessoas após AVC, com doença de Parkinson e outras condições neurológicas." },
-        { "icone": "coracao", "titulo": "Pilates clínico", "descricao": "Exercícios em aparelhos e no solo, com turmas de até três pessoas." },
-        { "icone": "check", "titulo": "Postura e coluna", "descricao": "Avaliação postural e exercícios para dores na coluna ligadas à rotina e ao trabalho." },
+        { "icone": "osso", "titulo": "Ortopédica e traumatológica", "descricao": "Reabilitação após fraturas, cirurgias e lesões de joelho, ombro, coluna e tornozelo." },
+        { "icone": "corrida", "titulo": "Esportiva", "descricao": "Tratamento de lesões do esporte e preparo para o retorno aos treinos." },
+        { "icone": "cerebro", "titulo": "Neurológica", "descricao": "Atendimento a pessoas após AVC, com doença de Parkinson e outras condições neurológicas." },
+        { "icone": "mao", "titulo": "Pilates clínico", "descricao": "Exercícios em aparelhos e no solo, com turmas de até três pessoas." },
+        { "icone": "coluna", "titulo": "Postura e coluna", "descricao": "Avaliação postural e exercícios para dores na coluna ligadas à rotina e ao trabalho." },
         { "icone": "casa", "titulo": "Atendimento domiciliar", "descricao": "Sessões na casa do paciente, para quem tem dificuldade de se deslocar." }
       ]
     },

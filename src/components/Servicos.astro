@@ -14,15 +14,18 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
   <div class="container-site">
     <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
     {secao.subtitulo && <p class="mt-4 max-w-2xl text-lg text-texto-suave">{secao.subtitulo}</p>}
-    <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <ul class="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
       {
         secao.itens.map((item) => (
-          <li class="cartao">
-            <span class="cartao-icone">
+          // Phones: icon beside the text, so each card is shorter. From sm: icon on top.
+          <li class="cartao flex items-start gap-4 sm:block">
+            <span class="cartao-icone shrink-0">
               <Icone nome={item.icone} />
             </span>
-            <h3 class="mt-4 text-xl font-semibold">{item.titulo}</h3>
-            <p class="mt-2 text-texto-suave">{item.descricao}</p>
+            <div>
+              <h3 class="text-lg font-semibold sm:mt-4 sm:text-xl">{item.titulo}</h3>
+              <p class="mt-1 text-[15px] leading-6 text-texto-suave sm:mt-2 sm:text-base">{item.descricao}</p>
+            </div>
           </li>
         ))
       }

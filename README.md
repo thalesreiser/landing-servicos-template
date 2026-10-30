@@ -79,6 +79,11 @@ Cada item de `secoes` tem um `tipo` (`hero`, `servicos`, `sobre`, `como_funciona
 
 `nichos/exemplo.json` liga todas as seções e serve de referência.
 
+Ícones aceitos em `servicos.itens[].icone` (desenhos em `src/lib/icones.ts`): `balanca`, `maleta`,
+`casa`, `pessoas`, `documento`, `escudo`, `coracao`, `atividade`, `calendario`, `relogio`, `celular`,
+`email`, `local`, `check`, `mensagem`, `estrela` e, para a área de saúde, `osso`, `corrida`,
+`cerebro`, `coluna` e `mao`. No celular, o ícone fica à esquerda do texto, para o cartão ser mais baixo.
+
 ### Forma (raio e cartões)
 
 Dois campos opcionais de `tema` dão a cada nicho uma forma própria, além das cores e fontes:
