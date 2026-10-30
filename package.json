@@ -11,6 +11,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "node --test \"tests/**/*.test.ts\"",
+    "novo-nicho": "node scripts/novo-nicho.ts",
     "astro": "astro"
   },
   "dependencies": {

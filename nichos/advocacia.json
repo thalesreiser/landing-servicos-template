@@ -11,14 +11,17 @@
   "tema": {
     "cor_primaria": "#1E3A5F",
     "cor_primaria_contraste": "#FFFFFF",
-    "cor_destaque": "#8A6D3B",
+    "cor_destaque": "#7A5F2E",
     "cor_fundo": "#FBFAF7",
     "cor_superficie": "#F1EEE8",
     "cor_texto": "#1C2430",
     "cor_texto_suave": "#4A5261",
     "fonte_titulo": "\"Source Serif 4\", Georgia, serif",
     "fonte_texto": "Inter, system-ui, sans-serif",
-    "fontes_url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap"
+    "fontes": [
+      { "familia": "Source Serif 4", "pesos": [600], "eixos": { "opsz": [8, 60] } },
+      { "familia": "Inter", "pesos": [400, 600] }
+    ]
   },
   "contato": {
     "whatsapp": "5500900000000",
@@ -49,14 +52,12 @@
       "tipo": "hero",
       "selo": "Advocacia · São Paulo",
       "titulo": "Orientação jurídica em São Paulo, presencial e on-line",
-      "subtitulo": "Atuação em Direito de Família e Sucessões, do Trabalho, do Consumidor, Previdenciário, Imobiliário e Civil. O primeiro contato serve para entender a sua situação e indicar os próximos passos.",
+      "subtitulo": "Família, Trabalho, Consumidor, Previdenciário, Imobiliário e Civil. No primeiro contato, entendemos a sua situação e explicamos os próximos passos.",
       "acao_principal": { "tipo": "whatsapp", "texto": "Agendar atendimento" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver áreas de atuação", "href": "#areas" },
       "imagem": {
-        "src": "/img/advocacia/hero.webp",
-        "alt": "Advogado de terno escuro fazendo anotações em sua mesa de trabalho, em escritório com estante de madeira e estátua da Justiça.",
-        "largura": 1200,
-        "altura": 900
+        "src": "hero.webp",
+        "alt": "Advogado de terno escuro fazendo anotações em sua mesa de trabalho, em escritório com estante de madeira e estátua da Justiça."
       }
     },
     {
@@ -84,10 +85,8 @@
         "Cada caso é conduzido por uma advogada ou um advogado responsável, com explicações em linguagem acessível e registro por escrito das decisões tomadas em conjunto com o cliente."
       ],
       "imagem": {
-        "src": "/img/advocacia/escritorio.webp",
-        "alt": "Fileira de livros jurídicos encadernados em couro em uma estante.",
-        "largura": 960,
-        "altura": 1200
+        "src": "escritorio.webp",
+        "alt": "Fileira de livros jurídicos encadernados em couro em uma estante."
       },
       "registros": [
         { "rotulo": "Sociedade de advogados", "valor": "Registro OAB/SP nº 0.000" },
@@ -100,10 +99,8 @@
           "registro": "OAB/SP 000.000",
           "bio": "Atua em Direito de Família e Sucessões e em Direito Civil.",
           "foto": {
-            "src": "/img/advocacia/helena.webp",
-            "alt": "Retrato de Helena Ribeiro Antunes, de cabelos loiros, blazer preto e blusa cinza, sobre fundo cinza claro.",
-            "largura": 320,
-            "altura": 320
+            "src": "helena.webp",
+            "alt": "Retrato de Helena Ribeiro Antunes, de cabelos loiros, blazer preto e blusa cinza, sobre fundo cinza claro."
           }
         },
         {
@@ -112,10 +109,8 @@
           "registro": "OAB/SP 000.001",
           "bio": "Atua em Direito do Trabalho e em Direito Previdenciário.",
           "foto": {
-            "src": "/img/advocacia/rafael.webp",
-            "alt": "Retrato de Rafael Antunes, de cabelos escuros, terno cinza e gravata, sobre fundo claro.",
-            "largura": 320,
-            "altura": 320
+            "src": "rafael.webp",
+            "alt": "Retrato de Rafael Antunes, de cabelos escuros, terno cinza e gravata, sobre fundo claro."
           }
         }
       ]
@@ -149,17 +144,18 @@
       "id": "contato",
       "menu": "Contato",
       "titulo": "Agende um atendimento",
-      "texto": "Conte brevemente a sua situação. Retornamos em até um dia útil para marcar a reunião. Não envie documentos por aqui.",
+      "texto": "Conte brevemente a sua situação. Retornamos em até um dia útil para marcar a reunião.",
+      "alternativa_whatsapp": "Prefere o WhatsApp? Chame agora",
       "provedor": "formspree",
       "chave": "",
       "campos": [
         { "nome": "nome", "rotulo": "Nome", "tipo": "text", "autocomplete": "name" },
-        { "nome": "telefone", "rotulo": "Telefone", "tipo": "tel", "autocomplete": "tel" },
+        { "nome": "telefone", "rotulo": "Telefone", "tipo": "tel", "autocomplete": "tel", "placeholder": "(11) 90000-0000" },
         { "nome": "email", "rotulo": "E-mail", "tipo": "email", "autocomplete": "email" },
-        { "nome": "caso", "rotulo": "Descreva o seu caso", "tipo": "textarea" }
+        { "nome": "caso", "rotulo": "Resumo da situação", "tipo": "textarea", "ajuda": "Duas ou três frases bastam. Não inclua documentos." }
       ],
       "consentimento": "Concordo com o uso dos meus dados para receber o retorno deste contato, conforme a",
-      "botao": "Enviar mensagem",
+      "botao": "Pedir agendamento",
       "mensagem_sucesso": "Mensagem recebida. Retornaremos em até um dia útil."
     },
     { "tipo": "mapa", "id": "localizacao", "titulo": "Onde estamos" },

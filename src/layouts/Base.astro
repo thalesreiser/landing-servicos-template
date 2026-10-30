@@ -1,7 +1,9 @@
 ---
+import { Font, type CssVariable } from 'astro:assets';
 import '../styles/global.css';
 import AvisoCookies from '../components/AvisoCookies.astro';
 import { temRastreamento } from '../lib/consentimento.ts';
+import { pilhaComFontes, variavelFonte } from '../lib/fontes.ts';
 import { ancoraSecao, type Nicho } from '../lib/schema.ts';
 import { ALTURA_OG, CAMINHO_OG, chamadaPrincipal, LARGURA_OG, localeOg, urlAbsoluta } from '../lib/seo.ts';
 import { linkWhatsApp } from '../lib/whatsapp.ts';
@@ -15,6 +17,7 @@ interface Props {
 const { nicho, titulo = nicho.site.titulo, descricao = nicho.site.descricao } = Astro.props;
 const { tema, contato, rastreamento } = nicho;
 
+const pilhas = [tema.fonte_titulo, tema.fonte_texto];
 const variaveisTema = [
   `--cor-primaria:${tema.cor_primaria}`,
   `--cor-primaria-contraste:${tema.cor_primaria_contraste}`,
@@ -23,8 +26,8 @@ const variaveisTema = [
   `--cor-superficie:${tema.cor_superficie}`,
   `--cor-texto:${tema.cor_texto}`,
   `--cor-texto-suave:${tema.cor_texto_suave}`,
-  `--fonte-titulo:${tema.fonte_titulo}`,
-  `--fonte-texto:${tema.fonte_texto}`,
+  `--fonte-titulo:${pilhaComFontes(tema.fonte_titulo, tema.fontes, pilhas)}`,
+  `--fonte-texto:${pilhaComFontes(tema.fonte_texto, tema.fontes, pilhas)}`,
 ].join(';');
 
 const menu = nicho.secoes
@@ -66,15 +69,9 @@ const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
       )
     }
     <meta name="twitter:card" content="summary_large_image" />
-    {
-      tema.fontes_url && (
-        <>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-          <link rel="stylesheet" href={tema.fontes_url} />
-        </>
-      )
-    }
+    {/* Self-hosted at build time (astro.config.mjs reads tema.fontes); preloaded, with metric-matched fallbacks.
+        The CssVariable type only lists the fonts of the niche being checked, hence the cast. */}
+    {tema.fontes.map((fonte) => <Font cssVariable={variavelFonte(fonte.familia) as CssVariable} preload />)}
     {nicho.demo && <meta name="robots" content="noindex" />}
     <slot name="head" />
   </head>

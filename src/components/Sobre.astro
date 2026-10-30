@@ -40,7 +40,7 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
           {secao.equipe.map((pessoa) => (
             <li class="rounded-xl bg-fundo p-6 text-center">
               {pessoa.foto && (
-                <Imagem imagem={pessoa.foto} class="mx-auto size-32 rounded-full object-cover" />
+                <Imagem imagem={pessoa.foto} sizes="8rem" larguras={[128, 256, 384]} class="mx-auto size-32 rounded-full object-cover" />
               )}
               <h3 class="mt-4 text-xl font-semibold">{pessoa.nome}</h3>
               <p class="text-primaria">{pessoa.cargo}</p>
