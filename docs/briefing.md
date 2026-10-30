@@ -26,7 +26,7 @@ entendidos pelos dois lados.
 | Tem logotipo? Em quais formatos (SVG, PNG com fundo transparente)? | `public/img/<nicho>/` |
 | Quais são as cores da marca (códigos, se houver manual)? | `tema.cor_primaria`, `tema.cor_destaque` |
 | Prefere um visual claro e sóbrio ou mais colorido? | `tema.cor_fundo`, `tema.cor_superficie`, `tema.cor_texto` |
-| Usa alguma fonte da marca? | `tema.fonte_titulo`, `tema.fonte_texto`, `tema.fontes_url` |
+| Usa alguma fonte da marca? | `tema.fonte_titulo`, `tema.fonte_texto`, `tema.fontes` |
 | Há sites (de qualquer área) cujo visual você gosta? | referência para o tema |
 
 As cores escolhidas precisam passar no teste de contraste (4,5:1). Se a cor da marca não
