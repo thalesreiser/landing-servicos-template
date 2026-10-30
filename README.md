@@ -62,7 +62,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | -------------- | ------------------------------------------------------------------------ |
 | `demo`         | `true` mostra o aviso "site de demonstração" e marca a página `noindex`  |
 | `site`         | nome, título e descrição (SEO); `url` (endereço de produção) e `schema_tipo` (tipo schema.org), veja [SEO](#seo) |
-| `tema`         | cores (hexadecimal), fontes e forma, veja [Fontes](#fontes) e [Forma](#forma-raio-e-cartões). `cor_destaque` é a assinatura do nicho: filete acima dos títulos, números dos passos, aspas dos depoimentos e marcadores dos convênios |
+| `tema`         | cores (hexadecimal), fontes, forma e movimento, veja [Fontes](#fontes), [Forma](#forma-raio-e-cartões) e [Animações](#animações-e-fundo-do-hero). `cor_destaque` é a assinatura do nicho: filete acima dos títulos, números dos passos, aspas dos depoimentos e marcadores dos convênios |
 | `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário; `rotulo_cabecalho` é o texto do botão de WhatsApp do cabeçalho (padrão "WhatsApp"; no celular, ele some quando a página tem a barra do `botao_whatsapp`) |
 | `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais; `aviso_cookies` (textos do aviso), veja [Rastreamento](#rastreamento-e-cookies) |
 | `revisao`      | `termos_vetados`: palavras que os textos nunca podem usar; os testes reprovam o nicho se alguma aparecer |
@@ -94,6 +94,23 @@ Dois campos opcionais de `tema` dão a cada nicho uma forma própria, além das 
 | `card` | `contorno` (padrão), `elevado`, `linha` | `contorno`: borda fina; `elevado`: sem borda, com sombra suave na cor primária; `linha`: sem caixa, só um filete no topo (lista editorial) e ícones soltos na cor de destaque |
 
 Nas demos: advocacia `reto` + `linha`, fisioterapia `suave` + `elevado`, exemplo `medio` + `contorno`.
+
+### Animações e fundo do hero
+
+Dois campos opcionais de `tema` controlam o movimento e o fundo do hero:
+
+| Campo | Valores | Efeito |
+| --- | --- | --- |
+| `animacoes` | `sutil` (padrão), `nenhuma` | `sutil`: seções e cartões aparecem ao rolar (em cascata nas listas), botões sobem 1 px no hover, cartões e links do menu reagem ao hover, as respostas do FAQ abrem deslizando, o cabeçalho ganha sombra ao rolar e a navegação entre páginas faz um fade cruzado; `nenhuma` desliga tudo isso |
+| `fundo_hero` | `malha` (padrão), `liso` | `malha`: dois brilhos suaves no hero, da cor primária (canto superior direito) e da cor de destaque (canto inferior esquerdo); `liso`: cor chapada |
+
+- Quem pede menos movimento no sistema (`prefers-reduced-motion`) nunca vê deslocamento,
+  qualquer que seja o valor.
+- O conteúdo é visível sem JavaScript. Só o script de revelação (cerca de 0,7 KB) esconde
+  algo, e só o que está abaixo da dobra. O hero nunca anima, para não atrasar o LCP. As
+  animações usam só opacidade e `transform`, então não deslocam o layout (CLS 0).
+- O teste de contraste confere texto, texto suave e cor primária sobre o ponto mais escuro da
+  `malha`. Se uma paleta reprovar ali, use `"fundo_hero": "liso"`.
 
 ### Fundos das seções
 
