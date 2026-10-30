@@ -83,3 +83,12 @@ test('rejects a self-hosted font that no font stack uses', () => {
   nicho.tema.fonte_texto = 'Inter, system-ui, sans-serif';
   assert.equal(nichoSchema.safeParse(nicho).success, true);
 });
+
+test('image src must be a path inside the niche assets folder', () => {
+  const nicho = exemplo();
+  const hero = nicho.secoes.find((s) => s.tipo === 'hero')!;
+  hero.imagem = { src: '/img/exemplo/hero.webp', alt: '' };
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+  hero.imagem = { src: 'hero.webp', alt: '' };
+  assert.equal(nichoSchema.safeParse(nicho).success, true);
+});

@@ -1,6 +1,7 @@
 import { z } from 'astro/zod';
 import { PROVEDORES_FONTE, separarPilha } from './fontes.ts';
 import { NOMES_ICONES } from './icones.ts';
+import { EXTENSOES_IMAGEM, PADRAO_SRC_IMAGEM } from './imagens.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
 export const TIPOS_SCHEMA = [
@@ -26,11 +27,10 @@ const fonte = z.object({
   eixos: z.record(z.string().regex(/^[a-z]{4}$/), z.tuple([z.number(), z.number()])).optional(),
 });
 
+// File in src/assets/nichos/<nicho>/, optimized at build time; width and height come from the file.
 const imagem = z.object({
-  src: z.string().min(1),
+  src: z.string().regex(PADRAO_SRC_IMAGEM, `caminho relativo a src/assets/nichos/<nicho>/, ex.: "hero.jpg" (${EXTENSOES_IMAGEM.join(', ')})`),
   alt: z.string(),
-  largura: z.number().int().positive(),
-  altura: z.number().int().positive(),
 });
 
 const acao = z.discriminatedUnion('tipo', [

@@ -36,9 +36,9 @@ src/
 │                      # FAQ, Formulario, Mapa, Rodape, BotaoWhatsApp
 ├── layouts/Base.astro # head, tema, aviso de demonstração, cabeçalho, rastreamento
 ├── lib/               # schema do nicho (Zod), WhatsApp, endereço e mapa, SEO (JSON-LD, imagem de compartilhamento)
+├── assets/nichos/     # imagens, uma pasta por nicho (otimizadas no build)
 └── pages/             # index.astro (monta as seções), política de privacidade, og.png e robots.txt
 nichos/                # um JSON por nicho
-public/img/            # imagens, uma pasta por nicho
 politica-de-privacidade.md
 ```
 
@@ -101,6 +101,24 @@ a fonte chega. Nada é carregado de servidores de terceiros.
 
 As fontes que vêm depois da família na pilha servem de reserva. Sem `fontes`, o site usa só as
 fontes do sistema (como o nicho `exemplo`).
+
+### Imagens
+
+As imagens de cada nicho ficam em `src/assets/nichos/<nicho>/` (não em `public/`), para o build
+gerar versões AVIF e WebP em vários tamanhos (`srcset`/`sizes`). No JSON, `src` é o caminho
+relativo a essa pasta:
+
+```json
+"imagem": { "src": "hero.jpg", "alt": "Fachada do escritório" }
+"foto": { "src": "equipe/helena.jpg", "alt": "Retrato de Helena Ribeiro Antunes" }
+```
+
+- Formatos aceitos: `.jpg`, `.jpeg`, `.png`, `.webp` e `.avif`. Use o original em boa
+  resolução (por exemplo, 1600 px de largura para o hero e o "sobre", 400 px para retratos);
+  o build nunca amplia a imagem.
+- Largura e altura vêm do próprio arquivo. O hero carrega com prioridade; as demais, sob demanda.
+- Um arquivo que não existe falha o build (e o `npm test`) com o caminho esperado.
+- Imagens decorativas usam `"alt": ""`.
 
 ### SEO
 

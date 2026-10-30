@@ -1,22 +1,49 @@
 ---
+import { Picture } from 'astro:assets';
+import { NICHO } from 'astro:env/server';
+import { largurasImagem, resolverImagem } from '../lib/imagens.ts';
 import type { Imagem } from '../lib/schema.ts';
 
 interface Props {
   imagem: Imagem;
   class?: string;
+  // Above the fold (hero): loads eagerly with high priority.
   prioridade?: boolean;
+  // `sizes` of the rendered image and srcset candidates (CSS px); defaults fit a content column.
+  sizes?: string;
+  larguras?: number[];
 }
 
-const { imagem, class: classe, prioridade = false } = Astro.props;
+const {
+  imagem,
+  class: classe,
+  prioridade = false,
+  sizes = '(min-width: 1024px) 36rem, calc(100vw - 2rem)',
+  larguras = [480, 720, 960, 1280],
+} = Astro.props;
+
+// <picture> uses display: contents so grid/flex classes on the image keep working.
+// Lazy glob: only the images a niche uses are imported and optimized.
+const arquivos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/nichos/**/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}');
+const { default: arquivo } = await resolverImagem(arquivos, NICHO, imagem.src)();
+const srcset = largurasImagem(arquivo.width, larguras);
+// The <img> fallback is the largest srcset width (not the full original), as JPEG unless the source is PNG.
+const largura = Math.max(...srcset);
+const altura = Math.round((largura * arquivo.height) / arquivo.width);
 ---
 
-<img
-  src={imagem.src}
+<Picture
+  src={arquivo}
   alt={imagem.alt}
-  width={imagem.largura}
-  height={imagem.altura}
+  formats={['avif', 'webp']}
+  fallbackFormat={arquivo.format === 'png' ? 'png' : 'jpg'}
+  widths={srcset}
+  width={largura}
+  height={altura}
+  sizes={sizes}
   class={classe}
   loading={prioridade ? 'eager' : 'lazy'}
   fetchpriority={prioridade ? 'high' : 'auto'}
   decoding="async"
+  pictureAttributes={{ class: 'contents' }}
 />
