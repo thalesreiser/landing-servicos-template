@@ -34,7 +34,8 @@ const ultimoLargo = equipe.length === 3 ? 'sm:max-lg:last:col-span-2' : undefine
         registrosAoLado && 'lg:grid-cols-[3fr_2fr] lg:gap-16',
       ]}
     >
-      {secao.imagem && <Imagem imagem={secao.imagem} class="aspect-[4/5] w-full rounded-cartao object-cover lg:order-last" />}
+      {/* Tablets: a wide crop, so the stacked photo is not a 900 px tall block above the text. */}
+      {secao.imagem && <Imagem imagem={secao.imagem} class="aspect-[4/5] w-full rounded-cartao object-cover md:max-lg:aspect-video lg:order-last" />}
       <div>
         <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
         <div class="mt-6 max-w-[60ch] space-y-4 text-lg text-texto-suave">
