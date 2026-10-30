@@ -86,6 +86,21 @@ const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
         The CssVariable type only lists the fonts of the niche being checked, hence the cast. */}
     {tema.fontes.map((fonte) => <Font cssVariable={variavelFonte(fonte.familia) as CssVariable} preload />)}
     {nicho.demo && <meta name="robots" content="noindex" />}
+    {/* Cross-document View Transitions: a native crossfade between pages, header kept in place. */}
+    {
+      tema.animacoes === 'sutil' && (
+        <style is:inline>
+          @media (prefers-reduced-motion: no-preference) {
+            @view-transition {
+              navigation: auto;
+            }
+            .cabecalho {
+              view-transition-name: cabecalho;
+            }
+          }
+        </style>
+      )
+    }
     <slot name="head" />
   </head>
   <body>
