@@ -1,6 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
 import { NICHO } from 'astro:env/server';
+import arquivos from 'virtual:imagens-nicho';
 import { largurasImagem, resolverImagem } from '../lib/imagens.ts';
 import type { Imagem } from '../lib/schema.ts';
 
@@ -23,8 +24,6 @@ const {
 } = Astro.props;
 
 // <picture> uses display: contents so grid/flex classes on the image keep working.
-// Lazy glob: only the images a niche uses are imported and optimized.
-const arquivos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/nichos/**/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}');
 const { default: arquivo } = await resolverImagem(arquivos, NICHO, imagem.src)();
 const srcset = largurasImagem(arquivo.width, larguras);
 // The <img> fallback is the largest srcset width (not the full original), as JPEG unless the source is PNG.
