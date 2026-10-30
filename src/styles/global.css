@@ -61,8 +61,9 @@
   @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
 }
 
+/* Fluid rhythm: section spacing and titles grow continuously from 360 px to desktop. */
 @utility secao {
-  @apply py-16 sm:py-24;
+  padding-block: clamp(3.5rem, 2.2rem + 5vw, 6rem);
 }
 
 /*
@@ -95,7 +96,9 @@
 }
 
 @utility titulo-secao {
-  @apply text-3xl font-semibold tracking-tight sm:text-4xl;
+  @apply font-semibold tracking-tight;
+  font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  line-height: 1.15;
 
   /* Decorative accent rule: the niche's signature color above every section title. */
   &::before {
