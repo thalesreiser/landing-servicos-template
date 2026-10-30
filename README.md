@@ -34,7 +34,7 @@ Sem `NICHO`, o build usa `exemplo`. Um nome que não existe em `nichos/` falha o
 src/
 ├── components/        # Hero, Servicos, Sobre, ComoFunciona, Depoimentos,
 │                      # FAQ, Formulario, Mapa, Rodape, BotaoWhatsApp
-├── layouts/Base.astro # head, tema, aviso de demonstração, cabeçalho, rastreamento
+├── layouts/Base.astro # head, tema, aviso de demonstração, cabeçalho, aviso de cookies
 ├── lib/               # schema do nicho (Zod), WhatsApp, endereço e mapa, SEO (JSON-LD, imagem de compartilhamento)
 └── pages/             # index.astro (monta as seções), política de privacidade, og.png e robots.txt
 nichos/                # um JSON por nicho
@@ -52,7 +52,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | `site`         | nome, título e descrição (SEO); `url` (endereço de produção) e `schema_tipo` (tipo schema.org), veja [SEO](#seo) |
 | `tema`         | cores (hexadecimal) e fontes; `fontes_url` carrega o Google Fonts        |
 | `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário |
-| `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais                   |
+| `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais; `aviso_cookies` (textos do aviso), veja [Rastreamento](#rastreamento-e-cookies) |
 | `revisao`      | `termos_vetados`: palavras que os textos nunca podem usar; os testes reprovam o nicho se alguma aparecer |
 | `publicacao`   | `cloudflare_projeto`: projeto da Cloudflare Pages; sem ele, o nicho só é compilado no CI |
 | `secoes`       | lista ordenada das seções; a ordem do JSON é a ordem da página           |
@@ -104,6 +104,32 @@ Funciona com [Formspree](https://formspree.io) ou [Web3Forms](https://web3forms.
 sem backend. Em `chave`, use o id do formulário (Formspree) ou a access key (Web3Forms);
 os dois são públicos por natureza. Com `chave` vazia, o formulário fica em modo de
 demonstração e não envia nada.
+
+### Rastreamento e cookies
+
+Com `rastreamento.google_analytics` ou `rastreamento.meta_pixel` no JSON, o site mostra um
+aviso de cookies (LGPD) com "Aceitar" e "Recusar". Sem nenhum dos dois, não há aviso nem
+script de terceiros.
+
+- O GA4 e o Pixel só carregam depois de "Aceitar"; antes disso, nenhuma requisição vai ao
+  Google ou à Meta. A escolha fica no `localStorage` e o aviso não volta.
+- "Preferências de cookies", no rodapé, reabre o aviso para mudar a escolha.
+- `rastreamento.aviso_cookies` troca os textos (`texto`, `aceitar`, `recusar`); os padrões
+  são genéricos, em português.
+- No celular, o aviso fica 6rem acima da borda inferior para não cobrir o botão do WhatsApp;
+  a partir de 640 px, fica no canto inferior esquerdo.
+
+Eventos de conversão, enviados só com consentimento e só para as ferramentas configuradas:
+
+| Ação | GA4 | Meta Pixel |
+| --- | --- | --- |
+| Clique em qualquer link `wa.me` | `generate_lead` com `method: whatsapp` | `Contact` |
+| Envio do formulário aceito pelo provedor | `generate_lead` com `method: form` | `Lead` |
+
+O modo de demonstração do formulário (`chave` vazia) não envia eventos. No GA4, marque
+`generate_lead` como evento principal (conversão) e, para separar WhatsApp de formulário nos
+relatórios, crie uma dimensão personalizada de escopo de evento com o parâmetro `method`. No
+Gerenciador de Eventos da Meta, `Contact` e `Lead` são eventos padrão e já aparecem sozinhos.
 
 ## Publicação (Cloudflare Pages)
 
