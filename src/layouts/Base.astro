@@ -112,11 +112,11 @@ const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
         <a href="/" class="font-titulo text-base leading-tight font-semibold sm:text-lg">{nicho.site.nome}</a>
         {
           menu.length > 0 && (
-            <nav aria-label="Principal" class="hidden md:block">
-              <ul class="flex gap-6 text-sm">
+            <nav aria-label="Principal" class="hidden lg:block">
+              <ul class="flex gap-5 text-sm">
                 {menu.map((item) => (
                   <li>
-                    <a href={item.href} class="text-texto-suave hover:text-primaria">
+                    <a href={item.href} class="whitespace-nowrap text-texto-suave hover:text-primaria">
                       {item.texto}
                     </a>
                   </li>
