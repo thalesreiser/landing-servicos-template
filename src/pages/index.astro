@@ -13,6 +13,7 @@ import Servicos from '../components/Servicos.astro';
 import Sobre from '../components/Sobre.astro';
 import { carregarNicho } from '../lib/nicho.ts';
 import { gerarJsonLd, serializarJsonLd } from '../lib/seo.ts';
+import { fundosDasSecoes } from '../lib/tema.ts';
 
 const nicho = carregarNicho();
 const secoes = nicho.secoes.filter((secao) => secao.ativo);
@@ -20,33 +21,40 @@ const secoes = nicho.secoes.filter((secao) => secao.ativo);
 const conteudo = secoes.filter((secao) => secao.tipo !== 'rodape' && secao.tipo !== 'botao_whatsapp');
 const rodape = secoes.find((secao) => secao.tipo === 'rodape');
 const botao = secoes.find((secao) => secao.tipo === 'botao_whatsapp');
+// Backgrounds are set here, not in the components, so the page keeps a regular rhythm.
+const fundos = fundosDasSecoes(conteudo);
+const classesFundo = { fundo: 'fundo-fundo', superficie: 'fundo-superficie', primaria: 'fundo-primaria' } as const;
 ---
 
 <Base nicho={nicho}>
   <script is:inline slot="head" type="application/ld+json" set:html={serializarJsonLd(gerarJsonLd(nicho))} />
   {
-    conteudo.map((secao) => {
-      switch (secao.tipo) {
-        case 'hero':
-          return <Hero secao={secao} nicho={nicho} />;
-        case 'servicos':
-          return <Servicos secao={secao} />;
-        case 'sobre':
-          return <Sobre secao={secao} />;
-        case 'como_funciona':
-          return <ComoFunciona secao={secao} />;
-        case 'depoimentos':
-          return <Depoimentos secao={secao} />;
-        case 'convenios':
-          return <Convenios secao={secao} />;
-        case 'faq':
-          return <FAQ secao={secao} />;
-        case 'formulario':
-          return <Formulario secao={secao} nicho={nicho} />;
-        case 'mapa':
-          return <Mapa secao={secao} nicho={nicho} />;
-      }
-    })
+    conteudo.map((secao, i) => (
+      <div class={classesFundo[fundos[i]!]}>
+        {(() => {
+          switch (secao.tipo) {
+            case 'hero':
+              return <Hero secao={secao} nicho={nicho} />;
+            case 'servicos':
+              return <Servicos secao={secao} />;
+            case 'sobre':
+              return <Sobre secao={secao} />;
+            case 'como_funciona':
+              return <ComoFunciona secao={secao} />;
+            case 'depoimentos':
+              return <Depoimentos secao={secao} />;
+            case 'convenios':
+              return <Convenios secao={secao} />;
+            case 'faq':
+              return <FAQ secao={secao} />;
+            case 'formulario':
+              return <Formulario secao={secao} nicho={nicho} />;
+            case 'mapa':
+              return <Mapa secao={secao} nicho={nicho} />;
+          }
+        })()}
+      </div>
+    ))
   }
   <Fragment slot="depois">
     {rodape?.tipo === 'rodape' && <Rodape secao={rodape} nicho={nicho} comBotaoFixo={botao !== undefined} />}

@@ -12,12 +12,15 @@
     "cor_primaria": "#1A64D6",
     "cor_primaria_contraste": "#FFFFFF",
     "cor_destaque": "#B45309",
+    "cor_destaque_faixa": "#FFF1DC",
     "cor_fundo": "#FFFFFF",
     "cor_superficie": "#F4F6FA",
     "cor_texto": "#111827",
     "cor_texto_suave": "#4B5563",
     "fonte_titulo": "system-ui, sans-serif",
-    "fonte_texto": "system-ui, sans-serif"
+    "fonte_texto": "system-ui, sans-serif",
+    "raio": "medio",
+    "card": "contorno"
   },
   "contato": {
     "whatsapp": "5500900000000",
@@ -39,6 +42,11 @@
       "selo": "Exemplo",
       "titulo": "Um título claro sobre o que o negócio resolve",
       "subtitulo": "Uma frase curta que explica para quem é o serviço e como funciona o primeiro contato.",
+      "destaques": [
+        { "rotulo": "Atendimento", "valor": "Presencial e on-line" },
+        { "rotulo": "Horário", "valor": "Seg. a sex., 9h às 18h" },
+        { "rotulo": "Retorno", "valor": "Em até um dia útil" }
+      ],
       "acao_principal": { "tipo": "whatsapp", "texto": "Conversar pelo WhatsApp" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver serviços", "href": "#servicos" }
     },
@@ -79,6 +87,7 @@
     },
     {
       "tipo": "depoimentos",
+      "fundo": "primaria",
       "titulo": "Depoimentos",
       "itens": [
         { "nome": "Cliente Exemplo", "detalhe": "São Paulo/SP", "texto": "Depoimento fictício de um cliente." },

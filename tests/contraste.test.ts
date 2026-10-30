@@ -3,6 +3,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { misturar, razaoContraste } from '../src/lib/contraste.ts';
 import { nichoSchema } from '../src/lib/schema.ts';
+import { coresFaixa } from '../src/lib/tema.ts';
 
 const AA = 4.5;
 // Footer text sits at 80% opacity over the text color (Rodape.astro).
@@ -31,6 +32,8 @@ const pasta = new URL('../nichos/', import.meta.url);
 for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
   test(`nichos/${arquivo} theme passes WCAG AA`, () => {
     const { tema: t } = nichoSchema.parse(JSON.parse(readFileSync(new URL(arquivo, pasta), 'utf8')));
+    // Any section can become a primary band (fundo: "primaria"), so its colors are always checked.
+    const faixa = coresFaixa(t);
     const pares: [string, string, string][] = [
       ['texto sobre fundo', t.cor_texto, t.cor_fundo],
       ['texto sobre superfície', t.cor_texto, t.cor_superficie],
@@ -44,6 +47,9 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
       ['destaque sobre superfície', t.cor_destaque, t.cor_superficie],
       ['erro de formulário sobre fundo', COR_ERRO, t.cor_fundo],
       ['erro de formulário sobre superfície', COR_ERRO, t.cor_superficie],
+      ['faixa primária: texto e botão invertido', faixa.texto, faixa.fundo],
+      ['faixa primária: texto suave', faixa.texto_suave, faixa.fundo],
+      ['faixa primária: destaque', faixa.destaque, faixa.fundo],
       ['rodapé, aviso de demonstração e aviso de cookies', t.cor_fundo, t.cor_texto],
       ['rodapé a 80%', misturar(t.cor_fundo, t.cor_texto, OPACIDADE_RODAPE), t.cor_texto],
     ];

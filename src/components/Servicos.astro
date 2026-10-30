@@ -17,8 +17,8 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
     <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {
         secao.itens.map((item) => (
-          <li class="rounded-xl border border-texto/10 bg-superficie p-6">
-            <span class="inline-flex size-12 items-center justify-center rounded-lg bg-primaria/10 text-primaria">
+          <li class="cartao">
+            <span class="cartao-icone">
               <Icone nome={item.icone} />
             </span>
             <h3 class="mt-4 text-xl font-semibold">{item.titulo}</h3>

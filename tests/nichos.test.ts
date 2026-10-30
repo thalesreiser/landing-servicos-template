@@ -92,3 +92,12 @@ test('image src must be a path inside the niche assets folder', () => {
   hero.imagem = { src: 'hero.webp', alt: '' };
   assert.equal(nichoSchema.safeParse(nicho).success, true);
 });
+
+test('hero accepts up to four highlights', () => {
+  const nicho = exemplo();
+  const hero = nicho.secoes.find((s) => s.tipo === 'hero')!;
+  hero.destaques = Array.from({ length: 4 }, (_, i) => ({ rotulo: `Rótulo ${i}`, valor: 'Valor' }));
+  assert.equal(nichoSchema.safeParse(nicho).success, true);
+  (hero.destaques as unknown[]).push({ rotulo: 'Quinto', valor: 'Valor' });
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+});

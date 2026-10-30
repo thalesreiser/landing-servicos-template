@@ -12,12 +12,15 @@
     "cor_primaria": "#0E6B63",
     "cor_primaria_contraste": "#FFFFFF",
     "cor_destaque": "#A84B33",
+    "cor_destaque_faixa": "#FFE4D6",
     "cor_fundo": "#FFFFFF",
     "cor_superficie": "#EEF6F4",
     "cor_texto": "#1D2B2E",
     "cor_texto_suave": "#4A5A5E",
     "fonte_titulo": "Nunito, system-ui, sans-serif",
     "fonte_texto": "\"Nunito Sans\", system-ui, sans-serif",
+    "raio": "suave",
+    "card": "elevado",
     "fontes": [
       { "familia": "Nunito", "pesos": [700] },
       { "familia": "Nunito Sans", "pesos": [400, 600] }
@@ -51,6 +54,12 @@
       "selo": "Fisioterapia · Vila Mariana",
       "titulo": "Fisioterapia individual na Vila Mariana",
       "subtitulo": "A primeira sessão é uma avaliação completa. Depois, a mesma fisioterapeuta acompanha o seu plano e o revisa com você a cada etapa.",
+      "destaques": [
+        { "rotulo": "Convênios", "valor": "4 convênios e particular com recibo" },
+        { "rotulo": "Sessões", "valor": "Individuais, de 50 minutos" },
+        { "rotulo": "Horário", "valor": "Seg. a sex. 7h–20h · sáb. 8h–12h" },
+        { "rotulo": "Atendimento domiciliar", "valor": "Vila Mariana e bairros próximos" }
+      ],
       "acao_principal": { "tipo": "whatsapp", "texto": "Agendar avaliação pelo WhatsApp" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver serviços", "href": "#servicos" }
     },
@@ -89,6 +98,7 @@
     },
     {
       "tipo": "como_funciona",
+      "fundo": "primaria",
       "menu": "Como funciona",
       "titulo": "Como funciona",
       "passos": [

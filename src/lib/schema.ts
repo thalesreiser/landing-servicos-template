@@ -2,6 +2,7 @@ import { z } from 'astro/zod';
 import { PROVEDORES_FONTE, separarPilha } from './fontes.ts';
 import { NOMES_ICONES } from './icones.ts';
 import { EXTENSOES_IMAGEM, PADRAO_SRC_IMAGEM } from './imagens.ts';
+import { CARTOES, FUNDOS, RAIOS } from './tema.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
 export const TIPOS_SCHEMA = [
@@ -39,11 +40,13 @@ const acao = z.discriminatedUnion('tipo', [
 ]);
 
 // Fields every section accepts: `id` is the anchor (defaults to the type),
-// `menu` adds the section to the header nav, `ativo: false` hides it.
+// `menu` adds the section to the header nav, `ativo: false` hides it and `fundo`
+// fixes its background (otherwise the light backgrounds alternate, see src/lib/tema.ts).
 const comum = {
   id: z.string().regex(/^[a-z0-9-]+$/).optional(),
   menu: z.string().optional(),
   ativo: z.boolean().default(true),
+  fundo: z.enum(FUNDOS).optional(),
 };
 
 const hero = z.object({
@@ -55,6 +58,8 @@ const hero = z.object({
   acao_principal: acao,
   acao_secundaria: acao.optional(),
   imagem: imagem.optional(),
+  // Short facts (registration, schedule, service mode): a side panel when there is no image, chips otherwise.
+  destaques: z.array(z.object({ rotulo: z.string(), valor: z.string() })).min(1).max(4).optional(),
 });
 
 const servicos = z.object({
@@ -205,6 +210,8 @@ export const nichoSchema = z
       cor_primaria: cor,
       cor_primaria_contraste: cor.default('#FFFFFF'),
       cor_destaque: cor,
+      // Accent inside a primary band (fundo: "primaria"); defaults to cor_primaria_contraste.
+      cor_destaque_faixa: cor.optional(),
       cor_fundo: cor,
       cor_superficie: cor,
       cor_texto: cor,
@@ -212,6 +219,9 @@ export const nichoSchema = z
       fonte_titulo: z.string(),
       fonte_texto: z.string(),
       fontes: z.array(fonte).default([]),
+      // Personality tokens: corner radius (reto, medio, suave) and card treatment (see src/lib/tema.ts).
+      raio: z.enum(RAIOS).default('medio'),
+      card: z.enum(CARTOES).default('contorno'),
     }),
     contato: z.object({
       whatsapp: z.string().regex(/^\d{12,13}$/, 'DDI + DDD + número, só dígitos, ex.: 5511999990000'),
@@ -270,6 +280,12 @@ export const nichoSchema = z
     nicho.tema.fontes.forEach((f, i) => {
       if (!pilhas.includes(f.familia.toLowerCase())) {
         ctx.addIssue({ code: 'custom', path: ['tema', 'fontes', i, 'familia'], message: `"${f.familia}" não aparece em fonte_titulo nem em fonte_texto` });
+      }
+    });
+    nicho.secoes.forEach((s, i) => {
+      // Field errors and inputs are only tested against the light backgrounds.
+      if (s.tipo === 'formulario' && s.fundo === 'primaria') {
+        ctx.addIssue({ code: 'custom', path: ['secoes', i, 'fundo'], message: 'o formulário não aceita fundo "primaria"; use "fundo" ou "superficie"' });
       }
     });
     const precisaEndereco = nicho.secoes.some((s) => s.tipo === 'mapa' && !s.embed_url);

@@ -62,7 +62,7 @@ Validado em `src/lib/schema.ts`; um erro de digitação falha o build com a mens
 | -------------- | ------------------------------------------------------------------------ |
 | `demo`         | `true` mostra o aviso "site de demonstração" e marca a página `noindex`  |
 | `site`         | nome, título e descrição (SEO); `url` (endereço de produção) e `schema_tipo` (tipo schema.org), veja [SEO](#seo) |
-| `tema`         | cores (hexadecimal) e fontes, veja [Fontes](#fontes). `cor_destaque` é a assinatura do nicho: filete acima dos títulos, números dos passos, aspas dos depoimentos e marcadores dos convênios |
+| `tema`         | cores (hexadecimal), fontes e forma, veja [Fontes](#fontes) e [Forma](#forma-raio-e-cartões). `cor_destaque` é a assinatura do nicho: filete acima dos títulos, números dos passos, aspas dos depoimentos e marcadores dos convênios |
 | `contato`      | WhatsApp (DDI + DDD), mensagem pronta, e-mail, telefone, endereço, horário |
 | `rastreamento` | `google_analytics` (`G-...`) e `meta_pixel`, opcionais; `aviso_cookies` (textos do aviso), veja [Rastreamento](#rastreamento-e-cookies) |
 | `revisao`      | `termos_vetados`: palavras que os textos nunca podem usar; os testes reprovam o nicho se alguma aparecer |
@@ -75,8 +75,50 @@ Cada item de `secoes` tem um `tipo` (`hero`, `servicos`, `sobre`, `como_funciona
 - `id`: âncora da seção (padrão: o próprio tipo)
 - `menu`: texto do link no cabeçalho
 - `ativo: false`: esconde a seção sem apagá-la
+- `fundo`: `fundo`, `superficie` ou `primaria`, veja [Fundos das seções](#fundos-das-seções)
 
 `nichos/exemplo.json` liga todas as seções e serve de referência.
+
+### Forma (raio e cartões)
+
+Dois campos opcionais de `tema` dão a cada nicho uma forma própria, além das cores e fontes:
+
+| Campo | Valores | Efeito |
+| --- | --- | --- |
+| `raio` | `reto`, `medio` (padrão), `suave` | cantos de cartões, imagens, botões, etiquetas e campos: `reto` usa 2 px em tudo; `medio`, 12 px nos cartões e 8 px nos botões; `suave`, 16 px nos cartões e botões em pílula |
+| `card` | `contorno` (padrão), `elevado`, `linha` | `contorno`: borda fina; `elevado`: sem borda, com sombra suave na cor primária; `linha`: sem caixa, só um filete no topo (lista editorial) e ícones soltos na cor de destaque |
+
+Nas demos: advocacia `reto` + `linha`, fisioterapia `suave` + `elevado`, exemplo `medio` + `contorno`.
+
+### Fundos das seções
+
+Sem `fundo`, as seções alternam `superficie` e `fundo` (o hero começa em `superficie`), então
+duas seções seguidas nunca têm a mesma cor, qualquer que seja a ordem do JSON. Com `fundo`, a
+seção usa a cor pedida, e a alternância continua a partir dela.
+
+`"fundo": "primaria"` cria uma faixa de contraste na cor primária: o texto passa a
+`cor_primaria_contraste`, o texto suave a essa cor com 90% de opacidade, os botões primários
+se invertem e a cor de destaque vira `tema.cor_destaque_faixa` (opcional; o padrão é
+`cor_primaria_contraste`). Use uma faixa por página, no máximo. O formulário não aceita
+`primaria`. O teste de contraste confere as cores da faixa em todos os nichos, mesmo nos que
+ainda não usam uma.
+
+### Destaques do hero
+
+`hero.destaques` (opcional, até 4 itens) lista fatos curtos, como registro no conselho,
+horário ou modalidade de atendimento:
+
+```json
+"destaques": [
+  { "rotulo": "Sessões", "valor": "Individuais, de 50 minutos" },
+  { "rotulo": "Horário", "valor": "Seg. a sex. 7h–20h · sáb. 8h–12h" }
+]
+```
+
+Sem `imagem`, eles ocupam um painel à direita do título no desktop e viram etiquetas abaixo
+dos botões no celular (só os 3 primeiros). Com `imagem`, a foto fica à direita e todos os
+destaques aparecem como etiquetas abaixo dos botões. Use só fatos verificáveis: os textos
+passam pelo teste de termos vetados como qualquer outro.
 
 ### Regras de conteúdo e acessibilidade
 

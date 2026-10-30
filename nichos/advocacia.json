@@ -12,12 +12,15 @@
     "cor_primaria": "#1E3A5F",
     "cor_primaria_contraste": "#FFFFFF",
     "cor_destaque": "#7A5F2E",
+    "cor_destaque_faixa": "#D8C7A3",
     "cor_fundo": "#FBFAF7",
     "cor_superficie": "#F1EEE8",
     "cor_texto": "#1C2430",
     "cor_texto_suave": "#4A5261",
     "fonte_titulo": "\"Source Serif 4\", Georgia, serif",
     "fonte_texto": "Inter, system-ui, sans-serif",
+    "raio": "reto",
+    "card": "linha",
     "fontes": [
       { "familia": "Source Serif 4", "pesos": [600], "eixos": { "opsz": [8, 60] } },
       { "familia": "Inter", "pesos": [400, 600] }
@@ -53,6 +56,11 @@
       "selo": "Advocacia · São Paulo",
       "titulo": "Orientação jurídica em São Paulo, presencial e on-line",
       "subtitulo": "Família, Trabalho, Consumidor, Previdenciário, Imobiliário e Civil. No primeiro contato, entendemos a sua situação e explicamos os próximos passos.",
+      "destaques": [
+        { "rotulo": "Sociedade de advogados", "valor": "OAB/SP nº 0.000" },
+        { "rotulo": "Horário", "valor": "Seg. a sex., 9h às 18h" },
+        { "rotulo": "Sigilo", "valor": "Estatuto da Advocacia e LGPD" }
+      ],
       "acao_principal": { "tipo": "whatsapp", "texto": "Agendar atendimento" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver áreas de atuação", "href": "#areas" },
       "imagem": {
@@ -117,6 +125,7 @@
     },
     {
       "tipo": "como_funciona",
+      "fundo": "primaria",
       "menu": "Como funciona",
       "titulo": "Como funciona o atendimento",
       "passos": [
