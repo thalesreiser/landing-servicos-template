@@ -1,4 +1,5 @@
 ---
+import { temRastreamento } from '../lib/consentimento.ts';
 import { formatarEndereco } from '../lib/endereco.ts';
 import type { Nicho, SecaoDo } from '../lib/schema.ts';
 
@@ -45,6 +46,16 @@ const links = [...(secao.links ?? []), { texto: 'Política de privacidade', href
               </a>
             </li>
           ))
+        }
+        {
+          temRastreamento(nicho.rastreamento) && (
+            <li>
+              {/* AvisoCookies.astro unhides it and reopens the banner on click. */}
+              <button type="button" data-preferencias-cookies hidden class="cursor-pointer underline opacity-80 hover:opacity-100">
+                Preferências de cookies
+              </button>
+            </li>
+          )
         }
       </ul>
     </nav>

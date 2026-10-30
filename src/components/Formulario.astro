@@ -160,6 +160,8 @@ const erroPadrao = (tipo: string) => (tipo === 'email' ? 'Informe um e-mail vál
         if (!resposta.ok) throw new Error(String(resposta.status));
         status.textContent = sucesso;
         form.reset();
+        // Conversion hook for AvisoCookies.astro; demo mode never reaches this line.
+        form.dispatchEvent(new CustomEvent('formulario-enviado', { bubbles: true }));
       } catch {
         status.textContent = 'Não foi possível enviar agora. Tente de novo ou fale conosco pelo WhatsApp.';
       } finally {

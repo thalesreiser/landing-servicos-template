@@ -233,8 +233,20 @@ export const nichoSchema = z
       .object({
         google_analytics: z.string().regex(/^G-[A-Z0-9]+$/).optional(),
         meta_pixel: z.string().regex(/^\d+$/).optional(),
+        // Cookie consent banner, shown only when an id above is set.
+        aviso_cookies: z
+          .object({
+            texto: z
+              .string()
+              .default(
+                'Usamos cookies de medição de audiência para entender como o site é usado e avaliar nossas campanhas. Eles só são ativados se você aceitar.',
+              ),
+            aceitar: z.string().default('Aceitar'),
+            recusar: z.string().default('Recusar'),
+          })
+          .prefault({}),
       })
-      .default({}),
+      .prefault({}),
     // Words the niche copy must never use (e.g. advertising rules of a professional council);
     // tests/nichos.test.ts fails the build when any text contains one.
     revisao: z.object({ termos_vetados: z.array(z.string().min(2)).min(1) }).optional(),

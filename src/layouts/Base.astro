@@ -1,6 +1,8 @@
 ---
 import { Font, type CssVariable } from 'astro:assets';
 import '../styles/global.css';
+import AvisoCookies from '../components/AvisoCookies.astro';
+import { temRastreamento } from '../lib/consentimento.ts';
 import { pilhaComFontes, variavelFonte } from '../lib/fontes.ts';
 import { ancoraSecao, type Nicho } from '../lib/schema.ts';
 import { ALTURA_OG, CAMINHO_OG, chamadaPrincipal, LARGURA_OG, localeOg, urlAbsoluta } from '../lib/seo.ts';
@@ -36,9 +38,6 @@ const menu = nicho.secoes
 const canonica = urlAbsoluta(nicho.site.url, Astro.url.pathname);
 const imagemOg = urlAbsoluta(nicho.site.url, CAMINHO_OG);
 const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
-
-const ga = rastreamento.google_analytics;
-const pixel = rastreamento.meta_pixel;
 ---
 
 <!doctype html>
@@ -75,45 +74,6 @@ const pixel = rastreamento.meta_pixel;
     {tema.fontes.map((fonte) => <Font cssVariable={variavelFonte(fonte.familia) as CssVariable} preload />)}
     {nicho.demo && <meta name="robots" content="noindex" />}
     <slot name="head" />
-    {
-      ga && (
-        <>
-          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`} />
-          <script is:inline define:vars={{ ga }}>
-            window.dataLayer = window.dataLayer || [];
-            window.gtag = function () {
-              window.dataLayer.push(arguments);
-            };
-            window.gtag('js', new Date());
-            window.gtag('config', ga);
-          </script>
-        </>
-      )
-    }
-    {
-      pixel && (
-        <script is:inline define:vars={{ pixel }}>
-          !(function (f, b, e, v, n, t, s) {
-            if (f.fbq) return;
-            n = f.fbq = function () {
-              n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-            };
-            if (!f._fbq) f._fbq = n;
-            n.push = n;
-            n.loaded = !0;
-            n.version = '2.0';
-            n.queue = [];
-            t = b.createElement(e);
-            t.async = !0;
-            t.src = v;
-            s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s);
-          })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-          window.fbq('init', pixel);
-          window.fbq('track', 'PageView');
-        </script>
-      )
-    }
   </head>
   <body>
     <a
@@ -122,6 +82,8 @@ const pixel = rastreamento.meta_pixel;
     >
       Pular para o conteúdo
     </a>
+    {/* Early in the tab order; GA4 and the Meta Pixel load only after "Aceitar". */}
+    {temRastreamento(rastreamento) && <AvisoCookies nicho={nicho} />}
 
     {
       nicho.demo && (

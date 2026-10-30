@@ -44,7 +44,7 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
       ['destaque sobre superfície', t.cor_destaque, t.cor_superficie],
       ['erro de formulário sobre fundo', COR_ERRO, t.cor_fundo],
       ['erro de formulário sobre superfície', COR_ERRO, t.cor_superficie],
-      ['rodapé e aviso de demonstração', t.cor_fundo, t.cor_texto],
+      ['rodapé, aviso de demonstração e aviso de cookies', t.cor_fundo, t.cor_texto],
       ['rodapé a 80%', misturar(t.cor_fundo, t.cor_texto, OPACIDADE_RODAPE), t.cor_texto],
     ];
     const reprovados = pares
