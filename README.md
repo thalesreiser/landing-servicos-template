@@ -303,9 +303,9 @@ rode o `gh secret set` de novo e revogue o antigo.
 3. Preencha o JSON: `site` (nome, título, descrição), `tema` (cores e fontes), `contato`,
    `rastreamento` (se houver), `revisao.termos_vetados` (termos proibidos pelo conselho) e
    o conteúdo de cada item de `secoes`. Desligue com `ativo: false` o que o cliente não quer.
-4. Imagens em `public/img/<nicho>/`, referenciadas no JSON pelo caminho a partir de
-   `public/` (ex.: `/img/clinica-sorriso/equipe.jpg`), com `alt`, `largura` e `altura`.
-   Essa convenção pode mudar com o trabalho em andamento de otimização de imagens.
+4. Imagens em `src/assets/nichos/<nicho>/`, referenciadas no JSON pelo caminho relativo a
+   essa pasta (ex.: `"src": "equipe.jpg"`), sempre com `alt`. Largura e altura vêm do
+   próprio arquivo; o build gera as versões otimizadas (veja [Imagens](#imagens)).
 5. Rode `npm test`: o nicho novo passa pelo schema, pelo teste de contraste (4,5:1) e pelo
    de termos vetados. Depois, `NICHO=clinica-sorriso npm run build`.
 6. Para publicar, acrescente `"publicacao": { "cloudflare_projeto": "<projeto>" }` e o

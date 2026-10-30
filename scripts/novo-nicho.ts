@@ -39,7 +39,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 
 Próximos passos:
   1. Preencha site, tema, contato e secoes com os dados do briefing (docs/briefing.md).
-  2. Ponha as imagens em public/img/${nome}/.
+  2. Ponha as imagens em src/assets/nichos/${nome}/ (no JSON, "src" relativo a essa pasta).
   3. Se o nicho tiver regras de publicidade, liste os termos proibidos em revisao.termos_vetados.
   4. Veja o resultado: NICHO=${nome} npm run dev
   5. Rode npm test (schema, contraste e termos vetados) e NICHO=${nome} npm run build.
