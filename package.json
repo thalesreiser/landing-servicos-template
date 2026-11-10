@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
-    "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.4.4",
+    "@tailwindcss/vite": "^4.3.5",
+    "astro": "^7.4.7",
     "sharp": "^0.35.5",
     "tailwindcss": "^4.3.3",
     "web-vitals": "6.2.3"
