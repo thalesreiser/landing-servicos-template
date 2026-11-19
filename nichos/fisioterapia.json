@@ -75,12 +75,12 @@
       "titulo": "Serviços",
       "subtitulo": "Sessões individuais de 50 minutos, com exercícios e orientações para fazer em casa.",
       "itens": [
-        { "icone": "osso", "titulo": "Ortopédica e traumatológica", "descricao": "Reabilitação após fraturas, cirurgias e lesões de joelho, ombro, coluna e tornozelo." },
-        { "icone": "corrida", "titulo": "Esportiva", "descricao": "Tratamento de lesões do esporte e preparo para o retorno aos treinos." },
-        { "icone": "cerebro", "titulo": "Neurológica", "descricao": "Atendimento a pessoas após AVC, com doença de Parkinson e outras condições neurológicas." },
-        { "icone": "mao", "titulo": "Pilates clínico", "descricao": "Exercícios em aparelhos e no solo, com turmas de até três pessoas." },
-        { "icone": "coluna", "titulo": "Postura e coluna", "descricao": "Avaliação postural e exercícios para dores na coluna ligadas à rotina e ao trabalho." },
-        { "icone": "casa", "titulo": "Atendimento domiciliar", "descricao": "Sessões na casa do paciente, para quem tem dificuldade de se deslocar." }
+        { "icone": "osso", "titulo": "Ortopédica e traumatológica", "descricao": "Reabilitação após fraturas, cirurgias e lesões de joelho, ombro, coluna e tornozelo.", "detalhe": "Sessão individual · 50 min" },
+        { "icone": "corrida", "titulo": "Esportiva", "descricao": "Tratamento de lesões do esporte e preparo para o retorno aos treinos.", "detalhe": "Sessão individual · 50 min" },
+        { "icone": "cerebro", "titulo": "Neurológica", "descricao": "Atendimento a pessoas após AVC, com doença de Parkinson e outras condições neurológicas.", "detalhe": "Também em domicílio" },
+        { "icone": "mao", "titulo": "Pilates clínico", "descricao": "Exercícios em aparelhos e no solo, com turmas de até três pessoas.", "detalhe": "Estúdio de pilates na clínica" },
+        { "icone": "coluna", "titulo": "Postura e coluna", "descricao": "Avaliação postural e exercícios para dores na coluna ligadas à rotina e ao trabalho.", "detalhe": "Sessão individual · 50 min" },
+        { "icone": "casa", "titulo": "Atendimento domiciliar", "descricao": "Sessões na casa do paciente, para quem tem dificuldade de se deslocar.", "detalhe": "Vila Mariana e bairros próximos" }
       ]
     },
     {

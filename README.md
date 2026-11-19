@@ -137,6 +137,25 @@ Sem eles, a página fica como antes.
 - Nas demos: advocacia `seta` + `filete` + `papel` + `riscado`; fisioterapia `suave` + `onda` +
   `pontos` + `icones` (coluna, mão e corrida); exemplo `carimbo` + `diagonal`, sem textura.
 
+### Cartões de serviço: número e detalhe
+
+Na seção `servicos`, `numerar: true` põe um número grande e apagado no canto de cada cartão
+("01", "02"...). Ele é gerado pelo CSS (`content: attr(data-numero)`) num elemento `aria-hidden`,
+então não é lido como texto: 8% da cor do texto, ou 15% da cor de destaque nos cartões `linha`.
+Ajuda a escanear listas longas; deixe desligado quando o número pode ser lido como etapa ou
+ordem de preferência.
+
+Cada item aceita `detalhe` (opcional): uma linha prática no pé do cartão, sob um traço
+pontilhado. Só fatos que o resto da página confirma e nunca preço; o texto passa pelos termos
+vetados como qualquer outro.
+
+```json
+{ "icone": "osso", "titulo": "Ortopédica", "descricao": "...", "detalhe": "Sessão individual · 50 min" }
+```
+
+Nas demos: advocacia numerada, com "Consultivo e judicial" e afins; fisioterapia sem número,
+com "Sessão individual · 50 min" e "Também em domicílio"; exemplo com os dois.
+
 ### Fundos das seções
 
 Sem `fundo`, as seções alternam `superficie` e `fundo` (o hero começa em `superficie`), então

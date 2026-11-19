@@ -79,13 +79,14 @@
       "menu": "Áreas de atuação",
       "titulo": "Áreas de atuação",
       "subtitulo": "Consultoria e atuação em processos judiciais e administrativos.",
+      "numerar": true,
       "itens": [
-        { "icone": "pessoas", "titulo": "Família e Sucessões", "descricao": "Divórcio, guarda, pensão alimentícia, inventário e planejamento sucessório." },
-        { "icone": "maleta", "titulo": "Trabalho", "descricao": "Orientação a empregados e empregadores em rescisões, verbas trabalhistas e acordos." },
-        { "icone": "escudo", "titulo": "Consumidor", "descricao": "Questões com produtos, serviços, bancos, planos de saúde e companhias aéreas." },
-        { "icone": "documento", "titulo": "Previdenciário", "descricao": "Aposentadorias, revisões de benefício, auxílio por incapacidade e BPC junto ao INSS." },
-        { "icone": "casa", "titulo": "Imobiliário", "descricao": "Compra e venda, locação, usucapião e regularização de imóveis." },
-        { "icone": "balanca", "titulo": "Civil e Contratos", "descricao": "Elaboração e revisão de contratos, cobranças e responsabilidade civil." }
+        { "icone": "pessoas", "titulo": "Família e Sucessões", "descricao": "Divórcio, guarda, pensão alimentícia, inventário e planejamento sucessório.", "detalhe": "Consultivo e judicial" },
+        { "icone": "maleta", "titulo": "Trabalho", "descricao": "Orientação a empregados e empregadores em rescisões, verbas trabalhistas e acordos.", "detalhe": "Acordos e processos judiciais" },
+        { "icone": "escudo", "titulo": "Consumidor", "descricao": "Questões com produtos, serviços, bancos, planos de saúde e companhias aéreas.", "detalhe": "Extrajudicial e judicial" },
+        { "icone": "documento", "titulo": "Previdenciário", "descricao": "Aposentadorias, revisões de benefício, auxílio por incapacidade e BPC junto ao INSS.", "detalhe": "Administrativo e judicial" },
+        { "icone": "casa", "titulo": "Imobiliário", "descricao": "Compra e venda, locação, usucapião e regularização de imóveis.", "detalhe": "Contratos e regularização" },
+        { "icone": "balanca", "titulo": "Civil e Contratos", "descricao": "Elaboração e revisão de contratos, cobranças e responsabilidade civil.", "detalhe": "Consultivo e judicial" }
       ]
     },
     {

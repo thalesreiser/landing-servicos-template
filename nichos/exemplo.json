@@ -60,10 +60,11 @@
       "tipo": "servicos",
       "menu": "Serviços",
       "titulo": "Serviços",
-      "subtitulo": "Cada card tem ícone, título e uma descrição curta.",
+      "subtitulo": "Cada card tem ícone, título e uma descrição curta; o número e a linha de detalhe são opcionais.",
+      "numerar": true,
       "itens": [
-        { "icone": "documento", "titulo": "Diagnóstico", "descricao": "Levantamento da situação atual e das prioridades." },
-        { "icone": "calendario", "titulo": "Plano de ação", "descricao": "Etapas, prazos e responsáveis definidos com você." },
+        { "icone": "documento", "titulo": "Diagnóstico", "descricao": "Levantamento da situação atual e das prioridades.", "detalhe": "Reunião inicial · 1 h" },
+        { "icone": "calendario", "titulo": "Plano de ação", "descricao": "Etapas, prazos e responsáveis definidos com você.", "detalhe": "Entregue por escrito" },
         { "icone": "pessoas", "titulo": "Acompanhamento", "descricao": "Reuniões periódicas para revisar os resultados." }
       ]
     },

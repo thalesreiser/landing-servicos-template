@@ -256,3 +256,7 @@ export function variaveisTextura(tema: CoresTextura & { textura: Textura; marca_
   const marca = imagemMarcaFaixa(tema, tema.marca_faixa, icones);
   return [...(textura ? [`--textura:${textura}`] : []), ...(marca ? [`--marca-faixa:${marca}`] : [])];
 }
+
+// servicos.numerar (global.css, .numero-fantasma): the ghost number is the text color at 8%, or
+// the accent at 15% with editorial "linha" cards; text running over it is checked in the contrast test.
+export const OPACIDADE_NUMERO = { texto: 0.08, destaque: 0.15 } as const;

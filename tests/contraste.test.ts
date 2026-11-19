@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import { misturar, razaoContraste } from '../src/lib/contraste.ts';
 import { nichoSchema } from '../src/lib/schema.ts';
 import { coresFaixa, fundoMalha } from '../src/lib/tema.ts';
-import { fundoMarcaFaixa, fundoTextura } from '../src/lib/tema.ts';
+import { fundoMarcaFaixa, fundoTextura, OPACIDADE_NUMERO } from '../src/lib/tema.ts';
 
 const AA = 4.5;
 // Footer text sits at 80% opacity over the text color (Rodape.astro).
@@ -109,6 +109,27 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
       .map(([nome, a, b]) => ({ nome, razao: razaoContraste(a, b) }))
       .filter(({ razao }) => razao < AA)
       .map(({ nome, razao }) => `${nome}: ${razao.toFixed(2)}`);
+    assert.deepEqual(reprovados, [], `pares abaixo de ${AA}:1`);
+  });
+}
+
+// Service card ghost number: text and muted text over it, on every light background a card can show.
+for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
+  test(`nichos/${arquivo} text over the ghost numbers passes AA`, () => {
+    const { tema: t } = nichoSchema.parse(JSON.parse(readFileSync(new URL(arquivo, pasta), 'utf8')));
+    const [cor, opacidade] = t.card === 'linha' ? [t.cor_destaque, OPACIDADE_NUMERO.destaque] : [t.cor_texto, OPACIDADE_NUMERO.texto];
+    const bases = [t.cor_fundo, t.cor_superficie, fundoTextura(t, t.textura, t.cor_superficie)];
+    const reprovados = bases.flatMap((base) => {
+      const numero = misturar(cor, base, opacidade);
+      const textos: [string, string][] = [
+        ['texto', t.cor_texto],
+        ['texto suave', t.cor_texto_suave],
+      ];
+      return textos
+        .map(([nome, texto]) => ({ nome: `${nome} sobre número em ${base}`, razao: razaoContraste(texto, numero) }))
+        .filter(({ razao }) => razao < AA)
+        .map(({ nome, razao }) => `${nome}: ${razao.toFixed(2)}`);
+    });
     assert.deepEqual(reprovados, [], `pares abaixo de ${AA}:1`);
   });
 }

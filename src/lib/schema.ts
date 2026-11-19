@@ -71,7 +71,19 @@ const servicos = z.object({
   tipo: z.literal('servicos'),
   titulo: z.string(),
   subtitulo: z.string().optional(),
-  itens: z.array(z.object({ icone: z.enum(NOMES_ICONES), titulo: z.string(), descricao: z.string() })).min(1),
+  // Big faint number in the corner of each card (01, 02...), drawn by CSS, never read as text.
+  numerar: z.boolean().default(false),
+  itens: z
+    .array(
+      z.object({
+        icone: z.enum(NOMES_ICONES),
+        titulo: z.string(),
+        descricao: z.string(),
+        // Practical detail at the foot of the card, under a dotted rule (e.g. "Sessão individual · 50 min").
+        detalhe: z.string().optional(),
+      }),
+    )
+    .min(1),
 });
 
 const sobre = z.object({

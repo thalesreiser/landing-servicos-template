@@ -500,3 +500,36 @@
 .fundo-primaria {
   background-image: var(--marca-faixa, none);
 }
+
+/*
+  Ghost number of the service cards (servicos.numerar): generated content from data-numero on an
+  aria-hidden span, so it is never read. Opacities match OPACIDADE_NUMERO in src/lib/tema.ts.
+*/
+.numero-fantasma {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  font-family: var(--fonte-titulo);
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1;
+  color: color-mix(in srgb, var(--cor-texto) 8%, transparent);
+  pointer-events: none;
+}
+
+.numero-fantasma::before {
+  content: attr(data-numero);
+}
+
+/* Editorial cards: right under the top rule, in the accent color. */
+[data-card='linha'] .numero-fantasma {
+  top: 0.75rem;
+  right: 0;
+  color: color-mix(in srgb, var(--cor-destaque) 15%, transparent);
+}
+
+@media (min-width: 40rem) {
+  .numero-fantasma {
+    font-size: 3rem;
+  }
+}

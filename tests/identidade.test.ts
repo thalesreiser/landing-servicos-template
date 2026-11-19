@@ -108,3 +108,17 @@ test('only the textures in use become CSS variables', () => {
   const vars = variaveisTextura({ ...cores, textura: 'papel', marca_faixa: 'riscado' }, []);
   assert.deepEqual(vars.map((v) => v.split(':')[0]), ['--textura', '--marca-faixa']);
 });
+
+test('service numbers are off by default and details are optional', () => {
+  const nicho = copia();
+  const servicos = nicho.secoes.find((s) => s.tipo === 'servicos') as Record<string, unknown> & { itens: Record<string, unknown>[] };
+  delete servicos.numerar;
+  for (const item of servicos.itens) delete item.detalhe;
+  let lido = nichoSchema.parse(nicho).secoes.find((s) => s.tipo === 'servicos');
+  assert.equal(lido?.tipo === 'servicos' && lido.numerar, false);
+  servicos.numerar = true;
+  servicos.itens[0]!.detalhe = 'Sessão individual · 50 min';
+  lido = nichoSchema.parse(nicho).secoes.find((s) => s.tipo === 'servicos');
+  assert.ok(lido?.tipo === 'servicos' && lido.numerar);
+  assert.equal(lido?.tipo === 'servicos' && lido.itens[0]!.detalhe, 'Sessão individual · 50 min');
+});
