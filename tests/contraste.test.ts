@@ -60,6 +60,10 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
       ['faixa primária: texto e botão invertido', faixa.texto, faixa.fundo],
       ['faixa primária: texto suave', faixa.texto_suave, faixa.fundo],
       ['faixa primária: destaque', faixa.destaque, faixa.fundo],
+      // Section kickers (tema.rotulos): small accent text on both light backgrounds and on a band.
+      ['rótulo da seção sobre fundo', t.cor_destaque, t.cor_fundo],
+      ['rótulo da seção sobre superfície', t.cor_destaque, t.cor_superficie],
+      ['rótulo da seção na faixa', faixa.destaque, faixa.fundo],
       // Hero badges (hero.insignias): page background text on the primary or accent color, also inside a band.
       ['insígnia: fundo sobre primária', t.cor_fundo, t.cor_primaria],
       ['insígnia: fundo sobre destaque', t.cor_fundo, t.cor_destaque],

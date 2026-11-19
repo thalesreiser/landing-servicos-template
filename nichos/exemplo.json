@@ -24,7 +24,8 @@
     "animacoes": "sutil",
     "fundo_hero": "malha",
     "hero_composicao": "camadas",
-    "hero_camada": "primaria"
+    "hero_camada": "primaria",
+    "rotulos": "numerados"
   },
   "contato": {
     "whatsapp": "5500900000000",
@@ -61,7 +62,7 @@
     {
       "tipo": "servicos",
       "menu": "Serviços",
-      "titulo": "Serviços",
+      "titulo": "Um título que diz o benefício, não a categoria",
       "subtitulo": "Cada card tem ícone, título e uma descrição curta.",
       "itens": [
         { "icone": "documento", "titulo": "Diagnóstico", "descricao": "Levantamento da situação atual e das prioridades." },
@@ -72,7 +73,7 @@
     {
       "tipo": "sobre",
       "menu": "Sobre",
-      "titulo": "Sobre",
+      "titulo": "Quem atende você",
       "paragrafos": [
         "Parágrafo de apresentação do profissional ou da empresa.",
         "Segundo parágrafo com formação, experiência e forma de trabalho."
@@ -99,6 +100,7 @@
     },
     {
       "tipo": "depoimentos",
+      "rotulo": "Clientes",
       "fundo": "primaria",
       "titulo": "Depoimentos",
       "itens": [
@@ -146,7 +148,7 @@
       "botao": "Enviar mensagem",
       "mensagem_sucesso": "Mensagem recebida! Retornaremos em breve."
     },
-    { "tipo": "mapa", "id": "localizacao", "titulo": "Onde estamos" },
+    { "tipo": "mapa", "id": "localizacao", "rotulo": "Endereço", "titulo": "Onde estamos" },
     { "tipo": "rodape", "texto": "Texto curto sobre o negócio.", "registros": ["CNPJ 00.000.000/0000-00"] },
     { "tipo": "botao_whatsapp" }
   ]

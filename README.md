@@ -76,6 +76,8 @@ Cada item de `secoes` tem um `tipo` (`hero`, `servicos`, `sobre`, `como_funciona
 - `menu`: texto do link no cabeçalho
 - `ativo: false`: esconde a seção sem apagá-la
 - `fundo`: `fundo`, `superficie` ou `primaria`, veja [Fundos das seções](#fundos-das-seções)
+- `rotulo`: texto do rótulo acima do título, com `tema.rotulos` ligado (padrão: o `menu`), veja
+  [Rótulos das seções](#rótulos-das-seções). Em `botao_whatsapp`, `rotulo` continua sendo o texto do botão
 
 `nichos/exemplo.json` liga todas as seções e serve de referência.
 
@@ -112,6 +114,27 @@ Dois campos opcionais de `tema` controlam o movimento e o fundo do hero:
   animações usam só opacidade e `transform`, então não deslocam o layout (CLS 0).
 - O teste de contraste confere texto, texto suave e cor primária sobre o ponto mais escuro da
   `malha`. Se uma paleta reprovar ali, use `"fundo_hero": "liso"`.
+
+### Rótulos das seções
+
+`tema.rotulos` põe um rótulo pequeno acima de cada título de seção, em maiúsculas espaçadas na cor
+de destaque, ao lado do filete (que sai de cima do título e vai para a linha do rótulo):
+
+| Valor | Exemplo |
+| --- | --- |
+| `nenhum` (padrão) | só o filete acima do título, como antes |
+| `numerados` | "01 · Serviços" |
+| `romanos` | "II · O escritório" |
+| `texto` | "Serviços" |
+
+- A contagem começa na primeira seção depois do hero (o hero não tem rótulo) e segue a ordem da
+  página. O texto é o `rotulo` da seção ou, sem ele, o `menu`; sem nenhum dos dois, aparece só o
+  número (em `texto`, nenhum rótulo).
+- O rótulo é decorativo (`aria-hidden`): quem lê a página é o título. Com o rótulo dizendo a
+  categoria, o título fica livre para dizer o benefício ("Do primeiro contato à proposta por
+  escrito" em vez de "Como funciona"), sempre dentro dos termos vetados do nicho.
+
+Nas demos: advocacia `romanos`, fisioterapia `texto`, exemplo `numerados`.
 
 ### Composição do hero
 

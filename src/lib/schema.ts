@@ -3,6 +3,7 @@ import { PROVEDORES_FONTE, separarPilha } from './fontes.ts';
 import { NOMES_ICONES } from './icones.ts';
 import { EXTENSOES_IMAGEM, PADRAO_SRC_IMAGEM } from './imagens.ts';
 import { CORES_INSIGNIA, LIMITE_INSIGNIA, MAXIMO_INSIGNIAS, MODELOS_INSIGNIA } from './insignias.ts';
+import { ESTILOS_ROTULO } from './rotulos.ts';
 import { ANIMACOES, CAMADAS_HERO, CARTOES, COMPOSICOES_HERO, FUNDOS, FUNDOS_HERO, RAIOS } from './tema.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
@@ -51,6 +52,8 @@ const comum = {
   menu: z.string().optional(),
   ativo: z.boolean().default(true),
   fundo: z.enum(FUNDOS).optional(),
+  // Text of the kicker above the title when tema.rotulos is on (default: `menu`).
+  rotulo: z.string().trim().min(1).optional(),
 };
 
 const insignia = z
@@ -252,6 +255,8 @@ export const nichoSchema = z
       hero_composicao: z.enum(COMPOSICOES_HERO).default('simples'),
       // Color of the offset block behind the photo or panel (accent or primary, low opacity).
       hero_camada: z.enum(CAMADAS_HERO).default('destaque'),
+      // Kicker above every section title: numbered, Roman numerals, text only or none (src/lib/rotulos.ts).
+      rotulos: z.enum(ESTILOS_ROTULO).default('nenhum'),
     }),
     contato: z.object({
       whatsapp: z.string().regex(/^\d{12,13}$/, 'DDI + DDD + número, só dígitos, ex.: 5511999990000'),

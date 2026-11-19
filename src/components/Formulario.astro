@@ -1,14 +1,17 @@
 ---
 import Icone from './Icone.astro';
+import TituloSecao from './TituloSecao.astro';
 import { ancoraSecao, type Nicho, type SecaoDo } from '../lib/schema.ts';
 import { linkWhatsApp } from '../lib/whatsapp.ts';
 
 interface Props {
   secao: SecaoDo<'formulario'>;
   nicho: Nicho;
+  // Kicker above the title (tema.rotulos), computed in index.astro.
+  rotulo?: string | undefined;
 }
 
-const { secao, nicho } = Astro.props;
+const { secao, nicho, rotulo } = Astro.props;
 const ancora = ancoraSecao(secao);
 const idTitulo = `${ancora}-titulo`;
 const demo = secao.chave === '';
@@ -26,7 +29,7 @@ const erroPadrao = (tipo: string) => (tipo === 'email' ? 'Informe um e-mail vál
 
 <section id={ancora} class="secao" aria-labelledby={idTitulo}>
   <div class="container-site max-w-3xl">
-    <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
+    <TituloSecao id={idTitulo} titulo={secao.titulo} rotulo={rotulo} />
     {secao.texto && <p class="mt-4 text-lg text-texto-suave">{secao.texto}</p>}
     {
       secao.alternativa_whatsapp && (

@@ -23,6 +23,7 @@
     "card": "elevado",
     "hero_composicao": "camadas",
     "hero_camada": "primaria",
+    "rotulos": "texto",
     "fontes": [
       { "familia": "Nunito", "pesos": [700] },
       { "familia": "Nunito Sans", "pesos": [400, 600] }
@@ -73,7 +74,7 @@
     {
       "tipo": "servicos",
       "menu": "Serviços",
-      "titulo": "Serviços",
+      "titulo": "Tratamento individual em cada fase",
       "subtitulo": "Sessões individuais de 50 minutos, com exercícios e orientações para fazer em casa.",
       "itens": [
         { "icone": "osso", "titulo": "Ortopédica e traumatológica", "descricao": "Reabilitação após fraturas, cirurgias e lesões de joelho, ombro, coluna e tornozelo." },
@@ -87,7 +88,7 @@
     {
       "tipo": "convenios",
       "menu": "Convênios",
-      "titulo": "Convênios",
+      "titulo": "Pelo seu convênio ou no particular, com recibo",
       "texto": "Atendemos pelos convênios abaixo e também no particular, com recibo para pedir reembolso ao seu plano.",
       "itens": ["Convênio Alfa", "Convênio Beta", "Convênio Gama", "Convênio Delta", "Particular com recibo"]
     },
@@ -95,7 +96,7 @@
       "tipo": "como_funciona",
       "fundo": "primaria",
       "menu": "Como funciona",
-      "titulo": "Como funciona",
+      "titulo": "Da avaliação ao plano revisto com você",
       "passos": [
         { "titulo": "Agendamento", "descricao": "Você escolhe o horário que preferir, pelo WhatsApp ou pelo formulário." },
         { "titulo": "Avaliação", "descricao": "Na primeira sessão, a fisioterapeuta avalia a sua queixa, o histórico e os exames que você trouxer." },
@@ -111,7 +112,7 @@
       "tipo": "sobre",
       "id": "equipe",
       "menu": "Equipe",
-      "titulo": "A clínica e a equipe",
+      "titulo": "A mesma fisioterapeuta do início ao fim do tratamento",
       "paragrafos": [
         "A Clínica Ponto de Apoio atende na Vila Mariana desde 2015, com salas individuais e um estúdio de pilates.",
         "Cada paciente é acompanhado pela mesma fisioterapeuta do início ao fim do tratamento, com reavaliações periódicas para ajustar o plano."
@@ -128,6 +129,7 @@
     },
     {
       "tipo": "depoimentos",
+      "rotulo": "Depoimentos",
       "titulo": "O que dizem os pacientes",
       "itens": [
         { "nome": "Paciente A.", "detalhe": "Reabilitação de joelho", "texto": "As orientações para fazer em casa me ajudaram a manter a rotina entre as sessões." },
@@ -173,7 +175,7 @@
       "botao": "Pedir horário",
       "mensagem_sucesso": "Recebemos seu pedido. Vamos chamar você no WhatsApp para combinar o horário."
     },
-    { "tipo": "mapa", "id": "localizacao", "titulo": "Endereço e horário" },
+    { "tipo": "mapa", "id": "localizacao", "rotulo": "Localização", "titulo": "Endereço e horário" },
     {
       "tipo": "rodape",
       "texto": "Fisioterapia na Vila Mariana, São Paulo.",

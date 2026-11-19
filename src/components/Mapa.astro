@@ -1,14 +1,17 @@
 ---
 import Icone from './Icone.astro';
+import TituloSecao from './TituloSecao.astro';
 import { formatarEndereco, urlAbrirMapa, urlMapa } from '../lib/endereco.ts';
 import { ancoraSecao, type Nicho, type SecaoDo } from '../lib/schema.ts';
 
 interface Props {
   secao: SecaoDo<'mapa'>;
   nicho: Nicho;
+  // Kicker above the title (tema.rotulos), computed in index.astro.
+  rotulo?: string | undefined;
 }
 
-const { secao, nicho } = Astro.props;
+const { secao, nicho, rotulo } = Astro.props;
 const { endereco, horario, telefone, email } = nicho.contato;
 const idTitulo = `${ancoraSecao(secao)}-titulo`;
 // The schema guarantees an address whenever embed_url is missing.
@@ -18,7 +21,7 @@ const src = secao.embed_url ?? urlMapa(endereco!);
 <section id={ancoraSecao(secao)} class="secao" aria-labelledby={idTitulo}>
   <div class="container-site grid gap-10 lg:grid-cols-[1fr_2fr]">
     <div>
-      <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
+      <TituloSecao id={idTitulo} titulo={secao.titulo} rotulo={rotulo} />
       <ul class="mt-8 space-y-3 text-texto-suave">
         {
           endereco && (
