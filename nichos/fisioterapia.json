@@ -22,6 +22,9 @@
     "ritmo": "leve",
     "raio": "suave",
     "card": "elevado",
+    "hero_composicao": "camadas",
+    "hero_camada": "primaria",
+    "rotulos": "texto",
     "fontes": [
       { "familia": "Nunito", "pesos": [700] },
       { "familia": "Nunito Sans", "pesos": [400, 600] }
@@ -62,13 +65,17 @@
         { "rotulo": "Horário", "valor": "Seg. a sex. 7h–20h · sáb. 8h–12h" },
         { "rotulo": "Atendimento domiciliar", "valor": "Vila Mariana e bairros próximos" }
       ],
+      "insignias": [
+        { "modelo": "etiqueta", "texto": "Sessões individuais" },
+        { "modelo": "circular", "texto": "Atende convênios", "icone": "check", "cor": "destaque" }
+      ],
       "acao_principal": { "tipo": "whatsapp", "texto": "Agendar avaliação pelo WhatsApp" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver serviços", "href": "#servicos" }
     },
     {
       "tipo": "servicos",
       "menu": "Serviços",
-      "titulo": "Serviços",
+      "titulo": "Tratamento individual em cada fase",
       "subtitulo": "Sessões individuais de 50 minutos, com exercícios e orientações para fazer em casa.",
       "itens": [
         { "icone": "osso", "titulo": "Ortopédica e traumatológica", "descricao": "Reabilitação após fraturas, cirurgias e lesões de joelho, ombro, coluna e tornozelo." },
@@ -82,15 +89,20 @@
     {
       "tipo": "convenios",
       "menu": "Convênios",
-      "titulo": "Convênios",
+      "titulo": "Pelo seu convênio ou no particular, com recibo",
       "texto": "Atendemos pelos convênios abaixo e também no particular, com recibo para pedir reembolso ao seu plano.",
-      "itens": ["Convênio Alfa", "Convênio Beta", "Convênio Gama", "Convênio Delta", "Particular com recibo"]
+      "itens": ["Convênio Alfa", "Convênio Beta", "Convênio Gama", "Convênio Delta", "Particular com recibo"],
+      "aviso": {
+        "titulo": "Particular com recibo.",
+        "texto": "Você pode pedir reembolso ao seu plano.",
+        "variante": "destaque"
+      }
     },
     {
       "tipo": "como_funciona",
       "fundo": "primaria",
       "menu": "Como funciona",
-      "titulo": "Como funciona",
+      "titulo": "Da avaliação ao plano revisto com você",
       "passos": [
         { "titulo": "Agendamento", "descricao": "Você escolhe o horário que preferir, pelo WhatsApp ou pelo formulário." },
         { "titulo": "Avaliação", "descricao": "Na primeira sessão, a fisioterapeuta avalia a sua queixa, o histórico e os exames que você trouxer." },
@@ -100,13 +112,17 @@
       "chamada": {
         "texto": "O primeiro passo é a avaliação. Escolha o horário pelo WhatsApp.",
         "acao": { "tipo": "whatsapp", "texto": "Agendar avaliação" }
+      },
+      "aviso": {
+        "titulo": "Na avaliação, traga seus exames e a carteirinha do convênio.",
+        "variante": "destaque"
       }
     },
     {
       "tipo": "sobre",
       "id": "equipe",
       "menu": "Equipe",
-      "titulo": "A clínica e a equipe",
+      "titulo": "A mesma fisioterapeuta do início ao fim do tratamento",
       "paragrafos": [
         "A Clínica Ponto de Apoio atende na Vila Mariana desde 2015, com salas individuais e um estúdio de pilates.",
         "Cada paciente é acompanhado pela mesma fisioterapeuta do início ao fim do tratamento, com reavaliações periódicas para ajustar o plano."
@@ -123,6 +139,7 @@
     },
     {
       "tipo": "depoimentos",
+      "rotulo": "Depoimentos",
       "titulo": "O que dizem os pacientes",
       "itens": [
         { "nome": "Paciente A.", "detalhe": "Reabilitação de joelho", "texto": "As orientações para fazer em casa me ajudaram a manter a rotina entre as sessões." },
@@ -155,6 +172,7 @@
       "titulo": "Agende sua avaliação",
       "texto": "Deixe seus dados e retornamos pelo WhatsApp para combinar o horário.",
       "alternativa_whatsapp": "Prefere o WhatsApp? Chame agora",
+      "topicos": ["Confirmamos o horário pelo WhatsApp", "A primeira sessão é a avaliação", "Desmarque com 24 h de antecedência"],
       "provedor": "formspree",
       "chave": "",
       "campos": [
@@ -168,7 +186,7 @@
       "botao": "Pedir horário",
       "mensagem_sucesso": "Recebemos seu pedido. Vamos chamar você no WhatsApp para combinar o horário."
     },
-    { "tipo": "mapa", "id": "localizacao", "titulo": "Endereço e horário" },
+    { "tipo": "mapa", "id": "localizacao", "rotulo": "Localização", "titulo": "Endereço e horário" },
     {
       "tipo": "rodape",
       "texto": "Fisioterapia na Vila Mariana, São Paulo.",

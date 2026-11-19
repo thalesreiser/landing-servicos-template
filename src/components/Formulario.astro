@@ -1,17 +1,23 @@
 ---
 import Icone from './Icone.astro';
+import TituloSecao from './TituloSecao.astro';
 import { ancoraSecao, type Nicho, type SecaoDo } from '../lib/schema.ts';
 import { linkWhatsApp } from '../lib/whatsapp.ts';
 
 interface Props {
   secao: SecaoDo<'formulario'>;
   nicho: Nicho;
+  // Kicker above the title (tema.rotulos), computed in index.astro.
+  rotulo?: string | undefined;
 }
 
-const { secao, nicho } = Astro.props;
+const { secao, nicho, rotulo } = Astro.props;
 const ancora = ancoraSecao(secao);
 const idTitulo = `${ancora}-titulo`;
 const demo = secao.chave === '';
+// "What happens next" list: with it, the intro and the list take a left column beside the form from lg.
+const topicos = secao.topicos ?? [];
+const lado = topicos.length > 0;
 
 const destino = {
   formspree: `https://formspree.io/f/${secao.chave}`,
@@ -25,25 +31,39 @@ const erroPadrao = (tipo: string) => (tipo === 'email' ? 'Informe um e-mail vál
 ---
 
 <section id={ancora} class="secao" aria-labelledby={idTitulo}>
-  <div class="container-site max-w-3xl">
-    <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
-    {secao.texto && <p class="mt-4 text-lg text-texto-suave">{secao.texto}</p>}
-    {
-      secao.alternativa_whatsapp && (
-        <a
-          href={linkWhatsApp(nicho.contato.whatsapp, nicho.contato.mensagem_whatsapp)}
-          target="_blank"
-          rel="noopener"
-          class="botao-secundario mt-6 w-full sm:w-auto"
-        >
-          <Icone nome="mensagem" class="size-5 shrink-0" />
-          {secao.alternativa_whatsapp}
-        </a>
-      )
-    }
+  <div class:list={['container-site', lado ? 'grid gap-10 lg:grid-cols-[2fr_3fr] lg:gap-16' : 'max-w-3xl']}>
+    <div>
+      <TituloSecao id={idTitulo} titulo={secao.titulo} rotulo={rotulo} />
+      {secao.texto && <p class="mt-4 text-lg text-texto-suave">{secao.texto}</p>}
+      {
+        secao.alternativa_whatsapp && (
+          <a
+            href={linkWhatsApp(nicho.contato.whatsapp, nicho.contato.mensagem_whatsapp)}
+            target="_blank"
+            rel="noopener"
+            class="botao-secundario mt-6 w-full sm:w-auto"
+          >
+            <Icone nome="mensagem" class="size-5 shrink-0" />
+            {secao.alternativa_whatsapp}
+          </a>
+        )
+      }
+      {
+        lado && (
+          <ul class="mt-8 space-y-3" aria-label="O que acontece depois do envio">
+            {topicos.map((topico) => (
+              <li class="flex items-start gap-3 font-semibold">
+                <Icone nome="check" class="mt-0.5 size-5 shrink-0 text-destaque" />
+                {topico}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
 
     <form
-      class="formulario-contato mt-10 grid gap-6 sm:grid-cols-2"
+      class:list={['formulario-contato grid gap-6 sm:grid-cols-2', !lado && 'mt-10']}
       method="POST"
       action={demo ? '#' : destino}
       data-demo={demo ? 'true' : undefined}

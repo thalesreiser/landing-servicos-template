@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Aviso from '../components/Aviso.astro';
 import BotaoWhatsApp from '../components/BotaoWhatsApp.astro';
 import ComoFunciona from '../components/ComoFunciona.astro';
 import Convenios from '../components/Convenios.astro';
@@ -13,6 +14,7 @@ import Rodape from '../components/Rodape.astro';
 import Servicos from '../components/Servicos.astro';
 import Sobre from '../components/Sobre.astro';
 import { carregarNicho } from '../lib/nicho.ts';
+import { rotulosDasSecoes } from '../lib/rotulos.ts';
 import { gerarJsonLd, serializarJsonLd } from '../lib/seo.ts';
 import { fundosDasSecoes } from '../lib/tema.ts';
 
@@ -24,6 +26,8 @@ const rodape = secoes.find((secao) => secao.tipo === 'rodape');
 const botao = secoes.find((secao) => secao.tipo === 'botao_whatsapp');
 // Backgrounds are set here, not in the components, so the page keeps a regular rhythm.
 const fundos = fundosDasSecoes(conteudo);
+// Kickers above the titles (tema.rotulos), numbered in page order.
+const rotulos = rotulosDasSecoes(conteudo, nicho.tema.rotulos);
 const classesFundo = { fundo: 'fundo-fundo', superficie: 'fundo-superficie', primaria: 'fundo-primaria' } as const;
 ---
 
@@ -38,23 +42,30 @@ const classesFundo = { fundo: 'fundo-fundo', superficie: 'fundo-superficie', pri
             case 'hero':
               return <Hero secao={secao} nicho={nicho} />;
             case 'servicos':
-              return <Servicos secao={secao} />;
+              return <Servicos secao={secao} rotulo={rotulos[i]} />;
             case 'sobre':
-              return <Sobre secao={secao} />;
+              return <Sobre secao={secao} rotulo={rotulos[i]} />;
             case 'como_funciona':
-              return <ComoFunciona secao={secao} nicho={nicho} />;
+              return <ComoFunciona secao={secao} rotulo={rotulos[i]} nicho={nicho} />;
             case 'depoimentos':
-              return <Depoimentos secao={secao} />;
+              return <Depoimentos secao={secao} rotulo={rotulos[i]} />;
             case 'convenios':
-              return <Convenios secao={secao} />;
+              return <Convenios secao={secao} rotulo={rotulos[i]} />;
             case 'faq':
-              return <FAQ secao={secao} nicho={nicho} />;
+              return <FAQ secao={secao} rotulo={rotulos[i]} nicho={nicho} />;
             case 'formulario':
-              return <Formulario secao={secao} nicho={nicho} />;
+              return <Formulario secao={secao} rotulo={rotulos[i]} nicho={nicho} />;
             case 'mapa':
-              return <Mapa secao={secao} nicho={nicho} />;
+              return <Mapa secao={secao} rotulo={rotulos[i]} nicho={nicho} />;
           }
         })()}
+        {secao.aviso && (
+          <Aviso
+            aviso={secao.aviso}
+            contato={nicho.contato}
+            estreito={secao.tipo === 'faq' || (secao.tipo === 'formulario' && !secao.topicos)}
+          />
+        )}
       </div>
     ))
   }

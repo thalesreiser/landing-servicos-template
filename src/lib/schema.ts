@@ -2,7 +2,9 @@ import { z } from 'astro/zod';
 import { PROVEDORES_FONTE, separarPilha } from './fontes.ts';
 import { NOMES_ICONES } from './icones.ts';
 import { EXTENSOES_IMAGEM, PADRAO_SRC_IMAGEM } from './imagens.ts';
-import { ANIMACOES, CARTOES, FUNDOS, FUNDOS_HERO, RAIOS, RITMOS } from './tema.ts';
+import { CORES_INSIGNIA, LIMITE_INSIGNIA, MAXIMO_INSIGNIAS, MODELOS_INSIGNIA } from './insignias.ts';
+import { ESTILOS_ROTULO } from './rotulos.ts';
+import { ANIMACOES, CAMADAS_HERO, CARTOES, COMPOSICOES_HERO, FUNDOS, FUNDOS_HERO, RAIOS, RITMOS } from './tema.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
 export const TIPOS_SCHEMA = [
@@ -42,6 +44,16 @@ const acao = z.discriminatedUnion('tipo', [
 // Call to action at the end of a section (como_funciona, faq): an optional line of text and a button.
 const chamada = z.object({ texto: z.string().optional(), acao });
 
+// Highlight box at the end of a section (Aviso.astro): real text answering an objection.
+// "destaque": accent border on the card color; "faixa": the whole box in the primary color.
+export const VARIANTES_AVISO = ['destaque', 'faixa'] as const;
+const aviso = z.object({
+  titulo: z.string().trim().min(1),
+  texto: z.string().optional(),
+  variante: z.enum(VARIANTES_AVISO).default('destaque'),
+  acao: acao.optional(),
+});
+
 // Decorative photo behind a section (no alt: it is aria-hidden), dimmed and blended into its color.
 const fotoFundo = imagem.pick({ src: true });
 
@@ -55,7 +67,25 @@ const comum = {
   menu: z.string().optional(),
   ativo: z.boolean().default(true),
   fundo: z.enum(FUNDOS).optional(),
+  // Text of the kicker above the title when tema.rotulos is on (default: `menu`).
+  rotulo: z.string().trim().min(1).optional(),
+  // Highlight box after the section content (not in rodape or botao_whatsapp).
+  aviso: aviso.optional(),
 };
+
+const insignia = z
+  .object({
+    modelo: z.enum(MODELOS_INSIGNIA),
+    texto: z.string().trim().min(1),
+    icone: z.enum(NOMES_ICONES).optional(),
+    cor: z.enum(CORES_INSIGNIA).default('primaria'),
+  })
+  .superRefine((item, ctx) => {
+    const limite = LIMITE_INSIGNIA[item.modelo];
+    if (item.texto.length > limite) {
+      ctx.addIssue({ code: 'custom', path: ['texto'], message: `a insígnia ${item.modelo} aceita até ${limite} caracteres` });
+    }
+  });
 
 const hero = z.object({
   ...comum,
@@ -68,6 +98,8 @@ const hero = z.object({
   imagem: imagem.optional(),
   // Short facts (registration, schedule, service mode): a side panel when there is no image, chips otherwise.
   destaques: z.array(z.object({ rotulo: z.string(), valor: z.string() })).min(1).max(4).optional(),
+  // Decorative credential badges around the photo or panel; they only repeat facts from the page text.
+  insignias: z.array(insignia).min(1).max(MAXIMO_INSIGNIAS).optional(),
 });
 
 const servicos = z.object({
@@ -153,6 +185,8 @@ const formulario = z.object({
   texto: z.string().optional(),
   // Text of a WhatsApp link shown above the form, for visitors who prefer to chat.
   alternativa_whatsapp: z.string().optional(),
+  // "What happens next" list beside the form (e.g. "Retorno em até um dia útil"), up to 4 items.
+  topicos: z.array(z.string().trim().min(1)).min(1).max(4).optional(),
   provedor: z.enum(['formspree', 'web3forms']),
   // Public form id (Formspree) or access key (Web3Forms). Empty = demo mode, nothing is sent.
   chave: z.string().default(''),
@@ -236,6 +270,12 @@ export const nichoSchema = z
       animacoes: z.enum(ANIMACOES).default('sutil'),
       // Hero background: a soft mesh of the primary and accent colors, or flat.
       fundo_hero: z.enum(FUNDOS_HERO).default('malha'),
+      // Hero composition: photo or highlights panel over an offset block ("camadas"), or flat.
+      hero_composicao: z.enum(COMPOSICOES_HERO).default('simples'),
+      // Color of the offset block behind the photo or panel (accent or primary, low opacity).
+      hero_camada: z.enum(CAMADAS_HERO).default('destaque'),
+      // Kicker above every section title: numbered, Roman numerals, text only or none (src/lib/rotulos.ts).
+      rotulos: z.enum(ESTILOS_ROTULO).default('nenhum'),
       // Motion signature (hero cascade, drawn title rules, timeline fill): sober or light.
       ritmo: z.enum(RITMOS).default('sobrio'),
     }),
@@ -302,6 +342,9 @@ export const nichoSchema = z
     });
     nicho.secoes.forEach((s, i) => {
       // Field errors and inputs are only tested against the light backgrounds.
+      if ((s.tipo === 'rodape' || s.tipo === 'botao_whatsapp') && s.aviso) {
+        ctx.addIssue({ code: 'custom', path: ['secoes', i, 'aviso'], message: `a seção ${s.tipo} não mostra aviso` });
+      }
       if (s.tipo === 'formulario' && s.fundo === 'primaria') {
         ctx.addIssue({ code: 'custom', path: ['secoes', i, 'fundo'], message: 'o formulário não aceita fundo "primaria"; use "fundo" ou "superficie"' });
       }
@@ -323,7 +366,9 @@ export type Secao = Nicho['secoes'][number];
 export type SecaoDo<T extends Secao['tipo']> = Extract<Secao, { tipo: T }>;
 export type Acao = z.output<typeof acao>;
 export type Chamada = z.output<typeof chamada>;
+export type Aviso = z.output<typeof aviso>;
 export type Imagem = z.output<typeof imagem>;
+export type Insignia = z.output<typeof insignia>;
 
 /** Anchor id of a section: its `id`, or its type in kebab-case. */
 export function ancoraSecao(secao: { id?: string | undefined; tipo: string }): string {

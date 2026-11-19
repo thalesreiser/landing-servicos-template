@@ -22,6 +22,9 @@
     "ritmo": "sobrio",
     "raio": "reto",
     "card": "linha",
+    "hero_composicao": "camadas",
+    "hero_camada": "destaque",
+    "rotulos": "romanos",
     "fontes": [
       { "familia": "Source Serif 4", "pesos": [600], "eixos": { "opsz": [8, 60] } },
       { "familia": "Inter", "pesos": [400, 600] }
@@ -63,6 +66,7 @@
         { "rotulo": "Horário", "valor": "Seg. a sex., 9h às 18h" },
         { "rotulo": "Sigilo", "valor": "Estatuto da Advocacia e LGPD" }
       ],
+      "insignias": [{ "modelo": "circular", "texto": "Sigilo profissional · LGPD", "icone": "escudo" }],
       "acao_principal": { "tipo": "whatsapp", "texto": "Agendar atendimento" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver áreas de atuação", "href": "#areas" },
       "imagem": {
@@ -74,7 +78,7 @@
       "tipo": "servicos",
       "id": "areas",
       "menu": "Áreas de atuação",
-      "titulo": "Áreas de atuação",
+      "titulo": "Seis áreas do direito para pessoas e pequenas empresas",
       "subtitulo": "Consultoria e atuação em processos judiciais e administrativos.",
       "itens": [
         { "icone": "pessoas", "titulo": "Família e Sucessões", "descricao": "Divórcio, guarda, pensão alimentícia, inventário e planejamento sucessório." },
@@ -89,7 +93,7 @@
       "tipo": "sobre",
       "id": "escritorio",
       "menu": "O escritório",
-      "titulo": "O escritório",
+      "titulo": "Um advogado responsável do início ao fim",
       "paragrafos": [
         "A Ribeiro Antunes Advocacia atende pessoas e pequenas empresas em São Paulo e, por meio do processo eletrônico, em outras cidades.",
         "Cada caso é conduzido por uma advogada ou um advogado responsável, com explicações em linguagem acessível e registro por escrito das decisões tomadas em conjunto com o cliente."
@@ -102,6 +106,11 @@
         { "rotulo": "Abrangência", "valor": "São Paulo e outras cidades, pelo processo eletrônico" },
         { "rotulo": "Contratação", "valor": "Proposta por escrito antes do início" }
       ],
+      "aviso": {
+        "titulo": "Sigilo profissional.",
+        "texto": "O que você nos contar fica protegido pelo Estatuto da Advocacia e pela LGPD.",
+        "variante": "destaque"
+      },
       "equipe": [
         {
           "nome": "Helena Ribeiro Antunes",
@@ -130,7 +139,7 @@
       "fundo": "primaria",
       "foto_fundo": { "src": "escritorio.webp" },
       "menu": "Como funciona",
-      "titulo": "Como funciona o atendimento",
+      "titulo": "Do primeiro contato à proposta por escrito",
       "passos": [
         { "titulo": "Primeiro contato", "descricao": "Você envia uma mensagem pelo WhatsApp ou pelo formulário, com um breve resumo da situação." },
         { "titulo": "Reunião de análise", "descricao": "Conversa presencial ou por videochamada para entender o caso e os documentos disponíveis." },
@@ -166,6 +175,7 @@
       "titulo": "Agende um atendimento",
       "texto": "Conte brevemente a sua situação. Retornamos em até um dia útil para marcar a reunião.",
       "alternativa_whatsapp": "Prefere o WhatsApp? Chame agora",
+      "topicos": ["Retorno em até um dia útil", "Conversa com o advogado responsável", "Proposta por escrito antes de qualquer contratação"],
       "provedor": "formspree",
       "chave": "",
       "campos": [
@@ -178,7 +188,7 @@
       "botao": "Pedir agendamento",
       "mensagem_sucesso": "Mensagem recebida. Retornaremos em até um dia útil."
     },
-    { "tipo": "mapa", "id": "localizacao", "titulo": "Onde estamos" },
+    { "tipo": "mapa", "id": "localizacao", "rotulo": "Localização", "titulo": "Onde estamos" },
     {
       "tipo": "rodape",
       "texto": "Advocacia em São Paulo. Atendimento presencial e on-line.",

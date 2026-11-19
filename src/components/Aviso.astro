@@ -1,0 +1,34 @@
+---
+import { atributosAcao } from '../lib/acao.ts';
+import type { Aviso, Nicho } from '../lib/schema.ts';
+
+interface Props {
+  aviso: Aviso;
+  contato: Nicho['contato'];
+  // Narrow sections (FAQ, single-column form): the box lines up with their 48rem column.
+  estreito?: boolean;
+}
+
+const { aviso, contato, estreito = false } = Astro.props;
+---
+
+{/*
+  End-of-section highlight box (index.astro renders it after any section with `aviso`): short, real
+  text that screen readers announce as a labelled aside. Never tilted. It sits in the bottom padding
+  of the section above it (global.css, .aviso-bloco).
+*/}
+<div class:list={['container-site aviso-bloco', estreito && 'max-w-3xl']}>
+  <aside class:list={['aviso', `aviso-${aviso.variante}`]} aria-label={aviso.titulo}>
+    <div>
+      <p class="aviso-titulo">{aviso.titulo}</p>
+      {aviso.texto && <p class="aviso-texto">{aviso.texto}</p>}
+    </div>
+    {
+      aviso.acao && (
+        <a {...atributosAcao(aviso.acao, contato)} class="botao-primario shrink-0">
+          {aviso.acao.texto}
+        </a>
+      )
+    }
+  </aside>
+</div>

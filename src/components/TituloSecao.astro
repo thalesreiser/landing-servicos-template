@@ -1,0 +1,20 @@
+---
+interface Props {
+  id: string;
+  titulo: string;
+  // Kicker from tema.rotulos (index.astro), e.g. "02 · O escritório".
+  rotulo?: string | undefined;
+}
+
+const { id, titulo, rotulo } = Astro.props;
+---
+
+{/* The kicker names the category, so the H2 can state the benefit. Decorative: the H2 says it all. */}
+{
+  rotulo && (
+    <p class="rotulo-secao" aria-hidden="true">
+      {rotulo}
+    </p>
+  )
+}
+<h2 id={id} class="titulo-secao">{titulo}</h2>
