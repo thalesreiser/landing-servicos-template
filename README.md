@@ -15,8 +15,11 @@ Sites de demonstração, com nomes, contatos e endereços fictícios:
 
 ### Créditos das fotos
 
-As fotos da demo de advocacia são do [Pexels](https://www.pexels.com/license/), com licença
-livre para uso comercial. As pessoas retratadas não têm relação com os nomes fictícios da demo.
+As fotos das demos de advocacia e fisioterapia são do [Pexels](https://www.pexels.com/license/),
+com licença livre para uso comercial. As pessoas retratadas não têm relação com os nomes fictícios
+das demos.
+
+Advocacia:
 
 | Arquivo | Foto | Autor |
 | --- | --- | --- |
@@ -24,6 +27,16 @@ livre para uso comercial. As pessoas retratadas não têm relação com os nomes
 | `src/assets/nichos/advocacia/escritorio.webp` | [Livros em uma estante](https://www.pexels.com/photo/piled-books-on-a-shelf-3927126/) | Muhammad Jawadur Rahman |
 | `src/assets/nichos/advocacia/helena.webp` | [Retrato de mulher de blazer preto](https://www.pexels.com/photo/professional-woman-in-black-blazer-portrait-30479371/) | Augusto Carneiro Junior |
 | `src/assets/nichos/advocacia/rafael.webp` | [Retrato de homem de terno](https://www.pexels.com/photo/professional-portrait-of-a-businessman-in-suit-39974539/) | Sam Agdasi |
+
+Fisioterapia:
+
+| Arquivo | Foto | Autor |
+| --- | --- | --- |
+| `src/assets/nichos/fisioterapia/hero.webp` | [Fisioterapeuta apoiando a perna de uma paciente](https://www.pexels.com/photo/physiotherapist-holding-womans-leg-5793895/) | Yan Krukau |
+| `src/assets/nichos/fisioterapia/estudio.webp` | [Estúdio de pilates com aparelhos](https://www.pexels.com/photo/pilates-reformers-in-bright-room-25596894/) | Ahmet Kurt |
+| `src/assets/nichos/fisioterapia/mariana.webp` | [Retrato de mulher de uniforme azul](https://www.pexels.com/photo/woman-in-blue-scrub-suit-smiling-6129505/) | RDNE Stock project |
+| `src/assets/nichos/fisioterapia/camila.webp` | [Retrato de mulher de uniforme azul](https://www.pexels.com/photo/nurse-wearing-a-scrub-suit-smiling-6129506/) | RDNE Stock project |
+| `src/assets/nichos/fisioterapia/bruno.webp` | [Retrato de homem de uniforme azul-marinho](https://www.pexels.com/photo/confident-young-healthcare-professional-portrait-32115962/) | Daniil Kondrashin |
 
 ## Como rodar
 
@@ -156,8 +169,8 @@ Nas demos: advocacia `romanos`, fisioterapia `texto`, exemplo `numerados`.
 - O bloco é decorativo (`aria-hidden`) e não leva texto; o cartão usa as cores de cartão, já
   conferidas no teste de contraste.
 
-Nas demos: advocacia `camadas` + `destaque` (com foto), fisioterapia e exemplo `camadas` +
-`primaria` (modo painel, sem foto).
+Nas demos: advocacia `camadas` + `destaque` e fisioterapia `camadas` + `primaria` (com foto);
+exemplo `camadas` + `primaria` (modo painel, sem foto).
 
 ### Identidade do nicho
 
@@ -185,8 +198,8 @@ Sem eles, a página fica como antes.
   (também com a malha do hero por cima) e no ponto mais claro da faixa. Se uma paleta reprovar ali, use `nenhuma`.
 - Nas demos: advocacia `seta` + `filete` + `papel` + `riscado`; fisioterapia `suave` + `onda` +
   `pontos` + `icones` (coluna, mão e corrida); exemplo `carimbo` + `diagonal`, sem textura.
-  Fotos: advocacia `harmonizado` (0,15); fisioterapia `harmonizado` mais leve (0,10), que vale
-  quando o nicho tiver fotos; exemplo `natural`.
+  Fotos: advocacia `harmonizado` (0,15); fisioterapia `harmonizado` mais leve (0,10); exemplo
+  `natural`.
 
 ### Cartões de serviço: número e detalhe
 
