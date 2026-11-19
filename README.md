@@ -112,6 +112,19 @@ Dois campos opcionais de `tema` controlam o movimento e o fundo do hero:
 - O teste de contraste confere texto, texto suave e cor primária sobre o ponto mais escuro da
   `malha`. Se uma paleta reprovar ali, use `"fundo_hero": "liso"`.
 
+### Identidade do nicho
+
+Campos opcionais de `tema` que dão a cada demo um acabamento próprio, além de cor, fonte e forma.
+Sem eles, a página fica como antes.
+
+| Campo | Valores | Efeito |
+| --- | --- | --- |
+| `botao` | `padrao` (padrão), `seta`, `suave`, `carimbo` | gesto do botão primário: `seta` põe uma seta fina depois do texto, que anda 3 px no hover (não no botão do cabeçalho); `suave`, uma sombra difusa na cor primária; `carimbo`, uma sombra sólida de 3 px na cor de destaque, em que o botão "afunda" no clique |
+
+- Só sombra e `transform`, então nada desloca o layout. O movimento (seta, subir e afundar) só
+  acontece com `animacoes: "sutil"`, em dispositivos com mouse e sem redução de movimento.
+- Nas demos: advocacia `seta`, fisioterapia `suave`, exemplo `carimbo`.
+
 ### Fundos das seções
 
 Sem `fundo`, as seções alternam `superficie` e `fundo` (o hero começa em `superficie`), então

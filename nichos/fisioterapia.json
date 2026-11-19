@@ -21,6 +21,7 @@
     "fonte_texto": "\"Nunito Sans\", system-ui, sans-serif",
     "raio": "suave",
     "card": "elevado",
+    "botao": "suave",
     "fontes": [
       { "familia": "Nunito", "pesos": [700] },
       { "familia": "Nunito Sans", "pesos": [400, 600] }

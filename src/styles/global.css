@@ -387,3 +387,72 @@
     transition: none;
   }
 }
+
+/*
+  Primary button gesture (tema.botao, data-botao on <html>). Shadow and transform only, so the
+  layout never moves; motion is pointer-only, "sutil" only and never with reduced motion. These
+  rules sit outside the layers on purpose: they replace the default hover shadow of @utility botao.
+*/
+
+/* "seta": a thin arrow after the label (not the header button) that steps 3px forward on hover. */
+[data-botao='seta'] main .botao-primario::after {
+  content: '';
+  flex-shrink: 0;
+  width: 1.125em;
+  height: 1.125em;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h16M14 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h16M14 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: translate 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  [data-animacoes='sutil'][data-botao='seta'] .botao-primario:hover::after {
+    translate: 3px 0;
+  }
+}
+
+/* "suave": a diffuse shadow in the primary color, a little deeper on hover. None on a primary band. */
+[data-botao='suave'] .botao-primario {
+  box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--cor-primaria) 50%, transparent);
+}
+
+@media (hover: hover) {
+  [data-botao='suave'] .botao-primario:hover {
+    box-shadow: 0 14px 28px -12px color-mix(in srgb, var(--cor-primaria) 60%, transparent);
+  }
+}
+
+[data-botao='suave'] .fundo-primaria .botao-primario {
+  box-shadow: none;
+}
+
+/* "carimbo": a solid 3px shadow in the accent color; the button rises into it and sinks on click. */
+[data-botao='carimbo'] .botao-primario {
+  box-shadow: 3px 3px 0 var(--cor-destaque);
+}
+
+[data-botao='carimbo'] .botao-primario:focus-visible {
+  outline-offset: 5px;
+}
+
+@media (hover: hover) {
+  [data-botao='carimbo'] .botao-primario:hover {
+    box-shadow: 4px 4px 0 var(--cor-destaque);
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  [data-animacoes='sutil'][data-botao='carimbo'] .botao-primario:hover {
+    translate: -1px -1px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-animacoes='sutil'][data-botao='carimbo'] .botao-primario:active {
+    translate: 3px 3px;
+    scale: 1;
+    box-shadow: 0 0 0 var(--cor-destaque);
+    transition-duration: 60ms;
+  }
+}

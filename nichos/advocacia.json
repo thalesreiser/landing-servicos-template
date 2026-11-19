@@ -21,6 +21,7 @@
     "fonte_texto": "Inter, system-ui, sans-serif",
     "raio": "reto",
     "card": "linha",
+    "botao": "seta",
     "fontes": [
       { "familia": "Source Serif 4", "pesos": [600], "eixos": { "opsz": [8, 60] } },
       { "familia": "Inter", "pesos": [400, 600] }

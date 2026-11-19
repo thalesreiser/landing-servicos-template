@@ -21,6 +21,7 @@
     "fonte_texto": "system-ui, sans-serif",
     "raio": "medio",
     "card": "contorno",
+    "botao": "carimbo",
     "animacoes": "sutil",
     "fundo_hero": "malha"
   },

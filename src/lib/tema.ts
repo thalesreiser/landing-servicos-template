@@ -83,3 +83,13 @@ export function variaveisMalha(tema: { cor_primaria: string; cor_destaque: strin
 export function fundoMalha(tema: { cor_primaria: string; cor_destaque: string }, base: string): string {
   return misturar(tema.cor_destaque, misturar(tema.cor_primaria, base, MALHA.primaria), MALHA.destaque);
 }
+
+// ---------------------------------------------------------------------------------------------
+// Niche identity: button gesture, section boundaries, textures, service numbers and photo tone.
+// ---------------------------------------------------------------------------------------------
+
+// tema.botao (global.css, data-botao on <html>): the primary button's gesture. "seta" adds an
+// arrow that steps forward on hover, "suave" a diffuse shadow in the primary color, "carimbo" a
+// solid offset shadow in the accent color that the button sinks into on click.
+export const BOTOES = ['padrao', 'seta', 'suave', 'carimbo'] as const;
+export type Botao = (typeof BOTOES)[number];
