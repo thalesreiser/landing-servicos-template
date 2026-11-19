@@ -61,7 +61,7 @@ const classesFundo = { fundo: 'fundo-fundo', superficie: 'fundo-superficie', pri
           <Aviso
             aviso={secao.aviso}
             contato={nicho.contato}
-            estreito={secao.tipo === 'faq' || secao.tipo === 'formulario'}
+            estreito={secao.tipo === 'faq' || (secao.tipo === 'formulario' && !secao.topicos)}
           />
         )}
       </div>

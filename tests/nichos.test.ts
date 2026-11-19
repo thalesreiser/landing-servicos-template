@@ -142,3 +142,14 @@ test('the footer and the WhatsApp button do not accept an end-of-section box', (
     assert.match(resultado.error!.message, new RegExp(`a seção ${tipo} não mostra aviso`));
   }
 });
+
+test('the form accepts up to four "what happens next" items', () => {
+  const nicho = exemplo();
+  const form = nicho.secoes.find((s) => s.tipo === 'formulario')!;
+  form.topicos = ['Um', 'Dois', 'Três', 'Quatro'];
+  assert.equal(nichoSchema.safeParse(nicho).success, true);
+  form.topicos = ['Um', 'Dois', 'Três', 'Quatro', 'Cinco'];
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+  form.topicos = [''];
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+});

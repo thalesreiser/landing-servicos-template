@@ -171,6 +171,7 @@
       "titulo": "Agende sua avaliação",
       "texto": "Deixe seus dados e retornamos pelo WhatsApp para combinar o horário.",
       "alternativa_whatsapp": "Prefere o WhatsApp? Chame agora",
+      "topicos": ["Confirmamos o horário pelo WhatsApp", "A primeira sessão é a avaliação", "Desmarque com 24 h de antecedência"],
       "provedor": "formspree",
       "chave": "",
       "campos": [

@@ -173,6 +173,7 @@
       "titulo": "Agende um atendimento",
       "texto": "Conte brevemente a sua situação. Retornamos em até um dia útil para marcar a reunião.",
       "alternativa_whatsapp": "Prefere o WhatsApp? Chame agora",
+      "topicos": ["Retorno em até um dia útil", "Conversa com o advogado responsável", "Proposta por escrito antes de qualquer contratação"],
       "provedor": "formspree",
       "chave": "",
       "campos": [

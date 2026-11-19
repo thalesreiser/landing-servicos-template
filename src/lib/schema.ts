@@ -180,6 +180,8 @@ const formulario = z.object({
   texto: z.string().optional(),
   // Text of a WhatsApp link shown above the form, for visitors who prefer to chat.
   alternativa_whatsapp: z.string().optional(),
+  // "What happens next" list beside the form (e.g. "Retorno em até um dia útil"), up to 4 items.
+  topicos: z.array(z.string().trim().min(1)).min(1).max(4).optional(),
   provedor: z.enum(['formspree', 'web3forms']),
   // Public form id (Formspree) or access key (Web3Forms). Empty = demo mode, nothing is sent.
   chave: z.string().default(''),

@@ -146,6 +146,7 @@
       "titulo": "Fale conosco",
       "texto": "Responderemos em até um dia útil.",
       "alternativa_whatsapp": "Prefere o WhatsApp? Chame agora",
+      "topicos": ["Resposta em até um dia útil", "Sem cadastro", "Seus dados ficam só com a gente"],
       "provedor": "formspree",
       "chave": "",
       "campos": [

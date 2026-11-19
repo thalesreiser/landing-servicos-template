@@ -344,6 +344,18 @@ abaixo do campo quando ele está inválido; o padrão é "Preencha este campo.")
 `alternativa_whatsapp`, a seção mostra acima do formulário um link para o WhatsApp
 com esse texto.
 
+`topicos` (opcional, até 4) é uma lista curta do que acontece depois do envio, com um ícone de
+check, para tirar a dúvida antes do clique:
+
+```json
+"topicos": ["Retorno em até um dia útil", "Conversa com o advogado responsável", "Proposta por escrito antes de qualquer contratação"]
+```
+
+Com `topicos`, o título, o texto e a lista ficam numa coluna à esquerda do formulário a partir de
+1024 px; no celular, a lista fica entre o texto e o formulário. Sem o campo, a seção continua numa
+coluna só. Os itens passam pelo teste de termos vetados: na advocacia, evite "sem custo" e "sem
+compromisso".
+
 ### Mapa
 
 A seção `mapa` mostra o endereço, o horário e os contatos ao lado de um mapa do Google Maps,
