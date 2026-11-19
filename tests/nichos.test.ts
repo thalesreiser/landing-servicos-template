@@ -118,3 +118,18 @@ test('como_funciona and faq accept an end-of-section call to action', () => {
   faq.chamada = { texto: 'Sem botão' };
   assert.equal(nichoSchema.safeParse(nicho).success, false);
 });
+
+test('a section accepts a decorative background photo, except the hero, footer and floating button', () => {
+  const nicho = exemplo();
+  const passos = nicho.secoes.find((s) => s.tipo === 'como_funciona')!;
+  passos.foto_fundo = { src: 'escritorio.webp' };
+  assert.equal(nichoSchema.safeParse(nicho).success, true);
+  passos.foto_fundo = { src: '../escritorio.webp' };
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+  delete passos.foto_fundo;
+  for (const tipo of ['hero', 'rodape', 'botao_whatsapp']) {
+    const outro = exemplo();
+    outro.secoes.find((s) => s.tipo === tipo)!.foto_fundo = { src: 'escritorio.webp' };
+    assert.equal(nichoSchema.safeParse(outro).success, false, tipo);
+  }
+});

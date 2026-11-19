@@ -129,6 +129,29 @@ se invertem e a cor de destaque vira `tema.cor_destaque_faixa` (opcional; o padr
 `primaria`. O teste de contraste confere as cores da faixa em todos os nichos, mesmo nos que
 ainda não usam uma.
 
+#### Foto de fundo da seção
+
+`foto_fundo` (opcional, em qualquer seção menos `hero`, `rodape` e `botao_whatsapp`) põe uma foto
+atenuada atrás do conteúdo, para dar atmosfera a uma seção de texto sem competir com ele. Funciona
+melhor na faixa primária:
+
+```json
+{ "tipo": "como_funciona", "fundo": "primaria", "foto_fundo": { "src": "escritorio.webp" } }
+```
+
+- A foto fica em tons de cinza e se mistura à cor da seção (numa faixa azul, ganha tom azul), com
+  opacidade fixa de 8% (`OPACIDADE_FOTO_FUNDO` em `src/lib/tema.ts`) e uma máscara em degradê que
+  some do lado do texto (à esquerda; no desktop, ela ocupa só os 60% da direita).
+- É decorativa: fica escondida dos leitores de tela e não tem `alt`. O `src` segue as regras de
+  [Imagens](#imagens).
+- Carrega sob demanda, quando a seção se aproxima da tela, e é posicionada atrás do conteúdo, então
+  não desloca o layout.
+- O teste de contraste confere todas as cores da seção sobre o pixel mais escuro e o mais claro
+  da foto, em todo nicho que a usa.
+
+Nas demos, só a advocacia usa: a estante de livros (`escritorio.webp`) atrás da faixa "Como
+funciona".
+
 ### Destaques do hero
 
 `hero.destaques` (opcional, até 4 itens) lista fatos curtos, como registro no conselho,

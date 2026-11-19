@@ -42,10 +42,15 @@ const acao = z.discriminatedUnion('tipo', [
 // Call to action at the end of a section (como_funciona, faq): an optional line of text and a button.
 const chamada = z.object({ texto: z.string().optional(), acao });
 
+// Decorative photo behind a section (no alt: it is aria-hidden), dimmed and blended into its color.
+const fotoFundo = imagem.pick({ src: true });
+
 // Fields every section accepts: `id` is the anchor (defaults to the type),
 // `menu` adds the section to the header nav, `ativo: false` hides it and `fundo`
 // fixes its background (otherwise the light backgrounds alternate, see src/lib/tema.ts).
 const comum = {
+  // Optional dimmed background photo (see fotoFundo above and src/components/FotoFundo.astro).
+  foto_fundo: fotoFundo.optional(),
   id: z.string().regex(/^[a-z0-9-]+$/).optional(),
   menu: z.string().optional(),
   ativo: z.boolean().default(true),
@@ -299,6 +304,12 @@ export const nichoSchema = z
       // Field errors and inputs are only tested against the light backgrounds.
       if (s.tipo === 'formulario' && s.fundo === 'primaria') {
         ctx.addIssue({ code: 'custom', path: ['secoes', i, 'fundo'], message: 'o formulário não aceita fundo "primaria"; use "fundo" ou "superficie"' });
+      }
+    });
+    nicho.secoes.forEach((s, i) => {
+      // The hero loads its own photo first (LCP); footer and floating button are outside the section flow.
+      if (s.foto_fundo && (s.tipo === 'hero' || s.tipo === 'rodape' || s.tipo === 'botao_whatsapp')) {
+        ctx.addIssue({ code: 'custom', path: ['secoes', i, 'foto_fundo'], message: `a seção ${s.tipo} não aceita foto_fundo` });
       }
     });
     const precisaEndereco = nicho.secoes.some((s) => s.tipo === 'mapa' && !s.embed_url);

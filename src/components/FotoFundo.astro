@@ -1,0 +1,24 @@
+---
+import Imagem from './Imagem.astro';
+import { OPACIDADE_FOTO_FUNDO } from '../lib/tema.ts';
+
+interface Props {
+  // Path inside src/assets/nichos/<nicho>/ (secao.foto_fundo.src).
+  src: string;
+}
+
+const { src } = Astro.props;
+---
+
+{/*
+  Dimmed photo behind a section (global.css, .foto-fundo): decorative, so hidden from assistive
+  technology and without alt. Absolutely positioned (no layout shift) and loaded lazily.
+*/}
+<div class="foto-fundo" style={`--opacidade-foto-fundo:${OPACIDADE_FOTO_FUNDO}`} aria-hidden="true">
+  <Imagem
+    imagem={{ src, alt: '' }}
+    sizes="(min-width: 1024px) 60vw, 100vw"
+    larguras={[640, 960, 1280]}
+    class="h-full w-full object-cover"
+  />
+</div>

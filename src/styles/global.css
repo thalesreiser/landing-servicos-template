@@ -448,6 +448,47 @@
 }
 
 /*
+  Dimmed background photo (secao.foto_fundo, FotoFundo.astro). The section wrapper isolates a
+  stacking context, so the photo sits above its background color and below the content. The photo
+  is grayscale and blended by luminosity, so it takes the section's own hue (a blue tone on a blue
+  band), at OPACIDADE_FOTO_FUNDO (src/lib/tema.ts, set inline as --opacidade-foto-fundo and checked
+  by tests/contraste.test.ts). It fades out toward the text, on the left. Blend, mask and opacity
+  stay on the img itself: a mask on the wrapper would isolate the blend from the section color.
+*/
+.com-foto-fundo {
+  position: relative;
+  isolation: isolate;
+}
+
+.foto-fundo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+@media (min-width: 64rem) {
+  .foto-fundo {
+    inset-inline-start: 40%;
+  }
+}
+
+.foto-fundo img {
+  opacity: var(--opacidade-foto-fundo);
+  filter: grayscale(1);
+  mix-blend-mode: luminosity;
+  -webkit-mask-image: linear-gradient(to right, transparent 5%, #000 70%);
+  mask-image: linear-gradient(to right, transparent 5%, #000 70%);
+}
+
+@media print {
+  .foto-fundo {
+    display: none;
+  }
+}
+
+/*
   FAQ (FAQ.astro): answers slide open and closed. CSS only (::details-content and
   interpolate-size, current Chrome and Edge); other browsers open at once, as before. The
   height change follows a click, so it does not count as a layout shift.

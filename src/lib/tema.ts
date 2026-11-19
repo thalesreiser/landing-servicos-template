@@ -88,3 +88,12 @@ export function variaveisMalha(tema: { cor_primaria: string; cor_destaque: strin
 export function fundoMalha(tema: { cor_primaria: string; cor_destaque: string }, base: string): string {
   return misturar(tema.cor_destaque, misturar(tema.cor_primaria, base, MALHA.primaria), MALHA.destaque);
 }
+
+// Dimmed photo behind a section (secao.foto_fundo, global.css .foto-fundo): grayscale and blended
+// into the section color, at this fixed opacity. Its extreme pixels are checked in tests/contraste.test.ts.
+export const OPACIDADE_FOTO_FUNDO = 0.08;
+
+/** Darkest and lightest points the text can sit on: a black and a white pixel of the photo over `base`. */
+export function extremosFotoFundo(base: string): [string, string] {
+  return [misturar('#000000', base, OPACIDADE_FOTO_FUNDO), misturar('#FFFFFF', base, OPACIDADE_FOTO_FUNDO)];
+}
