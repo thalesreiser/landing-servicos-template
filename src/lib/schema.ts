@@ -2,7 +2,7 @@ import { z } from 'astro/zod';
 import { PROVEDORES_FONTE, separarPilha } from './fontes.ts';
 import { NOMES_ICONES } from './icones.ts';
 import { EXTENSOES_IMAGEM, PADRAO_SRC_IMAGEM } from './imagens.ts';
-import { ANIMACOES, CARTOES, FUNDOS, FUNDOS_HERO, RAIOS } from './tema.ts';
+import { ANIMACOES, CAMADAS_HERO, CARTOES, COMPOSICOES_HERO, FUNDOS, FUNDOS_HERO, RAIOS } from './tema.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
 export const TIPOS_SCHEMA = [
@@ -231,6 +231,10 @@ export const nichoSchema = z
       animacoes: z.enum(ANIMACOES).default('sutil'),
       // Hero background: a soft mesh of the primary and accent colors, or flat.
       fundo_hero: z.enum(FUNDOS_HERO).default('malha'),
+      // Hero composition: photo or highlights panel over an offset block ("camadas"), or flat.
+      hero_composicao: z.enum(COMPOSICOES_HERO).default('simples'),
+      // Color of the offset block behind the photo or panel (accent or primary, low opacity).
+      hero_camada: z.enum(CAMADAS_HERO).default('destaque'),
     }),
     contato: z.object({
       whatsapp: z.string().regex(/^\d{12,13}$/, 'DDI + DDD + número, só dígitos, ex.: 5511999990000'),

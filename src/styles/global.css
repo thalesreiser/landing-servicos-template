@@ -281,6 +281,71 @@
 }
 
 /*
+  Hero in layers (tema.hero_composicao "camadas"): behind the photo, a solid block offset down and
+  right in the accent (10%) or primary color (12%, tema.hero_camada) and a 1 px accent frame offset
+  up and left; a highlight card overlaps the photo's bottom corner. Without a photo, only the block
+  sits behind the highlights panel, slightly larger and rounder. Positioned boxes, never tilted;
+  the offset is 8 px on phones (inside the 16 px gutter) and 12 px from 640 px.
+*/
+.hero-camadas {
+  --camada-desloc: 8px;
+  --cor-camada: color-mix(in srgb, var(--cor-destaque) 10%, transparent);
+  isolation: isolate;
+}
+
+.hero-camadas[data-camada='primaria'] {
+  --cor-camada: color-mix(in srgb, var(--cor-primaria) 12%, transparent);
+}
+
+@media (min-width: 640px) {
+  .hero-camadas {
+    --camada-desloc: 12px;
+  }
+}
+
+.camada-bloco,
+.camada-moldura {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--raio);
+  pointer-events: none;
+}
+
+.camada-bloco {
+  translate: var(--camada-desloc) var(--camada-desloc);
+  background-color: var(--cor-camada);
+}
+
+.camada-moldura {
+  translate: calc(-1 * var(--camada-desloc)) calc(-1 * var(--camada-desloc));
+  border: 1px solid var(--cor-destaque);
+}
+
+.hero-camadas-painel .camada-bloco {
+  inset: -0.75rem;
+  border-radius: calc(var(--raio) * 2);
+}
+
+.hero-cartao {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 0.75rem;
+  max-width: min(17rem, 80%);
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in oklab, var(--cor-texto) 12%, transparent);
+  border-radius: var(--raio);
+  background-color: var(--cor-cartao);
+  box-shadow: 0 12px 28px -16px color-mix(in srgb, var(--cor-texto) 45%, transparent);
+}
+
+@media (min-width: 1024px) {
+  .hero-cartao {
+    left: -1.5rem;
+  }
+}
+
+/*
   Header state on scroll: the hairline gives way to a soft shadow tinted with the primary color
   over the first 8rem of scrolling. Scroll-driven CSS, no JS; browsers without support keep the
   static border. Height never changes, so anchors and layout stay put.

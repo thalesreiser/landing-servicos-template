@@ -83,3 +83,12 @@ export function variaveisMalha(tema: { cor_primaria: string; cor_destaque: strin
 export function fundoMalha(tema: { cor_primaria: string; cor_destaque: string }, base: string): string {
   return misturar(tema.cor_destaque, misturar(tema.cor_primaria, base, MALHA.primaria), MALHA.destaque);
 }
+
+// tema.hero_composicao: "camadas" puts the hero photo (or the highlights panel) over an offset block,
+// with a thin offset frame and a highlight card on the photo (global.css, .hero-camadas); "simples" is flat.
+export const COMPOSICOES_HERO = ['simples', 'camadas'] as const;
+export type ComposicaoHero = (typeof COMPOSICOES_HERO)[number];
+
+// tema.hero_camada: color of the offset block, the accent (10%) or the primary color (12%). Decorative, no text on it.
+export const CAMADAS_HERO = ['destaque', 'primaria'] as const;
+export type CamadaHero = (typeof CAMADAS_HERO)[number];

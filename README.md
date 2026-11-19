@@ -112,6 +112,23 @@ Dois campos opcionais de `tema` controlam o movimento e o fundo do hero:
 - O teste de contraste confere texto, texto suave e cor primária sobre o ponto mais escuro da
   `malha`. Se uma paleta reprovar ali, use `"fundo_hero": "liso"`.
 
+### Composição do hero
+
+| Campo | Valores | Efeito |
+| --- | --- | --- |
+| `hero_composicao` | `simples` (padrão), `camadas` | `camadas`: com foto, um bloco sólido deslocado para baixo e para a direita, um filete de 1 px na cor de destaque deslocado para cima e para a esquerda, e um cartão sobre o canto inferior da foto com o primeiro item de `hero.destaques` (texto real, que sai das etiquetas para não repetir). Sem foto, o painel de destaques ganha o mesmo bloco atrás, um pouco maior e mais arredondado |
+| `hero_camada` | `destaque` (padrão), `primaria` | cor do bloco: a de destaque a 10% ou a primária a 12% |
+
+- O deslocamento é de 8 px no celular e 12 px a partir de 640 px; nada é inclinado e nada passa da
+  borda da tela (o `main` tem `overflow-x: clip`).
+- A foto continua sendo a mesma imagem do LCP, com proporção fixa; as camadas são caixas
+  posicionadas, então não deslocam o layout (CLS 0).
+- O bloco é decorativo (`aria-hidden`) e não leva texto; o cartão usa as cores de cartão, já
+  conferidas no teste de contraste.
+
+Nas demos: advocacia `camadas` + `destaque` (com foto), fisioterapia e exemplo `camadas` +
+`primaria` (modo painel, sem foto).
+
 ### Fundos das seções
 
 Sem `fundo`, as seções alternam `superficie` e `fundo` (o hero começa em `superficie`), então

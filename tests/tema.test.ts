@@ -92,3 +92,20 @@ test('the darkest mesh point stacks both glows over the base', () => {
   assert.equal(fundoMalha({ cor_primaria: '#FFFFFF', cor_destaque: '#FFFFFF' }, '#FFFFFF'), '#ffffff');
   assert.equal(fundoMalha({ cor_primaria: '#000000', cor_destaque: '#000000' }, '#FFFFFF'), '#e8e8e8');
 });
+
+test('the hero composition defaults to flat with an accent block, and accepts layers in the primary color', () => {
+  const nicho = structuredClone(exemplo) as { tema: Record<string, unknown> };
+  delete nicho.tema.hero_composicao;
+  delete nicho.tema.hero_camada;
+  const { tema } = nichoSchema.parse(nicho);
+  assert.equal(tema.hero_composicao, 'simples');
+  assert.equal(tema.hero_camada, 'destaque');
+  nicho.tema.hero_composicao = 'camadas';
+  nicho.tema.hero_camada = 'primaria';
+  assert.equal(nichoSchema.parse(nicho).tema.hero_composicao, 'camadas');
+  for (const [campo, valor] of [['hero_composicao', 'colagem'], ['hero_camada', 'texto']] as const) {
+    const errado = structuredClone(nicho);
+    errado.tema[campo] = valor;
+    assert.equal(nichoSchema.safeParse(errado).success, false, campo);
+  }
+});
