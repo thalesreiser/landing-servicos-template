@@ -41,8 +41,10 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
   test(`nichos/${arquivo} images exist in src/assets`, () => {
     const nicho = arquivo.replace(/\.json$/, '');
     const fontes: string[] = [];
-    JSON.parse(readFileSync(new URL(arquivo, pasta), 'utf8'), (_chave, valor) => {
-      if (valor && typeof valor === 'object' && typeof valor.src === 'string' && typeof valor.alt === 'string') fontes.push(valor.src);
+    JSON.parse(readFileSync(new URL(arquivo, pasta), 'utf8'), (chave, valor) => {
+      // Images carry an alt; background photos (foto_fundo) are decorative and have none.
+      const comAlt = typeof valor?.alt === 'string' || chave === 'foto_fundo';
+      if (valor && typeof valor === 'object' && typeof valor.src === 'string' && comAlt) fontes.push(valor.src);
       return valor;
     });
     for (const src of fontes) {

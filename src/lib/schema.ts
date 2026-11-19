@@ -4,7 +4,7 @@ import { NOMES_ICONES } from './icones.ts';
 import { EXTENSOES_IMAGEM, PADRAO_SRC_IMAGEM } from './imagens.ts';
 import { CORES_INSIGNIA, LIMITE_INSIGNIA, MAXIMO_INSIGNIAS, MODELOS_INSIGNIA } from './insignias.ts';
 import { ESTILOS_ROTULO } from './rotulos.ts';
-import { ANIMACOES, CAMADAS_HERO, CARTOES, COMPOSICOES_HERO, FUNDOS, FUNDOS_HERO, RAIOS } from './tema.ts';
+import { ANIMACOES, CAMADAS_HERO, CARTOES, COMPOSICOES_HERO, FUNDOS, FUNDOS_HERO, RAIOS, RITMOS } from './tema.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
 export const TIPOS_SCHEMA = [
@@ -54,10 +54,15 @@ const aviso = z.object({
   acao: acao.optional(),
 });
 
+// Decorative photo behind a section (no alt: it is aria-hidden), dimmed and blended into its color.
+const fotoFundo = imagem.pick({ src: true });
+
 // Fields every section accepts: `id` is the anchor (defaults to the type),
 // `menu` adds the section to the header nav, `ativo: false` hides it and `fundo`
 // fixes its background (otherwise the light backgrounds alternate, see src/lib/tema.ts).
 const comum = {
+  // Optional dimmed background photo (see fotoFundo above and src/components/FotoFundo.astro).
+  foto_fundo: fotoFundo.optional(),
   id: z.string().regex(/^[a-z0-9-]+$/).optional(),
   menu: z.string().optional(),
   ativo: z.boolean().default(true),
@@ -271,6 +276,8 @@ export const nichoSchema = z
       hero_camada: z.enum(CAMADAS_HERO).default('destaque'),
       // Kicker above every section title: numbered, Roman numerals, text only or none (src/lib/rotulos.ts).
       rotulos: z.enum(ESTILOS_ROTULO).default('nenhum'),
+      // Motion signature (hero cascade, drawn title rules, timeline fill): sober or light.
+      ritmo: z.enum(RITMOS).default('sobrio'),
     }),
     contato: z.object({
       whatsapp: z.string().regex(/^\d{12,13}$/, 'DDI + DDD + número, só dígitos, ex.: 5511999990000'),
@@ -340,6 +347,12 @@ export const nichoSchema = z
       }
       if (s.tipo === 'formulario' && s.fundo === 'primaria') {
         ctx.addIssue({ code: 'custom', path: ['secoes', i, 'fundo'], message: 'o formulário não aceita fundo "primaria"; use "fundo" ou "superficie"' });
+      }
+    });
+    nicho.secoes.forEach((s, i) => {
+      // The hero loads its own photo first (LCP); footer and floating button are outside the section flow.
+      if (s.foto_fundo && (s.tipo === 'hero' || s.tipo === 'rodape' || s.tipo === 'botao_whatsapp')) {
+        ctx.addIssue({ code: 'custom', path: ['secoes', i, 'foto_fundo'], message: `a seção ${s.tipo} não aceita foto_fundo` });
       }
     });
     const precisaEndereco = nicho.secoes.some((s) => s.tipo === 'mapa' && !s.embed_url);

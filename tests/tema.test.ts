@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { nichoSchema } from '../src/lib/schema.ts';
-import { coresFaixa, fundoMalha, fundosDasSecoes, RAIOS, variaveisMalha, variaveisRaio } from '../src/lib/tema.ts';
+import { coresFaixa, extremosFotoFundo, fundoMalha, fundosDasSecoes, OPACIDADE_FOTO_FUNDO, RAIOS, variaveisMalha, variaveisRaio } from '../src/lib/tema.ts';
 
 const exemplo: unknown = JSON.parse(readFileSync(new URL('../nichos/exemplo.json', import.meta.url), 'utf8'));
 
@@ -108,4 +108,19 @@ test('the hero composition defaults to flat with an accent block, and accepts la
     errado.tema[campo] = valor;
     assert.equal(nichoSchema.safeParse(errado).success, false, campo);
   }
+});
+
+test('the motion signature defaults to sober, accepts light and rejects anything else', () => {
+  const nicho = structuredClone(exemplo) as { tema: Record<string, unknown> };
+  delete nicho.tema.ritmo;
+  assert.equal(nichoSchema.parse(nicho).tema.ritmo, 'sobrio');
+  nicho.tema.ritmo = 'leve';
+  assert.equal(nichoSchema.parse(nicho).tema.ritmo, 'leve');
+  nicho.tema.ritmo = 'rapido';
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+});
+
+test('the background photo stays faint and its extremes are black and white at that opacity', () => {
+  assert.ok(OPACIDADE_FOTO_FUNDO > 0 && OPACIDADE_FOTO_FUNDO <= 0.12);
+  assert.deepEqual(extremosFotoFundo('#808080'), ['#767676', '#8a8a8a']);
 });

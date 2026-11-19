@@ -101,19 +101,23 @@ Nas demos: advocacia `reto` + `linha`, fisioterapia `suave` + `elevado`, exemplo
 
 ### Animações e fundo do hero
 
-Dois campos opcionais de `tema` controlam o movimento e o fundo do hero:
+Três campos opcionais de `tema` controlam o movimento e o fundo do hero:
 
 | Campo | Valores | Efeito |
 | --- | --- | --- |
 | `animacoes` | `sutil` (padrão), `nenhuma` | `sutil`: seções e cartões aparecem ao rolar (em cascata nas listas), botões sobem 1 px no hover, cartões e links do menu reagem ao hover, as respostas do FAQ abrem deslizando, o cabeçalho ganha sombra ao rolar e a navegação entre páginas faz um fade cruzado; `nenhuma` desliga tudo isso |
+| `ritmo` | `sobrio` (padrão), `leve` | a assinatura do movimento, só com `animacoes: "sutil"`: `sobrio` é mais lento (750 ms), só vertical e sem *overshoot*; `leve` é mais rápido (600 ms), com um leve *overshoot*, e os cartões assentam de 1,02 para 1. Nos dois, o hero entra em cascata ao carregar, o filete acima de cada título se desenha quando o título aparece ao rolar e a linha do "Como funciona" se preenche passo a passo. Nas demos: advocacia `sobrio`, fisioterapia `leve` |
 | `fundo_hero` | `malha` (padrão), `liso` | `malha`: dois brilhos suaves no hero, da cor primária (canto superior direito) e da cor de destaque (canto inferior esquerdo); `liso`: cor chapada |
 
 - Quem pede menos movimento no sistema (`prefers-reduced-motion`) nunca vê deslocamento,
   qualquer que seja o valor.
 - O conteúdo é visível sem JavaScript. Só o script de revelação (cerca de 0,7 KB) esconde
-  algo, e só o que está abaixo da dobra. O texto e a foto do hero nunca animam, para não atrasar o LCP;
-  só as insígnias decorativas entram com um "carimbo" curto (veja [Insígnias](#insígnias-do-hero)). As
-  animações usam só opacidade e `transform`, então não deslocam o layout (CLS 0).
+  algo, e só o que está abaixo da dobra.
+- O H1 do hero nunca anima, para não atrasar o LCP. Com as animações ligadas, o resto do hero
+  (selo, subtítulo, botões e destaques) entra em cascata ao carregar, só com CSS e a partir de
+  opacidade 0,01: funciona sem JavaScript e o navegador já conta o conteúdo como pintado. As
+  insígnias decorativas entram com um "carimbo" curto (veja [Insígnias](#insígnias-do-hero)).
+- As animações usam só opacidade e `transform`, então não deslocam o layout (CLS 0).
 - O teste de contraste confere texto, texto suave e cor primária sobre o ponto mais escuro da
   `malha`. Se uma paleta reprovar ali, use `"fundo_hero": "liso"`.
 
@@ -167,6 +171,29 @@ se invertem e a cor de destaque vira `tema.cor_destaque_faixa` (opcional; o padr
 `cor_primaria_contraste`). Use uma faixa por página, no máximo. O formulário não aceita
 `primaria`. O teste de contraste confere as cores da faixa em todos os nichos, mesmo nos que
 ainda não usam uma.
+
+#### Foto de fundo da seção
+
+`foto_fundo` (opcional, em qualquer seção menos `hero`, `rodape` e `botao_whatsapp`) põe uma foto
+atenuada atrás do conteúdo, para dar atmosfera a uma seção de texto sem competir com ele. Funciona
+melhor na faixa primária:
+
+```json
+{ "tipo": "como_funciona", "fundo": "primaria", "foto_fundo": { "src": "escritorio.webp" } }
+```
+
+- A foto fica em tons de cinza e se mistura à cor da seção (numa faixa azul, ganha tom azul), com
+  opacidade fixa de 8% (`OPACIDADE_FOTO_FUNDO` em `src/lib/tema.ts`) e uma máscara em degradê que
+  some do lado do texto (à esquerda; no desktop, ela ocupa só os 60% da direita).
+- É decorativa: fica escondida dos leitores de tela e não tem `alt`. O `src` segue as regras de
+  [Imagens](#imagens).
+- Carrega sob demanda, quando a seção se aproxima da tela, e é posicionada atrás do conteúdo, então
+  não desloca o layout.
+- O teste de contraste confere todas as cores da seção sobre o pixel mais escuro e o mais claro
+  da foto, em todo nicho que a usa.
+
+Nas demos, só a advocacia usa: a estante de livros (`escritorio.webp`) atrás da faixa "Como
+funciona".
 
 ### Destaques do hero
 

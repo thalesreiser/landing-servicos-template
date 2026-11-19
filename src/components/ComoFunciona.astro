@@ -18,8 +18,9 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
   <div class="container-site">
     <TituloSecao id={idTitulo} titulo={secao.titulo} rotulo={rotulo} />
     {secao.subtitulo && <p class="mt-4 max-w-2xl text-lg text-texto-suave">{secao.subtitulo}</p>}
-    {/* A timeline, not cards: vertical on phones and tablets, one row from lg (any number of steps). */}
-    <ol class="mt-10 grid lg:auto-cols-fr lg:grid-flow-col lg:gap-8" data-revelar-grupo>
+    {/* A timeline, not cards: vertical on phones and tablets, one row from lg (any number of steps).
+        On reveal, each connector (.linha-passo) fills after its step appears (global.css). */}
+    <ol class="linha-do-tempo mt-10 grid lg:auto-cols-fr lg:grid-flow-col lg:gap-8" data-revelar-grupo>
       {
         secao.passos.map((passo, i) => (
           <li class="relative pb-8 pl-16 last:pb-0 lg:pb-0 lg:pl-0">
@@ -31,7 +32,7 @@ const idTitulo = `${ancoraSecao(secao)}-titulo`;
             </span>
             {i < secao.passos.length - 1 && (
               <span
-                class="absolute top-12 bottom-2 left-5 w-px bg-texto/20 lg:top-5 lg:bottom-auto lg:left-14 lg:-right-4 lg:h-px lg:w-auto"
+                class="linha-passo absolute top-12 bottom-2 left-5 w-px bg-texto/20 lg:top-5 lg:bottom-auto lg:left-14 lg:-right-4 lg:h-px lg:w-auto"
                 aria-hidden="true"
               />
             )}

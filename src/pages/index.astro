@@ -7,6 +7,7 @@ import Convenios from '../components/Convenios.astro';
 import Depoimentos from '../components/Depoimentos.astro';
 import FAQ from '../components/FAQ.astro';
 import Formulario from '../components/Formulario.astro';
+import FotoFundo from '../components/FotoFundo.astro';
 import Hero from '../components/Hero.astro';
 import Mapa from '../components/Mapa.astro';
 import Rodape from '../components/Rodape.astro';
@@ -34,7 +35,8 @@ const classesFundo = { fundo: 'fundo-fundo', superficie: 'fundo-superficie', pri
   <script is:inline slot="head" type="application/ld+json" set:html={serializarJsonLd(gerarJsonLd(nicho))} />
   {
     conteudo.map((secao, i) => (
-      <div class={classesFundo[fundos[i]!]}>
+      <div class:list={[classesFundo[fundos[i]!], secao.foto_fundo && 'com-foto-fundo']}>
+        {secao.foto_fundo && <FotoFundo src={secao.foto_fundo.src} />}
         {(() => {
           switch (secao.tipo) {
             case 'hero':
