@@ -3,6 +3,7 @@ import { Picture } from 'astro:assets';
 import { NICHO } from 'astro:env/server';
 import arquivos from 'virtual:imagens-nicho';
 import { largurasImagem, resolverImagem } from '../lib/imagens.ts';
+import { carregarNicho } from '../lib/nicho.ts';
 import type { Imagem } from '../lib/schema.ts';
 
 interface Props {
@@ -28,22 +29,52 @@ const srcset = largurasImagem(arquivo.width, larguras);
 // The <img> fallback is the largest srcset width (not the full original), as JPEG unless the source is PNG.
 const largura = Math.max(...srcset);
 const altura = Math.round((largura * arquivo.height) / arquivo.width);
+// tema.foto_tom "harmonizado": every niche photo gets the same treatment (global.css, .foto-tom).
+// The classes move to a frame holding the photo and a primary-color soft-light layer. Nothing
+// clips the frame: each layer takes the rounded corners (Chromium skips blended layers inside a
+// clipped box).
+const { tema } = carregarNicho();
+const harmonizada = tema.foto_tom === 'harmonizado';
+const fallback = arquivo.format === 'png' ? 'png' : 'jpg';
 ---
 
 {/* display: contents on <picture> (sources hidden, so they never take grid cells) keeps the
     grid/flex classes passed for the image working as on a plain <img>. */}
-<Picture
-  src={arquivo}
-  alt={imagem.alt}
-  formats={['avif', 'webp']}
-  fallbackFormat={arquivo.format === 'png' ? 'png' : 'jpg'}
-  widths={srcset}
-  width={largura}
-  height={altura}
-  sizes={sizes}
-  class={classe}
-  loading={prioridade ? 'eager' : 'lazy'}
-  fetchpriority={prioridade ? 'high' : 'auto'}
-  decoding="async"
-  pictureAttributes={{ class: 'contents [&>source]:hidden' }}
-/>
+{
+  harmonizada ? (
+    <span class:list={['foto-tom', classe]} style={`--foto-tom:${tema.foto_tom_intensidade}`}>
+      <Picture
+        src={arquivo}
+        alt={imagem.alt}
+        formats={['avif', 'webp']}
+        fallbackFormat={fallback}
+        widths={srcset}
+        width={largura}
+        height={altura}
+        sizes={sizes}
+        class="block size-full object-cover"
+        loading={prioridade ? 'eager' : 'lazy'}
+        fetchpriority={prioridade ? 'high' : 'auto'}
+        decoding="async"
+        pictureAttributes={{ class: 'contents [&>source]:hidden' }}
+      />
+      <span class="foto-tom-camada" aria-hidden="true" />
+    </span>
+  ) : (
+    <Picture
+      src={arquivo}
+      alt={imagem.alt}
+      formats={['avif', 'webp']}
+      fallbackFormat={fallback}
+      widths={srcset}
+      width={largura}
+      height={altura}
+      sizes={sizes}
+      class={classe}
+      loading={prioridade ? 'eager' : 'lazy'}
+      fetchpriority={prioridade ? 'high' : 'auto'}
+      decoding="async"
+      pictureAttributes={{ class: 'contents [&>source]:hidden' }}
+    />
+  )
+}

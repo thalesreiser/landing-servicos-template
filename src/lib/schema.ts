@@ -5,6 +5,7 @@ import { EXTENSOES_IMAGEM, PADRAO_SRC_IMAGEM } from './imagens.ts';
 import { CORES_INSIGNIA, LIMITE_INSIGNIA, MAXIMO_INSIGNIAS, MODELOS_INSIGNIA } from './insignias.ts';
 import { ESTILOS_ROTULO } from './rotulos.ts';
 import { ANIMACOES, CAMADAS_HERO, CARTOES, COMPOSICOES_HERO, FUNDOS, FUNDOS_HERO, RAIOS, RITMOS } from './tema.ts';
+import { BOTOES, DIVISORES, FOTO_TONS, MARCAS_FAIXA, TEXTURAS } from './tema.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
 export const TIPOS_SCHEMA = [
@@ -107,7 +108,19 @@ const servicos = z.object({
   tipo: z.literal('servicos'),
   titulo: z.string(),
   subtitulo: z.string().optional(),
-  itens: z.array(z.object({ icone: z.enum(NOMES_ICONES), titulo: z.string(), descricao: z.string() })).min(1),
+  // Big faint number in the corner of each card (01, 02...), drawn by CSS, never read as text.
+  numerar: z.boolean().default(false),
+  itens: z
+    .array(
+      z.object({
+        icone: z.enum(NOMES_ICONES),
+        titulo: z.string(),
+        descricao: z.string(),
+        // Practical detail at the foot of the card, under a dotted rule (e.g. "Sessão individual · 50 min").
+        detalhe: z.string().optional(),
+      }),
+    )
+    .min(1),
 });
 
 const sobre = z.object({
@@ -278,6 +291,18 @@ export const nichoSchema = z
       rotulos: z.enum(ESTILOS_ROTULO).default('nenhum'),
       // Motion signature (hero cascade, drawn title rules, timeline fill): sober or light.
       ritmo: z.enum(RITMOS).default('sobrio'),
+      // Niche identity (see src/lib/tema.ts and the README): primary button gesture.
+      botao: z.enum(BOTOES).default('padrao'),
+      // Boundary between sections.
+      divisor: z.enum(DIVISORES).default('reto'),
+      // Faint texture on the superficie sections and watermark on primary bands; the "icones"
+      // watermark draws icones_faixa (default: the first service icons).
+      textura: z.enum(TEXTURAS).default('nenhuma'),
+      marca_faixa: z.enum(MARCAS_FAIXA).default('nenhuma'),
+      icones_faixa: z.array(z.enum(NOMES_ICONES)).min(1).max(3).optional(),
+      // Photo treatment; the intensity is the opacity of the primary-color soft-light layer.
+      foto_tom: z.enum(FOTO_TONS).default('natural'),
+      foto_tom_intensidade: z.number().min(0.05).max(0.25).default(0.15),
     }),
     contato: z.object({
       whatsapp: z.string().regex(/^\d{12,13}$/, 'DDI + DDD + número, só dígitos, ex.: 5511999990000'),

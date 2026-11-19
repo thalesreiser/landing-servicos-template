@@ -159,6 +159,54 @@ Nas demos: advocacia `romanos`, fisioterapia `texto`, exemplo `numerados`.
 Nas demos: advocacia `camadas` + `destaque` (com foto), fisioterapia e exemplo `camadas` +
 `primaria` (modo painel, sem foto).
 
+### Identidade do nicho
+
+Campos opcionais de `tema` que dão a cada demo um acabamento próprio, além de cor, fonte e forma.
+Sem eles, a página fica como antes.
+
+| Campo | Valores | Efeito |
+| --- | --- | --- |
+| `botao` | `padrao` (padrão), `seta`, `suave`, `carimbo` | gesto do botão primário: `seta` põe uma seta fina depois do texto, que anda 3 px no hover (não no botão do cabeçalho); `suave`, uma sombra difusa na cor primária; `carimbo`, uma sombra sólida de 3 px na cor de destaque, em que o botão "afunda" no clique |
+| `divisor` | `reto` (padrão), `filete`, `onda`, `diagonal` | limite entre seções: `filete` mantém o corte reto e põe um filete de 64 px com um losango no meio, na cor de destaque, logo abaixo dele; `onda` sobe o fundo da seção seguinte numa curva suave, diferente a cada limite; `diagonal`, numa inclinação de cerca de 2° que alterna de lado |
+| `textura` | `nenhuma` (padrão), `papel`, `pontos` | fundo das seções `superficie`: `papel`, um grão finíssimo na cor do texto (4%); `pontos`, uma grade de pontos de 1 px a cada 16 px na cor primária (8%) |
+| `marca_faixa` | `nenhuma` (padrão), `riscado`, `icones` | marca d'água da faixa primária: `riscado`, linhas diagonais de 1 px a cada 8 px; `icones`, ícones de linha espalhados; ambos na cor do texto da faixa, a 6% |
+| `icones_faixa` | até 3 nomes de ícone | ícones da marca `icones` (padrão: os primeiros ícones da seção `servicos`) |
+| `foto_tom` | `natural` (padrão), `harmonizado` | `harmonizado` trata todas as fotos do nicho (hero, sobre, retratos) do mesmo jeito: saturação a 85%, contraste a 105% e uma camada da cor primária em *soft-light*, para fotos de origens diferentes parecerem de uma sessão só. O `alt` não muda |
+| `foto_tom_intensidade` | de `0.05` a `0.25` (padrão `0.15`) | opacidade da camada de cor do `harmonizado`; mais baixa em tons de pele que "esfriam" fácil |
+
+- Botão: só sombra e `transform`, então nada desloca o layout. O movimento (seta, subir e afundar) só
+  acontece com `animacoes: "sutil"`, em dispositivos com mouse e sem redução de movimento.
+- `onda` e `diagonal` só aparecem onde o fundo muda (as duas pontas da faixa primária
+  incluídas); o `filete`, em todos os limites. O divisor é decorativo, tem altura fixa e fica
+  por cima do respiro da seção anterior, então não muda o layout (CLS 0) nem passa da largura da tela.
+- Texturas e marcas d'água são pequenos SVG embutidos no CSS, pintados como fundo da própria
+  seção: nada é baixado e não há camada fixa sobre a página. As opacidades ficam em
+  `src/lib/tema.ts`, e o teste de contraste confere o texto no ponto mais escuro da textura
+  (também com a malha do hero por cima) e no ponto mais claro da faixa. Se uma paleta reprovar ali, use `nenhuma`.
+- Nas demos: advocacia `seta` + `filete` + `papel` + `riscado`; fisioterapia `suave` + `onda` +
+  `pontos` + `icones` (coluna, mão e corrida); exemplo `carimbo` + `diagonal`, sem textura.
+  Fotos: advocacia `harmonizado` (0,15); fisioterapia `harmonizado` mais leve (0,10), que vale
+  quando o nicho tiver fotos; exemplo `natural`.
+
+### Cartões de serviço: número e detalhe
+
+Na seção `servicos`, `numerar: true` põe um número grande e apagado no canto de cada cartão
+("01", "02"...). Ele é gerado pelo CSS (`content: attr(data-numero)`) num elemento `aria-hidden`,
+então não é lido como texto: 8% da cor do texto, ou 15% da cor de destaque nos cartões `linha`.
+Ajuda a escanear listas longas; deixe desligado quando o número pode ser lido como etapa ou
+ordem de preferência.
+
+Cada item aceita `detalhe` (opcional): uma linha prática no pé do cartão, sob um traço
+pontilhado. Só fatos que o resto da página confirma e nunca preço; o texto passa pelos termos
+vetados como qualquer outro.
+
+```json
+{ "icone": "osso", "titulo": "Ortopédica", "descricao": "...", "detalhe": "Sessão individual · 50 min" }
+```
+
+Nas demos: advocacia numerada, com "Consultivo e judicial" e afins; fisioterapia sem número,
+com "Sessão individual · 50 min" e "Também em domicílio"; exemplo com os dois.
+
 ### Fundos das seções
 
 Sem `fundo`, as seções alternam `superficie` e `fundo` (o hero começa em `superficie`), então

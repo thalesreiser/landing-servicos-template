@@ -824,3 +824,180 @@
     transition: none;
   }
 }
+
+/*
+  Primary button gesture (tema.botao, data-botao on <html>). Shadow and transform only, so the
+  layout never moves; motion is pointer-only, "sutil" only and never with reduced motion. These
+  rules sit outside the layers on purpose: they replace the default hover shadow of @utility botao.
+*/
+
+/* "seta": a thin arrow after the label (not the header button) that steps 3px forward on hover. */
+[data-botao='seta'] main .botao-primario::after {
+  content: '';
+  flex-shrink: 0;
+  width: 1.125em;
+  height: 1.125em;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h16M14 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h16M14 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: translate 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  [data-animacoes='sutil'][data-botao='seta'] .botao-primario:hover::after {
+    translate: 3px 0;
+  }
+}
+
+/* "suave": a diffuse shadow in the primary color, a little deeper on hover. None on a primary band. */
+[data-botao='suave'] .botao-primario {
+  box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--cor-primaria) 50%, transparent);
+}
+
+@media (hover: hover) {
+  [data-botao='suave'] .botao-primario:hover {
+    box-shadow: 0 14px 28px -12px color-mix(in srgb, var(--cor-primaria) 60%, transparent);
+  }
+}
+
+[data-botao='suave'] .fundo-primaria .botao-primario {
+  box-shadow: none;
+}
+
+/* "carimbo": a solid 3px shadow in the accent color; the button rises into it and sinks on click. */
+[data-botao='carimbo'] .botao-primario {
+  box-shadow: 3px 3px 0 var(--cor-destaque);
+}
+
+[data-botao='carimbo'] .botao-primario:focus-visible {
+  outline-offset: 5px;
+}
+
+@media (hover: hover) {
+  [data-botao='carimbo'] .botao-primario:hover {
+    box-shadow: 4px 4px 0 var(--cor-destaque);
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  [data-animacoes='sutil'][data-botao='carimbo'] .botao-primario:hover {
+    translate: -1px -1px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-animacoes='sutil'][data-botao='carimbo'] .botao-primario:active {
+    translate: 3px 3px;
+    scale: 1;
+    box-shadow: 0 0 0 var(--cor-destaque);
+    transition-duration: 60ms;
+  }
+}
+
+/*
+  Section boundaries (tema.divisor, Divisor.astro). The shape repeats the next section's own
+  background (color and texture, tiles aligned to its top edge) and rises into the bottom padding
+  of the previous section, which is always taller. Fixed heights, absolutely positioned: CLS 0.
+*/
+.divisor {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  height: 3rem;
+  background: inherit;
+  background-position: left bottom;
+  pointer-events: none;
+}
+
+/* About 2 degrees of slope at any width (tan 2deg = 0.035), capped on wide screens. */
+.divisor-diagonal {
+  height: min(3.5vw, 3rem);
+}
+
+.divisor-filete {
+  position: absolute;
+  top: 1.25rem;
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  color: var(--cor-destaque);
+  pointer-events: none;
+}
+
+/*
+  Section textures (tema.textura on superficie sections, tema.marca_faixa on primary bands): an
+  inline SVG tile from Base.astro (--textura, --marca-faixa; see src/lib/tema.ts) painted as the
+  section's own background, so it scrolls with it and costs no fixed full-page layer.
+*/
+.fundo-superficie {
+  background-image: var(--textura, none);
+}
+
+.fundo-primaria {
+  background-image: var(--marca-faixa, none);
+}
+
+/*
+  Ghost number of the service cards (servicos.numerar): generated content from data-numero on an
+  aria-hidden span, so it is never read. Opacities match OPACIDADE_NUMERO in src/lib/tema.ts.
+*/
+.numero-fantasma {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  font-family: var(--fonte-titulo);
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1;
+  color: color-mix(in srgb, var(--cor-texto) 8%, transparent);
+  pointer-events: none;
+}
+
+.numero-fantasma::before {
+  content: attr(data-numero);
+}
+
+/* Editorial cards: right under the top rule, in the accent color. */
+[data-card='linha'] .numero-fantasma {
+  top: 0.75rem;
+  right: 0;
+  color: color-mix(in srgb, var(--cor-destaque) 15%, transparent);
+}
+
+@media (min-width: 40rem) {
+  .numero-fantasma {
+    font-size: 3rem;
+  }
+}
+
+/*
+  Harmonized photos (tema.foto_tom "harmonizado", Imagem.astro): a touch less saturation, a touch
+  more contrast and the primary color in soft-light on top. The frame isolates the blend and never
+  clips; each layer inherits the rounded corners. Filters do not delay the LCP image.
+*/
+@layer components {
+  .foto-tom {
+    display: block;
+    position: relative;
+    isolation: isolate;
+  }
+}
+
+.foto-tom :is(picture, img) {
+  border-radius: inherit;
+}
+
+.foto-tom img {
+  filter: saturate(0.85) contrast(1.05);
+}
+
+.foto-tom-camada {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--cor-primaria);
+  mix-blend-mode: soft-light;
+  opacity: var(--foto-tom, 0.15);
+  pointer-events: none;
+}

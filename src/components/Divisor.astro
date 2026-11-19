@@ -1,0 +1,29 @@
+---
+import { recorteDivisor, type Divisor } from '../lib/tema.ts';
+
+interface Props {
+  forma: Divisor;
+  // Position of the section on the page: the seed of the wave, the side of the slope.
+  indice: number;
+}
+
+const { forma, indice } = Astro.props;
+---
+
+{/*
+  First child of a section's background wrapper (index.astro), absolutely positioned, so it never
+  takes layout space (CLS 0). "onda"/"diagonal" sit above the section's top edge and repeat its
+  background (texture included); "filete" sits just below the straight cut. Decorative only.
+*/}
+{
+  forma === 'filete' ? (
+    <div class="divisor-filete" aria-hidden="true">
+      <svg viewBox="0 0 64 8" width="64" height="8" focusable="false">
+        <path d="M0 4h26M38 4h26" stroke="currentColor" stroke-width="1" />
+        <path d="M32 1l3 3-3 3-3-3z" fill="currentColor" />
+      </svg>
+    </div>
+  ) : forma !== 'reto' ? (
+    <div class:list={['divisor', `divisor-${forma}`]} style={`clip-path:${recorteDivisor(forma, indice)}`} aria-hidden="true" />
+  ) : null
+}

@@ -5,6 +5,7 @@ import BotaoWhatsApp from '../components/BotaoWhatsApp.astro';
 import ComoFunciona from '../components/ComoFunciona.astro';
 import Convenios from '../components/Convenios.astro';
 import Depoimentos from '../components/Depoimentos.astro';
+import Divisor from '../components/Divisor.astro';
 import FAQ from '../components/FAQ.astro';
 import Formulario from '../components/Formulario.astro';
 import FotoFundo from '../components/FotoFundo.astro';
@@ -16,7 +17,7 @@ import Sobre from '../components/Sobre.astro';
 import { carregarNicho } from '../lib/nicho.ts';
 import { rotulosDasSecoes } from '../lib/rotulos.ts';
 import { gerarJsonLd, serializarJsonLd } from '../lib/seo.ts';
-import { fundosDasSecoes } from '../lib/tema.ts';
+import { divisoresDasSecoes, fundosDasSecoes } from '../lib/tema.ts';
 
 const nicho = carregarNicho();
 const secoes = nicho.secoes.filter((secao) => secao.ativo);
@@ -29,13 +30,16 @@ const fundos = fundosDasSecoes(conteudo);
 // Kickers above the titles (tema.rotulos), numbered in page order.
 const rotulos = rotulosDasSecoes(conteudo, nicho.tema.rotulos);
 const classesFundo = { fundo: 'fundo-fundo', superficie: 'fundo-superficie', primaria: 'fundo-primaria' } as const;
+// Section boundaries (tema.divisor): drawn by the section that starts there.
+const divisores = divisoresDasSecoes(fundos, nicho.tema.divisor);
 ---
 
 <Base nicho={nicho} comAtalhoWhatsApp={botao !== undefined}>
   <script is:inline slot="head" type="application/ld+json" set:html={serializarJsonLd(gerarJsonLd(nicho))} />
   {
     conteudo.map((secao, i) => (
-      <div class:list={[classesFundo[fundos[i]!], secao.foto_fundo && 'com-foto-fundo']}>
+      <div class:list={[classesFundo[fundos[i]!], divisores[i] && 'relative', secao.foto_fundo && 'com-foto-fundo']}>
+        {divisores[i] && <Divisor forma={nicho.tema.divisor} indice={i} />}
         {secao.foto_fundo && <FotoFundo src={secao.foto_fundo.src} />}
         {(() => {
           switch (secao.tipo) {

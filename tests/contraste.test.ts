@@ -4,6 +4,7 @@ import { test } from 'node:test';
 import { misturar, razaoContraste } from '../src/lib/contraste.ts';
 import { nichoSchema } from '../src/lib/schema.ts';
 import { coresFaixa, extremosFotoFundo, fundoMalha, fundosDasSecoes } from '../src/lib/tema.ts';
+import { fundoMarcaFaixa, fundoTextura, OPACIDADE_NUMERO } from '../src/lib/tema.ts';
 
 const AA = 4.5;
 // Footer text sits at 80% opacity over the text color (Rodape.astro).
@@ -92,6 +93,47 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
   });
 }
 
+// Textures and band watermarks: the niche's own choice, at the point where text has the least contrast.
+for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
+  test(`nichos/${arquivo} textures keep the text at AA`, () => {
+    const { tema: t } = nichoSchema.parse(JSON.parse(readFileSync(new URL(arquivo, pasta), 'utf8')));
+    const pares: [string, string, string][] = [];
+    if (t.textura !== 'nenhuma') {
+      const base = fundoTextura(t, t.textura, t.cor_superficie);
+      pares.push(
+        ['texto sobre superfície com textura', t.cor_texto, base],
+        ['texto suave sobre superfície com textura', t.cor_texto_suave, base],
+        ['primária sobre superfície com textura', t.cor_primaria, base],
+        ['destaque sobre superfície com textura', t.cor_destaque, base],
+        ['erro de formulário sobre superfície com textura', COR_ERRO, base],
+      );
+      // The hero starts on superficie: the mesh stacks over the texture.
+      if (t.fundo_hero === 'malha') {
+        const malha = fundoMalha(t, base);
+        pares.push(
+          ['texto na malha do hero com textura', t.cor_texto, malha],
+          ['texto suave na malha do hero com textura', t.cor_texto_suave, malha],
+          ['primária na malha do hero com textura', t.cor_primaria, malha],
+        );
+      }
+    }
+    if (t.marca_faixa !== 'nenhuma') {
+      const faixa = coresFaixa(t);
+      const base = fundoMarcaFaixa(t, t.marca_faixa);
+      pares.push(
+        ['faixa com marca: texto', faixa.texto, base],
+        ['faixa com marca: texto suave', faixa.texto_suave, base],
+        ['faixa com marca: destaque', faixa.destaque, base],
+      );
+    }
+    const reprovados = pares
+      .map(([nome, a, b]) => ({ nome, razao: razaoContraste(a, b) }))
+      .filter(({ razao }) => razao < AA)
+      .map(({ nome, razao }) => `${nome}: ${razao.toFixed(2)}`);
+    assert.deepEqual(reprovados, [], `pares abaixo de ${AA}:1`);
+  });
+}
+
 // Sections with a dimmed background photo (secao.foto_fundo): every color drawn on that section must
 // still pass over the photo's darkest and lightest pixels. Same section list as src/pages/index.astro.
 for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
@@ -108,14 +150,37 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
         fundo === 'primaria'
           ? [['texto', faixa.texto], ['texto suave', faixa.texto_suave], ['destaque', faixa.destaque]]
           : [['texto', t.cor_texto], ['texto suave', t.cor_texto_suave], ['primária', t.cor_primaria], ['destaque', t.cor_destaque], ['erro', COR_ERRO]];
-      return extremosFotoFundo(base).flatMap((pixel, j) =>
-        cores.map(([nome, cor]): [string, string, string] => [`${nome} sobre a foto de ${secao.tipo} (${j === 0 ? 'pixel escuro' : 'pixel claro'})`, cor, pixel]),
+      // The texture or band watermark sits under the photo too: check the photo over both.
+      const comPadrao = fundo === 'primaria' ? fundoMarcaFaixa(t, t.marca_faixa) : fundo === 'superficie' ? fundoTextura(t, t.textura, base) : base;
+      return [base, comPadrao].flatMap((b) => extremosFotoFundo(b)).flatMap((pixel, j) =>
+        cores.map(([nome, cor]): [string, string, string] => [`${nome} sobre a foto de ${secao.tipo} (${j % 2 === 0 ? 'pixel escuro' : 'pixel claro'})`, cor, pixel]),
       );
     });
     const reprovados = pares
       .map(([nome, a, b]) => ({ nome, razao: razaoContraste(a, b) }))
       .filter(({ razao }) => razao < AA)
       .map(({ nome, razao }) => `${nome}: ${razao.toFixed(2)}`);
+    assert.deepEqual(reprovados, [], `pares abaixo de ${AA}:1`);
+  });
+}
+
+// Service card ghost number: text and muted text over it, on every light background a card can show.
+for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
+  test(`nichos/${arquivo} text over the ghost numbers passes AA`, () => {
+    const { tema: t } = nichoSchema.parse(JSON.parse(readFileSync(new URL(arquivo, pasta), 'utf8')));
+    const [cor, opacidade] = t.card === 'linha' ? [t.cor_destaque, OPACIDADE_NUMERO.destaque] : [t.cor_texto, OPACIDADE_NUMERO.texto];
+    const bases = [t.cor_fundo, t.cor_superficie, fundoTextura(t, t.textura, t.cor_superficie)];
+    const reprovados = bases.flatMap((base) => {
+      const numero = misturar(cor, base, opacidade);
+      const textos: [string, string][] = [
+        ['texto', t.cor_texto],
+        ['texto suave', t.cor_texto_suave],
+      ];
+      return textos
+        .map(([nome, texto]) => ({ nome: `${nome} sobre número em ${base}`, razao: razaoContraste(texto, numero) }))
+        .filter(({ razao }) => razao < AA)
+        .map(({ nome, razao }) => `${nome}: ${razao.toFixed(2)}`);
+    });
     assert.deepEqual(reprovados, [], `pares abaixo de ${AA}:1`);
   });
 }

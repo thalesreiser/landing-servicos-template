@@ -22,6 +22,11 @@
     "ritmo": "sobrio",
     "raio": "medio",
     "card": "contorno",
+    "botao": "carimbo",
+    "divisor": "diagonal",
+    "textura": "nenhuma",
+    "marca_faixa": "nenhuma",
+    "foto_tom": "natural",
     "animacoes": "sutil",
     "fundo_hero": "malha",
     "hero_composicao": "camadas",
@@ -64,10 +69,11 @@
       "tipo": "servicos",
       "menu": "Serviços",
       "titulo": "Um título que diz o benefício, não a categoria",
-      "subtitulo": "Cada card tem ícone, título e uma descrição curta.",
+      "subtitulo": "Cada card tem ícone, título e uma descrição curta; o número e a linha de detalhe são opcionais.",
+      "numerar": true,
       "itens": [
-        { "icone": "documento", "titulo": "Diagnóstico", "descricao": "Levantamento da situação atual e das prioridades." },
-        { "icone": "calendario", "titulo": "Plano de ação", "descricao": "Etapas, prazos e responsáveis definidos com você." },
+        { "icone": "documento", "titulo": "Diagnóstico", "descricao": "Levantamento da situação atual e das prioridades.", "detalhe": "Reunião inicial · 1 h" },
+        { "icone": "calendario", "titulo": "Plano de ação", "descricao": "Etapas, prazos e responsáveis definidos com você.", "detalhe": "Entregue por escrito" },
         { "icone": "pessoas", "titulo": "Acompanhamento", "descricao": "Reuniões periódicas para revisar os resultados." }
       ],
       "aviso": {
