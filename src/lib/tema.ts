@@ -1,6 +1,7 @@
 // Theme helpers: shape tokens (tema.raio) and section backgrounds, emitted by Base.astro as CSS variables.
 
 import { misturar } from './contraste.ts';
+import { ICONES, type NomeIcone } from './icones.ts';
 
 export const RAIOS = ['reto', 'medio', 'suave'] as const;
 export type Raio = (typeof RAIOS)[number];
@@ -150,4 +151,108 @@ export function recorteDivisor(divisor: 'onda' | 'diagonal', indice: number): st
     pontos.push(`${pct(x)} ${pct(y)}`);
   }
   return `polygon(${pontos.join(', ')}, 100% 100%, 0 100%)`;
+}
+
+// tema.textura: a faint pattern on the superficie sections ("papel": fine grain in the text
+// color; "pontos": a 16 px dot grid in the primary color). tema.marca_faixa: a watermark on
+// primary bands ("riscado": 1 px diagonal lines every 8 px; "icones": line icons). Both are
+// small inline SVG tiles used as the section background (no download, no fixed page layer),
+// at these peak opacities, which tests/contraste.test.ts checks at the darkest (or lightest) point.
+export const TEXTURAS = ['nenhuma', 'papel', 'pontos'] as const;
+export type Textura = (typeof TEXTURAS)[number];
+export const MARCAS_FAIXA = ['nenhuma', 'riscado', 'icones'] as const;
+export type MarcaFaixa = (typeof MARCAS_FAIXA)[number];
+
+export const OPACIDADE_TEXTURA = { papel: 0.04, pontos: 0.08 } as const;
+export const OPACIDADE_MARCA_FAIXA = { riscado: 0.06, icones: 0.06 } as const;
+
+type CoresTextura = { cor_texto: string; cor_primaria: string; cor_primaria_contraste: string };
+
+function urlSvg(svg: string): string {
+  return `url("data:image/svg+xml,${encodeURIComponent(svg).replaceAll("'", '%27')}")`;
+}
+
+// Color channels from 0 to 1, for an SVG color matrix.
+function canais01(hex: string): [number, number, number] {
+  const n = Number.parseInt(hex.slice(1), 16);
+  const c = (v: number) => Math.round((v / 255) * 1000) / 1000;
+  return [c((n >> 16) & 255), c((n >> 8) & 255), c(n & 255)];
+}
+
+const XMLNS = "xmlns='http://www.w3.org/2000/svg'";
+
+/** CSS background-image of the light-section texture, or undefined for "nenhuma". */
+export function imagemTextura(tema: CoresTextura, textura: Textura): string | undefined {
+  if (textura === 'papel') {
+    const [r, g, b] = canais01(tema.cor_texto);
+    // Noise alpha with more contrast, in the text color; the rect opacity caps it at the constant.
+    return urlSvg(
+      `<svg ${XMLNS} width='160' height='160'><filter id='p' x='0' y='0' width='1' height='1' color-interpolation-filters='sRGB'>` +
+        `<feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/>` +
+        `<feColorMatrix values='0 0 0 0 ${r} 0 0 0 0 ${g} 0 0 0 0 ${b} 0 0 0 2.4 -.9'/></filter>` +
+        `<rect width='160' height='160' filter='url(#p)' opacity='${OPACIDADE_TEXTURA.papel}'/></svg>`,
+    );
+  }
+  if (textura === 'pontos') {
+    return urlSvg(
+      `<svg ${XMLNS} width='16' height='16'><circle cx='8' cy='8' r='.8' fill='${tema.cor_primaria}' opacity='${OPACIDADE_TEXTURA.pontos}'/></svg>`,
+    );
+  }
+  return undefined;
+}
+
+/** Darkest point under light-section text: the texture color at full strength over `base`. */
+export function fundoTextura(tema: CoresTextura, textura: Textura, base: string): string {
+  if (textura === 'papel') return misturar(tema.cor_texto, base, OPACIDADE_TEXTURA.papel);
+  if (textura === 'pontos') return misturar(tema.cor_primaria, base, OPACIDADE_TEXTURA.pontos);
+  return base;
+}
+
+/** Up to three distinct icons for the "icones" watermark (a star when there are none). */
+export function iconesDaFaixa(icones: NomeIcone[]): NomeIcone[] {
+  const unicos = [...new Set(icones)].slice(0, 3);
+  return unicos.length > 0 ? unicos : ['estrela'];
+}
+
+// Where the icons sit in the 168x112 tile, cycling through the list.
+const POSICOES_ICONES = [
+  [16, 14],
+  [100, 22],
+  [58, 66],
+  [128, 72],
+] as const;
+
+/** CSS background-image of the primary-band watermark, or undefined for "nenhuma". */
+export function imagemMarcaFaixa(tema: CoresTextura, marca: MarcaFaixa, icones: NomeIcone[]): string | undefined {
+  // Light lines in the band's text color; opacity on the whole drawing, so crossings never add up.
+  const cor = tema.cor_primaria_contraste;
+  if (marca === 'riscado') {
+    return urlSvg(
+      `<svg ${XMLNS} width='8' height='8'><path d='M-1 1l2-2M0 8l8-8M7 9l2-2' stroke='${cor}' stroke-width='1' opacity='${OPACIDADE_MARCA_FAIXA.riscado}'/></svg>`,
+    );
+  }
+  if (marca === 'icones') {
+    const lista = iconesDaFaixa(icones);
+    const desenhos = POSICOES_ICONES.map(([x, y], i) => {
+      const caminhos = ICONES[lista[i % lista.length]!].map((d) => `<path d='${d}'/>`).join('');
+      return `<g transform='translate(${x} ${y}) scale(1.25)'>${caminhos}</g>`;
+    }).join('');
+    return urlSvg(
+      `<svg ${XMLNS} width='168' height='112'><g fill='none' stroke='${cor}' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round' opacity='${OPACIDADE_MARCA_FAIXA.icones}'>${desenhos}</g></svg>`,
+    );
+  }
+  return undefined;
+}
+
+/** Lightest point under band text: the watermark (contrast color) at full strength over the band. */
+export function fundoMarcaFaixa(tema: CoresTextura, marca: MarcaFaixa): string {
+  if (marca === 'nenhuma') return tema.cor_primaria;
+  return misturar(tema.cor_primaria_contraste, tema.cor_primaria, OPACIDADE_MARCA_FAIXA[marca]);
+}
+
+/** --textura and --marca-faixa for Base.astro (only the ones in use). */
+export function variaveisTextura(tema: CoresTextura & { textura: Textura; marca_faixa: MarcaFaixa }, icones: NomeIcone[]): string[] {
+  const textura = imagemTextura(tema, tema.textura);
+  const marca = imagemMarcaFaixa(tema, tema.marca_faixa, icones);
+  return [...(textura ? [`--textura:${textura}`] : []), ...(marca ? [`--marca-faixa:${marca}`] : [])];
 }

@@ -487,3 +487,16 @@
   color: var(--cor-destaque);
   pointer-events: none;
 }
+
+/*
+  Section textures (tema.textura on superficie sections, tema.marca_faixa on primary bands): an
+  inline SVG tile from Base.astro (--textura, --marca-faixa; see src/lib/tema.ts) painted as the
+  section's own background, so it scrolls with it and costs no fixed full-page layer.
+*/
+.fundo-superficie {
+  background-image: var(--textura, none);
+}
+
+.fundo-primaria {
+  background-image: var(--marca-faixa, none);
+}

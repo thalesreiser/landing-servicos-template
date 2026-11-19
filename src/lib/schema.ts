@@ -3,7 +3,7 @@ import { PROVEDORES_FONTE, separarPilha } from './fontes.ts';
 import { NOMES_ICONES } from './icones.ts';
 import { EXTENSOES_IMAGEM, PADRAO_SRC_IMAGEM } from './imagens.ts';
 import { ANIMACOES, CARTOES, FUNDOS, FUNDOS_HERO, RAIOS } from './tema.ts';
-import { BOTOES, DIVISORES } from './tema.ts';
+import { BOTOES, DIVISORES, MARCAS_FAIXA, TEXTURAS } from './tema.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
 export const TIPOS_SCHEMA = [
@@ -236,6 +236,11 @@ export const nichoSchema = z
       botao: z.enum(BOTOES).default('padrao'),
       // Boundary between sections.
       divisor: z.enum(DIVISORES).default('reto'),
+      // Faint texture on the superficie sections and watermark on primary bands; the "icones"
+      // watermark draws icones_faixa (default: the first service icons).
+      textura: z.enum(TEXTURAS).default('nenhuma'),
+      marca_faixa: z.enum(MARCAS_FAIXA).default('nenhuma'),
+      icones_faixa: z.array(z.enum(NOMES_ICONES)).min(1).max(3).optional(),
     }),
     contato: z.object({
       whatsapp: z.string().regex(/^\d{12,13}$/, 'DDI + DDD + número, só dígitos, ex.: 5511999990000'),

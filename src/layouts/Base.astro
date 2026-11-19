@@ -8,7 +8,7 @@ import { temRastreamento } from '../lib/consentimento.ts';
 import { pilhaComFontes, variavelFonte } from '../lib/fontes.ts';
 import { ancoraSecao, type Nicho } from '../lib/schema.ts';
 import { ALTURA_OG, CAMINHO_OG, chamadaPrincipal, LARGURA_OG, localeOg, urlAbsoluta } from '../lib/seo.ts';
-import { coresFaixa, variaveisMalha, variaveisRaio } from '../lib/tema.ts';
+import { coresFaixa, variaveisMalha, variaveisRaio, variaveisTextura } from '../lib/tema.ts';
 import { linkWhatsApp } from '../lib/whatsapp.ts';
 
 interface Props {
@@ -23,6 +23,9 @@ const { nicho, titulo = nicho.site.titulo, descricao = nicho.site.descricao, com
 const { tema, contato, rastreamento } = nicho;
 
 const pilhas = [tema.fonte_titulo, tema.fonte_texto];
+// Band watermark icons: the ones the theme names, or those of the first services section.
+const servicos = nicho.secoes.find((secao) => secao.tipo === 'servicos');
+const iconesFaixa = tema.icones_faixa ?? (servicos?.tipo === 'servicos' ? servicos.itens.map((item) => item.icone) : []);
 const faixa = coresFaixa(tema);
 const variaveisTema = [
   `--cor-primaria:${tema.cor_primaria}`,
@@ -41,6 +44,7 @@ const variaveisTema = [
   `--fonte-texto:${pilhaComFontes(tema.fonte_texto, tema.fontes, pilhas)}`,
   ...variaveisRaio(tema.raio),
   ...variaveisMalha(tema),
+  ...variaveisTextura(tema, iconesFaixa),
 ].join(';');
 
 const menu = nicho.secoes

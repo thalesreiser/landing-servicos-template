@@ -23,6 +23,9 @@
     "card": "elevado",
     "botao": "suave",
     "divisor": "onda",
+    "textura": "pontos",
+    "marca_faixa": "icones",
+    "icones_faixa": ["coluna", "mao", "corrida"],
     "fontes": [
       { "familia": "Nunito", "pesos": [700] },
       { "familia": "Nunito Sans", "pesos": [400, 600] }

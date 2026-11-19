@@ -23,6 +23,8 @@
     "card": "contorno",
     "botao": "carimbo",
     "divisor": "diagonal",
+    "textura": "nenhuma",
+    "marca_faixa": "nenhuma",
     "animacoes": "sutil",
     "fundo_hero": "malha"
   },

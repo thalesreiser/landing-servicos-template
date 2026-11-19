@@ -4,6 +4,7 @@ import { test } from 'node:test';
 import { misturar, razaoContraste } from '../src/lib/contraste.ts';
 import { nichoSchema } from '../src/lib/schema.ts';
 import { coresFaixa, fundoMalha } from '../src/lib/tema.ts';
+import { fundoMarcaFaixa, fundoTextura } from '../src/lib/tema.ts';
 
 const AA = 4.5;
 // Footer text sits at 80% opacity over the text color (Rodape.astro).
@@ -63,6 +64,47 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
       ['rodapé, aviso de demonstração e aviso de cookies', t.cor_fundo, t.cor_texto],
       ['rodapé a 80%', misturar(t.cor_fundo, t.cor_texto, OPACIDADE_RODAPE), t.cor_texto],
     ];
+    const reprovados = pares
+      .map(([nome, a, b]) => ({ nome, razao: razaoContraste(a, b) }))
+      .filter(({ razao }) => razao < AA)
+      .map(({ nome, razao }) => `${nome}: ${razao.toFixed(2)}`);
+    assert.deepEqual(reprovados, [], `pares abaixo de ${AA}:1`);
+  });
+}
+
+// Textures and band watermarks: the niche's own choice, at the point where text has the least contrast.
+for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
+  test(`nichos/${arquivo} textures keep the text at AA`, () => {
+    const { tema: t } = nichoSchema.parse(JSON.parse(readFileSync(new URL(arquivo, pasta), 'utf8')));
+    const pares: [string, string, string][] = [];
+    if (t.textura !== 'nenhuma') {
+      const base = fundoTextura(t, t.textura, t.cor_superficie);
+      pares.push(
+        ['texto sobre superfície com textura', t.cor_texto, base],
+        ['texto suave sobre superfície com textura', t.cor_texto_suave, base],
+        ['primária sobre superfície com textura', t.cor_primaria, base],
+        ['destaque sobre superfície com textura', t.cor_destaque, base],
+        ['erro de formulário sobre superfície com textura', COR_ERRO, base],
+      );
+      // The hero starts on superficie: the mesh stacks over the texture.
+      if (t.fundo_hero === 'malha') {
+        const malha = fundoMalha(t, base);
+        pares.push(
+          ['texto na malha do hero com textura', t.cor_texto, malha],
+          ['texto suave na malha do hero com textura', t.cor_texto_suave, malha],
+          ['primária na malha do hero com textura', t.cor_primaria, malha],
+        );
+      }
+    }
+    if (t.marca_faixa !== 'nenhuma') {
+      const faixa = coresFaixa(t);
+      const base = fundoMarcaFaixa(t, t.marca_faixa);
+      pares.push(
+        ['faixa com marca: texto', faixa.texto, base],
+        ['faixa com marca: texto suave', faixa.texto_suave, base],
+        ['faixa com marca: destaque', faixa.destaque, base],
+      );
+    }
     const reprovados = pares
       .map(([nome, a, b]) => ({ nome, razao: razaoContraste(a, b) }))
       .filter(({ razao }) => razao < AA)
