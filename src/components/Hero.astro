@@ -1,5 +1,6 @@
 ---
 import Imagem from './Imagem.astro';
+import Insignia from './Insignia.astro';
 import { atributosAcao } from '../lib/acao.ts';
 import { ancoraSecao, type Nicho, type SecaoDo } from '../lib/schema.ts';
 
@@ -10,10 +11,17 @@ interface Props {
 
 const { secao, nicho } = Astro.props;
 const destaques = secao.destaques ?? [];
+const camadas = nicho.tema.hero_composicao === 'camadas';
 // Without an image, the highlights fill the right column on desktop (panel) and become chips
 // below the buttons on smaller screens (at most 3). With an image, they are chips everywhere.
 const painel = destaques.length > 0 && !secao.imagem;
-const chips = secao.imagem ? destaques : destaques.slice(0, 3);
+// In layers with a photo, the first highlight moves to a card over the photo's corner (real text),
+// so it is not repeated among the chips.
+const cartao = camadas && secao.imagem ? destaques[0] : undefined;
+const chips = secao.imagem ? destaques.slice(cartao ? 1 : 0) : destaques.slice(0, 3);
+// Badges sit on the photo's corner; beside a panel from lg (the panel is hidden below lg); otherwise in a row.
+const insignias = secao.insignias ?? [];
+const insigniasNaLinha = insignias.length > 0 && !secao.imagem;
 ---
 
 {/* data-hero: the WhatsApp shortcut stays hidden while this section is on screen. */}
@@ -64,24 +72,74 @@ const chips = secao.imagem ? destaques : destaques.slice(0, 3);
           </dl>
         )
       }
+      {
+        insigniasNaLinha && (
+          <div class:list={['mt-6 flex flex-wrap items-center gap-3', painel && 'lg:hidden']} aria-hidden="true">
+            {insignias.map((insignia, i) => (
+              <Insignia insignia={insignia} ordem={i} />
+            ))}
+          </div>
+        )
+      }
     </div>
     {
       secao.imagem && (
-        <Imagem imagem={secao.imagem} prioridade class="aspect-[4/3] w-full rounded-cartao object-cover shadow-lg" />
+        // Layers are positioned boxes around the same LCP image, inside a fixed aspect ratio (CLS 0).
+        <div class:list={['relative', camadas && 'hero-camadas']} data-camada={camadas ? nicho.tema.hero_camada : undefined}>
+          {camadas && <div class="camada-bloco" aria-hidden="true" />}
+          {camadas && <div class="camada-moldura" aria-hidden="true" />}
+          <Imagem
+            imagem={secao.imagem}
+            prioridade
+            class={`relative aspect-[4/3] w-full rounded-cartao object-cover${camadas ? '' : ' shadow-lg'}`}
+          />
+          {
+            cartao && (
+              <dl class="hero-cartao">
+                <dt class="text-sm text-texto-suave">{cartao.rotulo}</dt>
+                <dd class="mt-0.5 font-titulo font-semibold">{cartao.valor}</dd>
+              </dl>
+            )
+          }
+          {
+            insignias.length > 0 && (
+              <div class="hero-insignias" aria-hidden="true">
+                {insignias.map((insignia, i) => (
+                  <Insignia insignia={insignia} ordem={i} />
+                ))}
+              </div>
+            )
+          }
+        </div>
       )
     }
     {
       painel && (
-        <div class="entrada-bloco hidden rounded-cartao border border-texto/15 bg-cartao p-8 lg:block">
-          <span class="block h-0.5 w-10 bg-destaque" aria-hidden="true" />
-          <dl class="mt-2">
-            {destaques.map((item) => (
-              <div class="border-t border-texto/10 py-4 first:border-t-0 last:pb-0">
-                <dt class="text-sm text-texto-suave">{item.rotulo}</dt>
-                <dd class="mt-1 font-titulo text-lg font-semibold">{item.valor}</dd>
+        <div class="entrada-bloco hidden lg:block">
+          <div class:list={['relative', camadas && 'hero-camadas hero-camadas-painel']} data-camada={camadas ? nicho.tema.hero_camada : undefined}>
+            {camadas && <div class="camada-bloco" aria-hidden="true" />}
+            <div class="relative rounded-cartao border border-texto/15 bg-cartao p-8">
+              <span class="block h-0.5 w-10 bg-destaque" aria-hidden="true" />
+              <dl class="mt-2">
+                {destaques.map((item) => (
+                  <div class="border-t border-texto/10 py-4 first:border-t-0 last:pb-0">
+                    <dt class="text-sm text-texto-suave">{item.rotulo}</dt>
+                    <dd class="mt-1 font-titulo text-lg font-semibold">{item.valor}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+          {
+            insignias.length > 0 && (
+              // Overlaps only the panel's bottom padding, so it never covers its text.
+              <div class="relative -mt-6 mr-6 flex justify-end gap-3" aria-hidden="true">
+                {insignias.map((insignia, i) => (
+                  <Insignia insignia={insignia} ordem={i} />
+                ))}
               </div>
-            ))}
-          </dl>
+            )
+          }
         </div>
       )
     }

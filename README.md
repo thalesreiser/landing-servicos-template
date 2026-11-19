@@ -76,6 +76,10 @@ Cada item de `secoes` tem um `tipo` (`hero`, `servicos`, `sobre`, `como_funciona
 - `menu`: texto do link no cabeçalho
 - `ativo: false`: esconde a seção sem apagá-la
 - `fundo`: `fundo`, `superficie` ou `primaria`, veja [Fundos das seções](#fundos-das-seções)
+- `rotulo`: texto do rótulo acima do título, com `tema.rotulos` ligado (padrão: o `menu`), veja
+  [Rótulos das seções](#rótulos-das-seções). Em `botao_whatsapp`, `rotulo` continua sendo o texto do botão
+- `aviso`: caixa de destaque ao fim da seção, veja [Caixa de aviso](#caixa-de-aviso-no-fim-da-seção)
+  (não vale para `rodape` e `botao_whatsapp`)
 
 `nichos/exemplo.json` liga todas as seções e serve de referência.
 
@@ -111,10 +115,49 @@ Três campos opcionais de `tema` controlam o movimento e o fundo do hero:
   algo, e só o que está abaixo da dobra.
 - O H1 do hero nunca anima, para não atrasar o LCP. Com as animações ligadas, o resto do hero
   (selo, subtítulo, botões e destaques) entra em cascata ao carregar, só com CSS e a partir de
-  opacidade 0,01: funciona sem JavaScript e o navegador já conta o conteúdo como pintado.
+  opacidade 0,01: funciona sem JavaScript e o navegador já conta o conteúdo como pintado. As
+  insígnias decorativas entram com um "carimbo" curto (veja [Insígnias](#insígnias-do-hero)).
 - As animações usam só opacidade e `transform`, então não deslocam o layout (CLS 0).
 - O teste de contraste confere texto, texto suave e cor primária sobre o ponto mais escuro da
   `malha`. Se uma paleta reprovar ali, use `"fundo_hero": "liso"`.
+
+### Rótulos das seções
+
+`tema.rotulos` põe um rótulo pequeno acima de cada título de seção, em maiúsculas espaçadas na cor
+de destaque, ao lado do filete (que sai de cima do título e vai para a linha do rótulo):
+
+| Valor | Exemplo |
+| --- | --- |
+| `nenhum` (padrão) | só o filete acima do título, como antes |
+| `numerados` | "01 · Serviços" |
+| `romanos` | "II · O escritório" |
+| `texto` | "Serviços" |
+
+- A contagem começa na primeira seção depois do hero (o hero não tem rótulo) e segue a ordem da
+  página. O texto é o `rotulo` da seção ou, sem ele, o `menu`; sem nenhum dos dois, aparece só o
+  número (em `texto`, nenhum rótulo).
+- O rótulo é decorativo (`aria-hidden`): quem lê a página é o título. Com o rótulo dizendo a
+  categoria, o título fica livre para dizer o benefício ("Do primeiro contato à proposta por
+  escrito" em vez de "Como funciona"), sempre dentro dos termos vetados do nicho.
+
+Nas demos: advocacia `romanos`, fisioterapia `texto`, exemplo `numerados`.
+
+### Composição do hero
+
+| Campo | Valores | Efeito |
+| --- | --- | --- |
+| `hero_composicao` | `simples` (padrão), `camadas` | `camadas`: com foto, um bloco sólido deslocado para baixo e para a direita, um filete de 1 px na cor de destaque deslocado para cima e para a esquerda, e um cartão sobre o canto inferior da foto com o primeiro item de `hero.destaques` (texto real, que sai das etiquetas para não repetir). Sem foto, o painel de destaques ganha o mesmo bloco atrás, um pouco maior e mais arredondado |
+| `hero_camada` | `destaque` (padrão), `primaria` | cor do bloco: a de destaque a 10% ou a primária a 12% |
+
+- O deslocamento é de 8 px no celular e 12 px a partir de 640 px; nada é inclinado e nada passa da
+  borda da tela (o `main` tem `overflow-x: clip`).
+- A foto continua sendo a mesma imagem do LCP, com proporção fixa; as camadas são caixas
+  posicionadas, então não deslocam o layout (CLS 0).
+- O bloco é decorativo (`aria-hidden`) e não leva texto; o cartão usa as cores de cartão, já
+  conferidas no teste de contraste.
+
+Nas demos: advocacia `camadas` + `destaque` (com foto), fisioterapia e exemplo `camadas` +
+`primaria` (modo painel, sem foto).
 
 ### Identidade do nicho
 
@@ -217,6 +260,34 @@ dos botões no celular (só os 3 primeiros). Com `imagem`, a foto fica à direit
 destaques aparecem como etiquetas abaixo dos botões. Use só fatos verificáveis: os textos
 passam pelo teste de termos vetados como qualquer outro.
 
+### Insígnias do hero
+
+`hero.insignias` (opcional, até 2) desenha selos pequenos ao redor da foto ou do painel de destaques:
+
+```json
+"insignias": [
+  { "modelo": "circular", "texto": "Sigilo profissional · LGPD", "icone": "escudo" },
+  { "modelo": "etiqueta", "texto": "Sessões individuais", "cor": "destaque" }
+]
+```
+
+| Campo | Valores | Efeito |
+| --- | --- | --- |
+| `modelo` | `circular`, `etiqueta` | `circular`: texto em anel (SVG) com um ícone no centro (ou um ponto, sem `icone`), até 26 caracteres; `etiqueta`: retângulo com filete interno, até 22 caracteres |
+| `texto` | texto curto | sempre em maiúsculas, na cor de fundo da página |
+| `icone` | um dos [ícones](#o-json-do-nicho) | opcional |
+| `cor` | `primaria` (padrão), `destaque` | fundo da insígnia |
+
+- São decorativas (`aria-hidden`): o leitor de tela não as lê, então o texto **só pode repetir
+  fatos que já estão escritos na página**. Passam pelo teste de termos vetados e de contraste.
+- Com foto, ficam empilhadas no canto superior direito dela. No modo painel, encostam na borda
+  inferior do painel no desktop e viram uma linha abaixo dos botões no celular. Sem foto nem
+  painel, ficam sempre nessa linha.
+- Entrada em "carimbo" (de 1,08 para 1, 300 ms, sem quicar), só com `tema.animacoes: "sutil"` e
+  sem `prefers-reduced-motion`; nenhum movimento contínuo.
+- Nada de aparência oficial ou de prêmio: sem brasão, número de registro, "selo de qualidade" ou
+  contagem de casos. Na advocacia, o número da OAB só aparece nos perfis da equipe.
+
 ### Chamadas no meio da página
 
 `como_funciona` e `faq` aceitam `chamada` (opcional): uma linha de texto e um botão ao fim da
@@ -229,6 +300,32 @@ seção, para o visitante não precisar rolar até o formulário. A `acao` é a 
   "acao": { "tipo": "whatsapp", "texto": "Enviar dúvida pelo WhatsApp", "mensagem": "Olá! Tenho uma dúvida." }
 }
 ```
+
+### Caixa de aviso no fim da seção
+
+Qualquer seção de conteúdo aceita `aviso` (opcional): uma caixa curta, com texto real, para
+responder a uma objeção ou dar uma orientação prática no lugar certo.
+
+```json
+"aviso": {
+  "titulo": "Particular com recibo.",
+  "texto": "Você pode pedir reembolso ao seu plano.",
+  "variante": "destaque",
+  "acao": { "tipo": "whatsapp", "texto": "Perguntar pelo WhatsApp" }
+}
+```
+
+| Campo | Valores | Efeito |
+| --- | --- | --- |
+| `titulo` | texto | frase principal, em destaque |
+| `texto` | texto | opcional, uma linha de apoio |
+| `variante` | `destaque` (padrão), `faixa` | `destaque`: borda esquerda de 4 px na cor de destaque sobre a cor de cartão; `faixa`: a caixa toda na cor primária, com o texto e o botão invertidos |
+| `acao` | igual à das [chamadas](#chamadas-no-meio-da-página) | opcional, um botão ao lado do texto |
+
+- É um `aside` com `aria-label` igual ao título: o leitor de tela anuncia a caixa e lê o texto.
+- Nada inclinado; as cores das duas variantes, também dentro de uma faixa primária, estão no
+  teste de contraste, e os textos passam pelo de termos vetados.
+- Use uma ou duas por página, onde a objeção aparece (sigilo no "sobre", reembolso nos convênios).
 
 ### Regras de conteúdo e acessibilidade
 
@@ -321,6 +418,18 @@ Cada item de `campos` aceita, além de `nome`, `rotulo`, `tipo` e `obrigatorio`:
 abaixo do campo quando ele está inválido; o padrão é "Preencha este campo."). Com
 `alternativa_whatsapp`, a seção mostra acima do formulário um link para o WhatsApp
 com esse texto.
+
+`topicos` (opcional, até 4) é uma lista curta do que acontece depois do envio, com um ícone de
+check, para tirar a dúvida antes do clique:
+
+```json
+"topicos": ["Retorno em até um dia útil", "Conversa com o advogado responsável", "Proposta por escrito antes de qualquer contratação"]
+```
+
+Com `topicos`, o título, o texto e a lista ficam numa coluna à esquerda do formulário a partir de
+1024 px; no celular, a lista fica entre o texto e o formulário. Sem o campo, a seção continua numa
+coluna só. Os itens passam pelo teste de termos vetados: na advocacia, evite "sem custo" e "sem
+compromisso".
 
 ### Mapa
 

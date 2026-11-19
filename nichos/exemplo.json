@@ -28,7 +28,10 @@
     "marca_faixa": "nenhuma",
     "foto_tom": "natural",
     "animacoes": "sutil",
-    "fundo_hero": "malha"
+    "fundo_hero": "malha",
+    "hero_composicao": "camadas",
+    "hero_camada": "primaria",
+    "rotulos": "numerados"
   },
   "contato": {
     "whatsapp": "5500900000000",
@@ -55,25 +58,35 @@
         { "rotulo": "Horário", "valor": "Seg. a sex., 9h às 18h" },
         { "rotulo": "Retorno", "valor": "Em até um dia útil" }
       ],
+      "insignias": [
+        { "modelo": "circular", "texto": "Atende on-line", "icone": "check" },
+        { "modelo": "etiqueta", "texto": "Retorno em 1 dia útil", "cor": "destaque" }
+      ],
       "acao_principal": { "tipo": "whatsapp", "texto": "Conversar pelo WhatsApp" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver serviços", "href": "#servicos" }
     },
     {
       "tipo": "servicos",
       "menu": "Serviços",
-      "titulo": "Serviços",
+      "titulo": "Um título que diz o benefício, não a categoria",
       "subtitulo": "Cada card tem ícone, título e uma descrição curta; o número e a linha de detalhe são opcionais.",
       "numerar": true,
       "itens": [
         { "icone": "documento", "titulo": "Diagnóstico", "descricao": "Levantamento da situação atual e das prioridades.", "detalhe": "Reunião inicial · 1 h" },
         { "icone": "calendario", "titulo": "Plano de ação", "descricao": "Etapas, prazos e responsáveis definidos com você.", "detalhe": "Entregue por escrito" },
         { "icone": "pessoas", "titulo": "Acompanhamento", "descricao": "Reuniões periódicas para revisar os resultados." }
-      ]
+      ],
+      "aviso": {
+        "titulo": "Variante faixa, com ação opcional.",
+        "texto": "A caixa toda na cor primária; o botão reusa a ação das chamadas.",
+        "variante": "faixa",
+        "acao": { "tipo": "link", "texto": "Ir para o formulário", "href": "#contato" }
+      }
     },
     {
       "tipo": "sobre",
       "menu": "Sobre",
-      "titulo": "Sobre",
+      "titulo": "Quem atende você",
       "paragrafos": [
         "Parágrafo de apresentação do profissional ou da empresa.",
         "Segundo parágrafo com formação, experiência e forma de trabalho."
@@ -81,7 +94,12 @@
       "registros": [{ "rotulo": "Registro profissional", "valor": "Conselho 00.000" }],
       "equipe": [
         { "nome": "Pessoa Exemplo", "cargo": "Consultora", "registro": "Registro 00.000", "bio": "Bio curta." }
-      ]
+      ],
+      "aviso": {
+        "titulo": "Variante destaque.",
+        "texto": "Uma frase curta, no fim da seção, que responde a uma objeção do visitante.",
+        "variante": "destaque"
+      }
     },
     {
       "tipo": "como_funciona",
@@ -100,6 +118,7 @@
     },
     {
       "tipo": "depoimentos",
+      "rotulo": "Clientes",
       "fundo": "primaria",
       "titulo": "Depoimentos",
       "itens": [
@@ -110,6 +129,7 @@
     },
     {
       "tipo": "convenios",
+      "rotulo": "Parceiros",
       "titulo": "Convênios e parceiros",
       "texto": "Lista de nomes em etiquetas.",
       "itens": ["Parceiro Alfa", "Parceiro Beta", "Parceiro Gama"]
@@ -134,6 +154,7 @@
       "titulo": "Fale conosco",
       "texto": "Responderemos em até um dia útil.",
       "alternativa_whatsapp": "Prefere o WhatsApp? Chame agora",
+      "topicos": ["Resposta em até um dia útil", "Sem cadastro", "Seus dados ficam só com a gente"],
       "provedor": "formspree",
       "chave": "",
       "campos": [
@@ -147,7 +168,7 @@
       "botao": "Enviar mensagem",
       "mensagem_sucesso": "Mensagem recebida! Retornaremos em breve."
     },
-    { "tipo": "mapa", "id": "localizacao", "titulo": "Onde estamos" },
+    { "tipo": "mapa", "id": "localizacao", "rotulo": "Endereço", "titulo": "Onde estamos" },
     { "tipo": "rodape", "texto": "Texto curto sobre o negócio.", "registros": ["CNPJ 00.000.000/0000-00"] },
     { "tipo": "botao_whatsapp" }
   ]

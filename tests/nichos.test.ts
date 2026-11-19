@@ -119,6 +119,41 @@ test('como_funciona and faq accept an end-of-section call to action', () => {
   assert.equal(nichoSchema.safeParse(nicho).success, false);
 });
 
+test('any content section accepts an end-of-section box, "destaque" by default', () => {
+  const nicho = exemplo();
+  const faq = nicho.secoes.find((s) => s.tipo === 'faq')!;
+  faq.aviso = { titulo: 'Título' };
+  const resultado = nichoSchema.parse(nicho).secoes.find((s) => s.tipo === 'faq');
+  assert.equal(resultado?.aviso?.variante, 'destaque');
+  faq.aviso = { titulo: 'Título', texto: 'Texto', variante: 'faixa', acao: { tipo: 'link', texto: 'Contato', href: '#contato' } };
+  assert.equal(nichoSchema.safeParse(nicho).success, true);
+  faq.aviso = { titulo: 'Título', variante: 'inclinada' };
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+  faq.aviso = { texto: 'Sem título' };
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+});
+
+test('the footer and the WhatsApp button do not accept an end-of-section box', () => {
+  for (const tipo of ['rodape', 'botao_whatsapp']) {
+    const nicho = exemplo();
+    nicho.secoes.find((s) => s.tipo === tipo)!.aviso = { titulo: 'Título' };
+    const resultado = nichoSchema.safeParse(nicho);
+    assert.equal(resultado.success, false, tipo);
+    assert.match(resultado.error!.message, new RegExp(`a seção ${tipo} não mostra aviso`));
+  }
+});
+
+test('the form accepts up to four "what happens next" items', () => {
+  const nicho = exemplo();
+  const form = nicho.secoes.find((s) => s.tipo === 'formulario')!;
+  form.topicos = ['Um', 'Dois', 'Três', 'Quatro'];
+  assert.equal(nichoSchema.safeParse(nicho).success, true);
+  form.topicos = ['Um', 'Dois', 'Três', 'Quatro', 'Cinco'];
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+  form.topicos = [''];
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+});
+
 test('a section accepts a decorative background photo, except the hero, footer and floating button', () => {
   const nicho = exemplo();
   const passos = nicho.secoes.find((s) => s.tipo === 'como_funciona')!;

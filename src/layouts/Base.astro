@@ -162,7 +162,8 @@ const altOg = `${nicho.site.nome}: ${chamadaPrincipal(nicho)}`;
     </header>
 
     {/* tabindex lets the skip link move focus, not just scroll, into the content. */}
-    <main id="conteudo" tabindex="-1" class="outline-none">
+    {/* overflow-x: clip keeps decorative layers (hero offsets, badges) from ever adding a horizontal scroll. */}
+    <main id="conteudo" tabindex="-1" class="overflow-x-clip outline-none">
       <slot />
     </main>
     <slot name="depois" />

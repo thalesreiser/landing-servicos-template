@@ -90,6 +90,15 @@ export function fundoMalha(tema: { cor_primaria: string; cor_destaque: string },
   return misturar(tema.cor_destaque, misturar(tema.cor_primaria, base, MALHA.primaria), MALHA.destaque);
 }
 
+// tema.hero_composicao: "camadas" puts the hero photo (or the highlights panel) over an offset block,
+// with a thin offset frame and a highlight card on the photo (global.css, .hero-camadas); "simples" is flat.
+export const COMPOSICOES_HERO = ['simples', 'camadas'] as const;
+export type ComposicaoHero = (typeof COMPOSICOES_HERO)[number];
+
+// tema.hero_camada: color of the offset block, the accent (10%) or the primary color (12%). Decorative, no text on it.
+export const CAMADAS_HERO = ['destaque', 'primaria'] as const;
+export type CamadaHero = (typeof CAMADAS_HERO)[number];
+
 // Dimmed photo behind a section (secao.foto_fundo, global.css .foto-fundo): grayscale and blended
 // into the section color, at this fixed opacity. Its extreme pixels are checked in tests/contraste.test.ts.
 export const OPACIDADE_FOTO_FUNDO = 0.08;

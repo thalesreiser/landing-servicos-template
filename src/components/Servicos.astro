@@ -1,18 +1,21 @@
 ---
 import Icone from './Icone.astro';
+import TituloSecao from './TituloSecao.astro';
 import { ancoraSecao, type SecaoDo } from '../lib/schema.ts';
 
 interface Props {
   secao: SecaoDo<'servicos'>;
+  // Kicker above the title (tema.rotulos), computed in index.astro.
+  rotulo?: string | undefined;
 }
 
-const { secao } = Astro.props;
+const { secao, rotulo } = Astro.props;
 const idTitulo = `${ancoraSecao(secao)}-titulo`;
 ---
 
 <section id={ancoraSecao(secao)} class="secao" aria-labelledby={idTitulo}>
   <div class="container-site">
-    <h2 id={idTitulo} class="titulo-secao">{secao.titulo}</h2>
+    <TituloSecao id={idTitulo} titulo={secao.titulo} rotulo={rotulo} />
     {secao.subtitulo && <p class="mt-4 max-w-2xl text-lg text-texto-suave">{secao.subtitulo}</p>}
     <ul class="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3" data-revelar-grupo>
       {
