@@ -63,6 +63,10 @@
         { "rotulo": "Horário", "valor": "Seg. a sex. 7h–20h · sáb. 8h–12h" },
         { "rotulo": "Atendimento domiciliar", "valor": "Vila Mariana e bairros próximos" }
       ],
+      "insignias": [
+        { "modelo": "etiqueta", "texto": "Sessões individuais" },
+        { "modelo": "circular", "texto": "Atende convênios", "icone": "check", "cor": "destaque" }
+      ],
       "acao_principal": { "tipo": "whatsapp", "texto": "Agendar avaliação pelo WhatsApp" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver serviços", "href": "#servicos" }
     },

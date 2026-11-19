@@ -60,6 +60,14 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
       ['faixa primária: texto e botão invertido', faixa.texto, faixa.fundo],
       ['faixa primária: texto suave', faixa.texto_suave, faixa.fundo],
       ['faixa primária: destaque', faixa.destaque, faixa.fundo],
+      // Hero badges (hero.insignias): page background text on the primary or accent color, also inside a band.
+      ['insígnia: fundo sobre primária', t.cor_fundo, t.cor_primaria],
+      ['insígnia: fundo sobre destaque', t.cor_fundo, t.cor_destaque],
+      ['insígnia na faixa: fundo da faixa sobre texto da faixa', faixa.fundo, faixa.texto],
+      ['insígnia na faixa: fundo da faixa sobre destaque da faixa', faixa.fundo, faixa.destaque],
+      // Layered hero card (tema.hero_composicao "camadas"): card colors, the light opposite of the hero background.
+      ['cartão do hero: texto sobre fundo', t.cor_texto, t.cor_fundo],
+      ['cartão do hero: texto suave sobre superfície', t.cor_texto_suave, t.cor_superficie],
       ['rodapé, aviso de demonstração e aviso de cookies', t.cor_fundo, t.cor_texto],
       ['rodapé a 80%', misturar(t.cor_fundo, t.cor_texto, OPACIDADE_RODAPE), t.cor_texto],
     ];

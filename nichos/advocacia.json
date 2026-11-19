@@ -64,6 +64,7 @@
         { "rotulo": "Horário", "valor": "Seg. a sex., 9h às 18h" },
         { "rotulo": "Sigilo", "valor": "Estatuto da Advocacia e LGPD" }
       ],
+      "insignias": [{ "modelo": "circular", "texto": "Sigilo profissional · LGPD", "icone": "escudo" }],
       "acao_principal": { "tipo": "whatsapp", "texto": "Agendar atendimento" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver áreas de atuação", "href": "#areas" },
       "imagem": {

@@ -51,6 +51,10 @@
         { "rotulo": "Horário", "valor": "Seg. a sex., 9h às 18h" },
         { "rotulo": "Retorno", "valor": "Em até um dia útil" }
       ],
+      "insignias": [
+        { "modelo": "circular", "texto": "Atende on-line", "icone": "check" },
+        { "modelo": "etiqueta", "texto": "Retorno em 1 dia útil", "cor": "destaque" }
+      ],
       "acao_principal": { "tipo": "whatsapp", "texto": "Conversar pelo WhatsApp" },
       "acao_secundaria": { "tipo": "link", "texto": "Ver serviços", "href": "#servicos" }
     },

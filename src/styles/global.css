@@ -346,6 +346,128 @@
 }
 
 /*
+  Credential badges (Insignia.astro, hero.insignias): primary or accent background, text in the
+  page background color (pairs in tests/contraste.test.ts). Thin box-shadow, no blur filter.
+*/
+.insignia {
+  --insignia-fundo: var(--cor-primaria);
+  --insignia-texto: var(--cor-fundo);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.insignia[data-cor='destaque'] {
+  --insignia-fundo: var(--cor-destaque);
+}
+
+.insignia-circular {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 9999px;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.12),
+    0 6px 14px -8px rgb(0 0 0 / 0.35);
+}
+
+@media (min-width: 640px) {
+  .insignia-circular {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
+}
+
+.insignia-circular svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.insignia-fundo {
+  fill: var(--insignia-fundo);
+}
+
+.insignia-filete {
+  fill: none;
+  stroke: var(--insignia-texto);
+  stroke-opacity: 0.5;
+  stroke-width: 0.75;
+}
+
+.insignia-anel {
+  fill: var(--insignia-texto);
+  font-family: var(--fonte-texto);
+  font-weight: 600;
+}
+
+.insignia-ponto {
+  fill: var(--insignia-texto);
+}
+
+.insignia-icone {
+  fill: none;
+  stroke: var(--insignia-texto);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.insignia-etiqueta {
+  border-radius: var(--raio-campo);
+  background-color: var(--insignia-fundo);
+  color: var(--insignia-texto);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.12),
+    0 6px 14px -8px rgb(0 0 0 / 0.35);
+}
+
+.insignia-etiqueta-texto {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 3px;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--insignia-texto) 55%, transparent);
+  border-radius: calc(var(--raio-campo) - 2px);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* On the photo: top-right corner, stacked; a little outside the photo from lg (inside the gutter). */
+.hero-insignias {
+  position: absolute;
+  top: -1.25rem;
+  right: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-insignias {
+    right: -1.25rem;
+  }
+}
+
+/* Entrance "stamp": once, 300 ms, from 1.08 to 1, no bounce. Never with reduced motion or "nenhuma". */
+@keyframes carimbo {
+  from {
+    opacity: 0;
+    scale: 1.08;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-animacoes='sutil'] .insignia {
+    animation: carimbo 300ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(300ms + var(--i, 0) * 120ms) backwards;
+  }
+}
+
+/*
   Header state on scroll: the hairline gives way to a soft shadow tinted with the primary color
   over the first 8rem of scrolling. Scroll-driven CSS, no JS; browsers without support keep the
   static border. Height never changes, so anchors and layout stay put.

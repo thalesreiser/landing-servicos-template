@@ -1,0 +1,69 @@
+---
+import { ICONES } from '../lib/icones.ts';
+import { idInsignia, textoAnel } from '../lib/insignias.ts';
+import type { Insignia } from '../lib/schema.ts';
+
+interface Props {
+  insignia: Insignia;
+  // Order in the entrance (stamp) sequence.
+  ordem?: number;
+}
+
+const { insignia, ordem = 0 } = Astro.props;
+const { modelo, texto, icone, cor } = insignia;
+const id = idInsignia();
+// Ring text runs on a circle of radius 42 around the centre (60, 60), starting at the left.
+const RAIO_ANEL = 42;
+const comprimentoAnel = Math.round(2 * Math.PI * RAIO_ANEL - 2);
+---
+
+{/*
+  Decorative credential badge: hidden from assistive tech because it only repeats facts that are
+  already written on the page. Sober type, a thin shadow without blur filters, never tilted; it
+  enters once with a short "stamp" (global.css) and never floats.
+*/}
+<span class:list={['insignia', `insignia-${modelo}`]} data-cor={cor} style={`--i:${ordem}`} aria-hidden="true">
+  {
+    modelo === 'circular' ? (
+      <svg viewBox="0 0 120 120" focusable="false">
+        <defs>
+          <path id={id} d={`M60 60 m-${RAIO_ANEL} 0 a${RAIO_ANEL} ${RAIO_ANEL} 0 1 1 ${2 * RAIO_ANEL} 0 a${RAIO_ANEL} ${RAIO_ANEL} 0 1 1 -${2 * RAIO_ANEL} 0`} />
+        </defs>
+        <circle cx="60" cy="60" r="59" class="insignia-fundo" />
+        <circle cx="60" cy="60" r="54" class="insignia-filete" />
+        <circle cx="60" cy="60" r="33" class="insignia-filete" />
+        <text class="insignia-anel" font-size="11">
+          <textPath href={`#${id}`} textLength={comprimentoAnel} lengthAdjust="spacing">
+            {textoAnel(texto)}
+          </textPath>
+        </text>
+        {
+          icone ? (
+            <g transform="translate(46 46) scale(1.1667)" class="insignia-icone">
+              {ICONES[icone].map((d) => (
+                <path d={d} />
+              ))}
+            </g>
+          ) : (
+            <circle cx="60" cy="60" r="4" class="insignia-ponto" />
+          )
+        }
+      </svg>
+    ) : (
+      <span class="insignia-etiqueta-texto">
+        {
+          icone && (
+            <svg viewBox="0 0 24 24" class="size-4 shrink-0" focusable="false">
+              <g class="insignia-icone">
+                {ICONES[icone].map((d) => (
+                  <path d={d} />
+                ))}
+              </g>
+            </svg>
+          )
+        }
+        {texto}
+      </span>
+    )
+  }
+</span>

@@ -107,7 +107,8 @@ Dois campos opcionais de `tema` controlam o movimento e o fundo do hero:
 - Quem pede menos movimento no sistema (`prefers-reduced-motion`) nunca vê deslocamento,
   qualquer que seja o valor.
 - O conteúdo é visível sem JavaScript. Só o script de revelação (cerca de 0,7 KB) esconde
-  algo, e só o que está abaixo da dobra. O hero nunca anima, para não atrasar o LCP. As
+  algo, e só o que está abaixo da dobra. O texto e a foto do hero nunca animam, para não atrasar o LCP;
+  só as insígnias decorativas entram com um "carimbo" curto (veja [Insígnias](#insígnias-do-hero)). As
   animações usam só opacidade e `transform`, então não deslocam o layout (CLS 0).
 - O teste de contraste confere texto, texto suave e cor primária sobre o ponto mais escuro da
   `malha`. Se uma paleta reprovar ali, use `"fundo_hero": "liso"`.
@@ -158,6 +159,34 @@ Sem `imagem`, eles ocupam um painel à direita do título no desktop e viram eti
 dos botões no celular (só os 3 primeiros). Com `imagem`, a foto fica à direita e todos os
 destaques aparecem como etiquetas abaixo dos botões. Use só fatos verificáveis: os textos
 passam pelo teste de termos vetados como qualquer outro.
+
+### Insígnias do hero
+
+`hero.insignias` (opcional, até 2) desenha selos pequenos ao redor da foto ou do painel de destaques:
+
+```json
+"insignias": [
+  { "modelo": "circular", "texto": "Sigilo profissional · LGPD", "icone": "escudo" },
+  { "modelo": "etiqueta", "texto": "Sessões individuais", "cor": "destaque" }
+]
+```
+
+| Campo | Valores | Efeito |
+| --- | --- | --- |
+| `modelo` | `circular`, `etiqueta` | `circular`: texto em anel (SVG) com um ícone no centro (ou um ponto, sem `icone`), até 26 caracteres; `etiqueta`: retângulo com filete interno, até 22 caracteres |
+| `texto` | texto curto | sempre em maiúsculas, na cor de fundo da página |
+| `icone` | um dos [ícones](#o-json-do-nicho) | opcional |
+| `cor` | `primaria` (padrão), `destaque` | fundo da insígnia |
+
+- São decorativas (`aria-hidden`): o leitor de tela não as lê, então o texto **só pode repetir
+  fatos que já estão escritos na página**. Passam pelo teste de termos vetados e de contraste.
+- Com foto, ficam empilhadas no canto superior direito dela. No modo painel, encostam na borda
+  inferior do painel no desktop e viram uma linha abaixo dos botões no celular. Sem foto nem
+  painel, ficam sempre nessa linha.
+- Entrada em "carimbo" (de 1,08 para 1, 300 ms, sem quicar), só com `tema.animacoes: "sutil"` e
+  sem `prefers-reduced-motion`; nenhum movimento contínuo.
+- Nada de aparência oficial ou de prêmio: sem brasão, número de registro, "selo de qualidade" ou
+  contagem de casos. Na advocacia, o número da OAB só aparece nos perfis da equipe.
 
 ### Chamadas no meio da página
 

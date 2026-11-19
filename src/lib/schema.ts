@@ -2,6 +2,7 @@ import { z } from 'astro/zod';
 import { PROVEDORES_FONTE, separarPilha } from './fontes.ts';
 import { NOMES_ICONES } from './icones.ts';
 import { EXTENSOES_IMAGEM, PADRAO_SRC_IMAGEM } from './imagens.ts';
+import { CORES_INSIGNIA, LIMITE_INSIGNIA, MAXIMO_INSIGNIAS, MODELOS_INSIGNIA } from './insignias.ts';
 import { ANIMACOES, CAMADAS_HERO, CARTOES, COMPOSICOES_HERO, FUNDOS, FUNDOS_HERO, RAIOS } from './tema.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
@@ -52,6 +53,20 @@ const comum = {
   fundo: z.enum(FUNDOS).optional(),
 };
 
+const insignia = z
+  .object({
+    modelo: z.enum(MODELOS_INSIGNIA),
+    texto: z.string().trim().min(1),
+    icone: z.enum(NOMES_ICONES).optional(),
+    cor: z.enum(CORES_INSIGNIA).default('primaria'),
+  })
+  .superRefine((item, ctx) => {
+    const limite = LIMITE_INSIGNIA[item.modelo];
+    if (item.texto.length > limite) {
+      ctx.addIssue({ code: 'custom', path: ['texto'], message: `a insígnia ${item.modelo} aceita até ${limite} caracteres` });
+    }
+  });
+
 const hero = z.object({
   ...comum,
   tipo: z.literal('hero'),
@@ -63,6 +78,8 @@ const hero = z.object({
   imagem: imagem.optional(),
   // Short facts (registration, schedule, service mode): a side panel when there is no image, chips otherwise.
   destaques: z.array(z.object({ rotulo: z.string(), valor: z.string() })).min(1).max(4).optional(),
+  // Decorative credential badges around the photo or panel; they only repeat facts from the page text.
+  insignias: z.array(insignia).min(1).max(MAXIMO_INSIGNIAS).optional(),
 });
 
 const servicos = z.object({
@@ -315,6 +332,7 @@ export type SecaoDo<T extends Secao['tipo']> = Extract<Secao, { tipo: T }>;
 export type Acao = z.output<typeof acao>;
 export type Chamada = z.output<typeof chamada>;
 export type Imagem = z.output<typeof imagem>;
+export type Insignia = z.output<typeof insignia>;
 
 /** Anchor id of a section: its `id`, or its type in kebab-case. */
 export function ancoraSecao(secao: { id?: string | undefined; tipo: string }): string {

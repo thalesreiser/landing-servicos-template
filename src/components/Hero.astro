@@ -1,5 +1,6 @@
 ---
 import Imagem from './Imagem.astro';
+import Insignia from './Insignia.astro';
 import { atributosAcao } from '../lib/acao.ts';
 import { ancoraSecao, type Nicho, type SecaoDo } from '../lib/schema.ts';
 
@@ -18,6 +19,9 @@ const painel = destaques.length > 0 && !secao.imagem;
 // so it is not repeated among the chips.
 const cartao = camadas && secao.imagem ? destaques[0] : undefined;
 const chips = secao.imagem ? destaques.slice(cartao ? 1 : 0) : destaques.slice(0, 3);
+// Badges sit on the photo's corner; beside a panel from lg (the panel is hidden below lg); otherwise in a row.
+const insignias = secao.insignias ?? [];
+const insigniasNaLinha = insignias.length > 0 && !secao.imagem;
 ---
 
 {/* data-hero: the WhatsApp shortcut stays hidden while this section is on screen. */}
@@ -67,6 +71,15 @@ const chips = secao.imagem ? destaques.slice(cartao ? 1 : 0) : destaques.slice(0
           </dl>
         )
       }
+      {
+        insigniasNaLinha && (
+          <div class:list={['mt-6 flex flex-wrap items-center gap-3', painel && 'lg:hidden']} aria-hidden="true">
+            {insignias.map((insignia, i) => (
+              <Insignia insignia={insignia} ordem={i} />
+            ))}
+          </div>
+        )
+      }
     </div>
     {
       secao.imagem && (
@@ -85,6 +98,15 @@ const chips = secao.imagem ? destaques.slice(cartao ? 1 : 0) : destaques.slice(0
                 <dt class="text-sm text-texto-suave">{cartao.rotulo}</dt>
                 <dd class="mt-0.5 font-titulo font-semibold">{cartao.valor}</dd>
               </dl>
+            )
+          }
+          {
+            insignias.length > 0 && (
+              <div class="hero-insignias" aria-hidden="true">
+                {insignias.map((insignia, i) => (
+                  <Insignia insignia={insignia} ordem={i} />
+                ))}
+              </div>
             )
           }
         </div>
@@ -107,6 +129,16 @@ const chips = secao.imagem ? destaques.slice(cartao ? 1 : 0) : destaques.slice(0
               </dl>
             </div>
           </div>
+          {
+            insignias.length > 0 && (
+              // Overlaps only the panel's bottom padding, so it never covers its text.
+              <div class="relative -mt-6 mr-6 flex justify-end gap-3" aria-hidden="true">
+                {insignias.map((insignia, i) => (
+                  <Insignia insignia={insignia} ordem={i} />
+                ))}
+              </div>
+            )
+          }
         </div>
       )
     }
