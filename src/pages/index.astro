@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Aviso from '../components/Aviso.astro';
 import BotaoWhatsApp from '../components/BotaoWhatsApp.astro';
 import ComoFunciona from '../components/ComoFunciona.astro';
 import Convenios from '../components/Convenios.astro';
@@ -56,6 +57,13 @@ const classesFundo = { fundo: 'fundo-fundo', superficie: 'fundo-superficie', pri
               return <Mapa secao={secao} rotulo={rotulos[i]} nicho={nicho} />;
           }
         })()}
+        {secao.aviso && (
+          <Aviso
+            aviso={secao.aviso}
+            contato={nicho.contato}
+            estreito={secao.tipo === 'faq' || secao.tipo === 'formulario'}
+          />
+        )}
       </div>
     ))
   }

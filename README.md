@@ -78,6 +78,8 @@ Cada item de `secoes` tem um `tipo` (`hero`, `servicos`, `sobre`, `como_funciona
 - `fundo`: `fundo`, `superficie` ou `primaria`, veja [Fundos das seções](#fundos-das-seções)
 - `rotulo`: texto do rótulo acima do título, com `tema.rotulos` ligado (padrão: o `menu`), veja
   [Rótulos das seções](#rótulos-das-seções). Em `botao_whatsapp`, `rotulo` continua sendo o texto do botão
+- `aviso`: caixa de destaque ao fim da seção, veja [Caixa de aviso](#caixa-de-aviso-no-fim-da-seção)
+  (não vale para `rodape` e `botao_whatsapp`)
 
 `nichos/exemplo.json` liga todas as seções e serve de referência.
 
@@ -223,6 +225,32 @@ seção, para o visitante não precisar rolar até o formulário. A `acao` é a 
   "acao": { "tipo": "whatsapp", "texto": "Enviar dúvida pelo WhatsApp", "mensagem": "Olá! Tenho uma dúvida." }
 }
 ```
+
+### Caixa de aviso no fim da seção
+
+Qualquer seção de conteúdo aceita `aviso` (opcional): uma caixa curta, com texto real, para
+responder a uma objeção ou dar uma orientação prática no lugar certo.
+
+```json
+"aviso": {
+  "titulo": "Particular com recibo.",
+  "texto": "Você pode pedir reembolso ao seu plano.",
+  "variante": "destaque",
+  "acao": { "tipo": "whatsapp", "texto": "Perguntar pelo WhatsApp" }
+}
+```
+
+| Campo | Valores | Efeito |
+| --- | --- | --- |
+| `titulo` | texto | frase principal, em destaque |
+| `texto` | texto | opcional, uma linha de apoio |
+| `variante` | `destaque` (padrão), `faixa` | `destaque`: borda esquerda de 4 px na cor de destaque sobre a cor de cartão; `faixa`: a caixa toda na cor primária, com o texto e o botão invertidos |
+| `acao` | igual à das [chamadas](#chamadas-no-meio-da-página) | opcional, um botão ao lado do texto |
+
+- É um `aside` com `aria-label` igual ao título: o leitor de tela anuncia a caixa e lê o texto.
+- Nada inclinado; as cores das duas variantes, também dentro de uma faixa primária, estão no
+  teste de contraste, e os textos passam pelo de termos vetados.
+- Use uma ou duas por página, onde a objeção aparece (sigilo no "sobre", reembolso nos convênios).
 
 ### Regras de conteúdo e acessibilidade
 

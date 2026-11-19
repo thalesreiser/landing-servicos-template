@@ -90,7 +90,12 @@
       "menu": "Convênios",
       "titulo": "Pelo seu convênio ou no particular, com recibo",
       "texto": "Atendemos pelos convênios abaixo e também no particular, com recibo para pedir reembolso ao seu plano.",
-      "itens": ["Convênio Alfa", "Convênio Beta", "Convênio Gama", "Convênio Delta", "Particular com recibo"]
+      "itens": ["Convênio Alfa", "Convênio Beta", "Convênio Gama", "Convênio Delta", "Particular com recibo"],
+      "aviso": {
+        "titulo": "Particular com recibo.",
+        "texto": "Você pode pedir reembolso ao seu plano.",
+        "variante": "destaque"
+      }
     },
     {
       "tipo": "como_funciona",
@@ -106,6 +111,10 @@
       "chamada": {
         "texto": "O primeiro passo é a avaliação. Escolha o horário pelo WhatsApp.",
         "acao": { "tipo": "whatsapp", "texto": "Agendar avaliação" }
+      },
+      "aviso": {
+        "titulo": "Na avaliação, traga seus exames e a carteirinha do convênio.",
+        "variante": "destaque"
       }
     },
     {

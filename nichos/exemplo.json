@@ -68,7 +68,13 @@
         { "icone": "documento", "titulo": "Diagnóstico", "descricao": "Levantamento da situação atual e das prioridades." },
         { "icone": "calendario", "titulo": "Plano de ação", "descricao": "Etapas, prazos e responsáveis definidos com você." },
         { "icone": "pessoas", "titulo": "Acompanhamento", "descricao": "Reuniões periódicas para revisar os resultados." }
-      ]
+      ],
+      "aviso": {
+        "titulo": "Variante faixa, com ação opcional.",
+        "texto": "A caixa toda na cor primária; o botão reusa a ação das chamadas.",
+        "variante": "faixa",
+        "acao": { "tipo": "link", "texto": "Ir para o formulário", "href": "#contato" }
+      }
     },
     {
       "tipo": "sobre",
@@ -81,7 +87,12 @@
       "registros": [{ "rotulo": "Registro profissional", "valor": "Conselho 00.000" }],
       "equipe": [
         { "nome": "Pessoa Exemplo", "cargo": "Consultora", "registro": "Registro 00.000", "bio": "Bio curta." }
-      ]
+      ],
+      "aviso": {
+        "titulo": "Variante destaque.",
+        "texto": "Uma frase curta, no fim da seção, que responde a uma objeção do visitante.",
+        "variante": "destaque"
+      }
     },
     {
       "tipo": "como_funciona",

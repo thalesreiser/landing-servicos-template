@@ -105,6 +105,11 @@
         { "rotulo": "Abrangência", "valor": "São Paulo e outras cidades, pelo processo eletrônico" },
         { "rotulo": "Contratação", "valor": "Proposta por escrito antes do início" }
       ],
+      "aviso": {
+        "titulo": "Sigilo profissional.",
+        "texto": "O que você nos contar fica protegido pelo Estatuto da Advocacia e pela LGPD.",
+        "variante": "destaque"
+      },
       "equipe": [
         {
           "nome": "Helena Ribeiro Antunes",

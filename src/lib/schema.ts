@@ -44,6 +44,16 @@ const acao = z.discriminatedUnion('tipo', [
 // Call to action at the end of a section (como_funciona, faq): an optional line of text and a button.
 const chamada = z.object({ texto: z.string().optional(), acao });
 
+// Highlight box at the end of a section (Aviso.astro): real text answering an objection.
+// "destaque": accent border on the card color; "faixa": the whole box in the primary color.
+export const VARIANTES_AVISO = ['destaque', 'faixa'] as const;
+const aviso = z.object({
+  titulo: z.string().trim().min(1),
+  texto: z.string().optional(),
+  variante: z.enum(VARIANTES_AVISO).default('destaque'),
+  acao: acao.optional(),
+});
+
 // Fields every section accepts: `id` is the anchor (defaults to the type),
 // `menu` adds the section to the header nav, `ativo: false` hides it and `fundo`
 // fixes its background (otherwise the light backgrounds alternate, see src/lib/tema.ts).
@@ -54,6 +64,8 @@ const comum = {
   fundo: z.enum(FUNDOS).optional(),
   // Text of the kicker above the title when tema.rotulos is on (default: `menu`).
   rotulo: z.string().trim().min(1).optional(),
+  // Highlight box after the section content (not in rodape or botao_whatsapp).
+  aviso: aviso.optional(),
 };
 
 const insignia = z
@@ -321,6 +333,9 @@ export const nichoSchema = z
     });
     nicho.secoes.forEach((s, i) => {
       // Field errors and inputs are only tested against the light backgrounds.
+      if ((s.tipo === 'rodape' || s.tipo === 'botao_whatsapp') && s.aviso) {
+        ctx.addIssue({ code: 'custom', path: ['secoes', i, 'aviso'], message: `a seção ${s.tipo} não mostra aviso` });
+      }
       if (s.tipo === 'formulario' && s.fundo === 'primaria') {
         ctx.addIssue({ code: 'custom', path: ['secoes', i, 'fundo'], message: 'o formulário não aceita fundo "primaria"; use "fundo" ou "superficie"' });
       }
@@ -336,6 +351,7 @@ export type Secao = Nicho['secoes'][number];
 export type SecaoDo<T extends Secao['tipo']> = Extract<Secao, { tipo: T }>;
 export type Acao = z.output<typeof acao>;
 export type Chamada = z.output<typeof chamada>;
+export type Aviso = z.output<typeof aviso>;
 export type Imagem = z.output<typeof imagem>;
 export type Insignia = z.output<typeof insignia>;
 

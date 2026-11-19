@@ -38,6 +38,8 @@
   }
 
   :root {
+    /* Vertical padding of every section (see secao); the end-of-section box tucks into it. */
+    --espaco-secao: clamp(3.5rem, 2.2rem + 5vw, 6rem);
     /* Card background: the light color opposite to the section background (see fundo-*). */
     --cor-cartao: var(--cor-superficie);
   }
@@ -63,7 +65,7 @@
 
 /* Fluid rhythm: section spacing and titles grow continuously from 360 px to desktop. */
 @utility secao {
-  padding-block: clamp(3.5rem, 2.2rem + 5vw, 6rem);
+  padding-block: var(--espaco-secao);
 }
 
 /*
@@ -294,6 +296,67 @@
         background-size 250ms ease-out;
     }
   }
+}
+
+/*
+  End-of-section highlight box (Aviso.astro): pulled up into the bottom padding of the section it
+  follows, 2.5rem below its content. "destaque": 4 px accent border on the card color (transparent
+  on a band); "faixa": the box in the primary color, with buttons inverted inside it. Never tilted.
+*/
+.aviso-bloco {
+  margin-top: calc(2.5rem - var(--espaco-secao));
+  padding-bottom: var(--espaco-secao);
+}
+
+.aviso {
+  display: flex;
+  max-width: 48rem;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .aviso:has(> a) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+}
+
+.aviso-titulo {
+  font-family: var(--fonte-titulo);
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.aviso-texto {
+  margin-top: 0.25rem;
+  color: var(--cor-texto-suave);
+}
+
+.aviso-destaque {
+  border-left: 4px solid var(--cor-destaque);
+  border-radius: 0 var(--raio) var(--raio) 0;
+  background-color: var(--cor-cartao);
+}
+
+.aviso-faixa {
+  --aviso-claro: var(--cor-primaria-contraste);
+  --aviso-escuro: var(--cor-primaria);
+  border-radius: var(--raio);
+  background-color: var(--cor-primaria);
+  color: var(--cor-primaria-contraste);
+}
+
+/* Inside the box, the theme colors swap, so text, buttons and focus rings keep their contrast. */
+.aviso-faixa > * {
+  --cor-primaria: var(--aviso-claro);
+  --cor-primaria-contraste: var(--aviso-escuro);
+  --cor-texto-suave: var(--aviso-claro);
 }
 
 /*
