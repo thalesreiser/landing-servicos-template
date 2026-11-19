@@ -120,10 +120,14 @@ Sem eles, a página fica como antes.
 | Campo | Valores | Efeito |
 | --- | --- | --- |
 | `botao` | `padrao` (padrão), `seta`, `suave`, `carimbo` | gesto do botão primário: `seta` põe uma seta fina depois do texto, que anda 3 px no hover (não no botão do cabeçalho); `suave`, uma sombra difusa na cor primária; `carimbo`, uma sombra sólida de 3 px na cor de destaque, em que o botão "afunda" no clique |
+| `divisor` | `reto` (padrão), `filete`, `onda`, `diagonal` | limite entre seções: `filete` mantém o corte reto e põe um filete de 64 px com um losango no meio, na cor de destaque, logo abaixo dele; `onda` sobe o fundo da seção seguinte numa curva suave, diferente a cada limite; `diagonal`, numa inclinação de cerca de 2° que alterna de lado |
 
-- Só sombra e `transform`, então nada desloca o layout. O movimento (seta, subir e afundar) só
+- Botão: só sombra e `transform`, então nada desloca o layout. O movimento (seta, subir e afundar) só
   acontece com `animacoes: "sutil"`, em dispositivos com mouse e sem redução de movimento.
-- Nas demos: advocacia `seta`, fisioterapia `suave`, exemplo `carimbo`.
+- `onda` e `diagonal` só aparecem onde o fundo muda (as duas pontas da faixa primária
+  incluídas); o `filete`, em todos os limites. O divisor é decorativo, tem altura fixa e fica
+  por cima do respiro da seção anterior, então não muda o layout (CLS 0) nem passa da largura da tela.
+- Nas demos: advocacia `seta` + `filete`, fisioterapia `suave` + `onda`, exemplo `carimbo` + `diagonal`.
 
 ### Fundos das seções
 

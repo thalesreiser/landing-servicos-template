@@ -456,3 +456,34 @@
     transition-duration: 60ms;
   }
 }
+
+/*
+  Section boundaries (tema.divisor, Divisor.astro). The shape repeats the next section's own
+  background (color and texture, tiles aligned to its top edge) and rises into the bottom padding
+  of the previous section, which is always taller. Fixed heights, absolutely positioned: CLS 0.
+*/
+.divisor {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  height: 3rem;
+  background: inherit;
+  background-position: left bottom;
+  pointer-events: none;
+}
+
+/* About 2 degrees of slope at any width (tan 2deg = 0.035), capped on wide screens. */
+.divisor-diagonal {
+  height: min(3.5vw, 3rem);
+}
+
+.divisor-filete {
+  position: absolute;
+  top: 1.25rem;
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  color: var(--cor-destaque);
+  pointer-events: none;
+}

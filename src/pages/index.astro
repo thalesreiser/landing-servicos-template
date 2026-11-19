@@ -4,6 +4,7 @@ import BotaoWhatsApp from '../components/BotaoWhatsApp.astro';
 import ComoFunciona from '../components/ComoFunciona.astro';
 import Convenios from '../components/Convenios.astro';
 import Depoimentos from '../components/Depoimentos.astro';
+import Divisor from '../components/Divisor.astro';
 import FAQ from '../components/FAQ.astro';
 import Formulario from '../components/Formulario.astro';
 import Hero from '../components/Hero.astro';
@@ -13,7 +14,7 @@ import Servicos from '../components/Servicos.astro';
 import Sobre from '../components/Sobre.astro';
 import { carregarNicho } from '../lib/nicho.ts';
 import { gerarJsonLd, serializarJsonLd } from '../lib/seo.ts';
-import { fundosDasSecoes } from '../lib/tema.ts';
+import { divisoresDasSecoes, fundosDasSecoes } from '../lib/tema.ts';
 
 const nicho = carregarNicho();
 const secoes = nicho.secoes.filter((secao) => secao.ativo);
@@ -24,13 +25,16 @@ const botao = secoes.find((secao) => secao.tipo === 'botao_whatsapp');
 // Backgrounds are set here, not in the components, so the page keeps a regular rhythm.
 const fundos = fundosDasSecoes(conteudo);
 const classesFundo = { fundo: 'fundo-fundo', superficie: 'fundo-superficie', primaria: 'fundo-primaria' } as const;
+// Section boundaries (tema.divisor): drawn by the section that starts there.
+const divisores = divisoresDasSecoes(fundos, nicho.tema.divisor);
 ---
 
 <Base nicho={nicho} comAtalhoWhatsApp={botao !== undefined}>
   <script is:inline slot="head" type="application/ld+json" set:html={serializarJsonLd(gerarJsonLd(nicho))} />
   {
     conteudo.map((secao, i) => (
-      <div class={classesFundo[fundos[i]!]}>
+      <div class:list={[classesFundo[fundos[i]!], divisores[i] && 'relative']}>
+        {divisores[i] && <Divisor forma={nicho.tema.divisor} indice={i} />}
         {(() => {
           switch (secao.tipo) {
             case 'hero':

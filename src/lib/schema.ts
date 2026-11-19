@@ -3,7 +3,7 @@ import { PROVEDORES_FONTE, separarPilha } from './fontes.ts';
 import { NOMES_ICONES } from './icones.ts';
 import { EXTENSOES_IMAGEM, PADRAO_SRC_IMAGEM } from './imagens.ts';
 import { ANIMACOES, CARTOES, FUNDOS, FUNDOS_HERO, RAIOS } from './tema.ts';
-import { BOTOES } from './tema.ts';
+import { BOTOES, DIVISORES } from './tema.ts';
 
 // LocalBusiness subtypes that fit a services landing page (https://schema.org/LocalBusiness).
 export const TIPOS_SCHEMA = [
@@ -234,6 +234,8 @@ export const nichoSchema = z
       fundo_hero: z.enum(FUNDOS_HERO).default('malha'),
       // Niche identity (see src/lib/tema.ts and the README): primary button gesture.
       botao: z.enum(BOTOES).default('padrao'),
+      // Boundary between sections.
+      divisor: z.enum(DIVISORES).default('reto'),
     }),
     contato: z.object({
       whatsapp: z.string().regex(/^\d{12,13}$/, 'DDI + DDD + número, só dígitos, ex.: 5511999990000'),

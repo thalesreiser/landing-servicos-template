@@ -22,6 +22,7 @@
     "raio": "suave",
     "card": "elevado",
     "botao": "suave",
+    "divisor": "onda",
     "fontes": [
       { "familia": "Nunito", "pesos": [700] },
       { "familia": "Nunito Sans", "pesos": [400, 600] }
