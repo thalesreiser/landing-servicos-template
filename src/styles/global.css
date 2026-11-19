@@ -533,3 +533,34 @@
     font-size: 3rem;
   }
 }
+
+/*
+  Harmonized photos (tema.foto_tom "harmonizado", Imagem.astro): a touch less saturation, a touch
+  more contrast and the primary color in soft-light on top. The frame isolates the blend and never
+  clips; each layer inherits the rounded corners. Filters do not delay the LCP image.
+*/
+@layer components {
+  .foto-tom {
+    display: block;
+    position: relative;
+    isolation: isolate;
+  }
+}
+
+.foto-tom :is(picture, img) {
+  border-radius: inherit;
+}
+
+.foto-tom img {
+  filter: saturate(0.85) contrast(1.05);
+}
+
+.foto-tom-camada {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--cor-primaria);
+  mix-blend-mode: soft-light;
+  opacity: var(--foto-tom, 0.15);
+  pointer-events: none;
+}

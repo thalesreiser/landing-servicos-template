@@ -124,6 +124,8 @@ Sem eles, a página fica como antes.
 | `textura` | `nenhuma` (padrão), `papel`, `pontos` | fundo das seções `superficie`: `papel`, um grão finíssimo na cor do texto (4%); `pontos`, uma grade de pontos de 1 px a cada 16 px na cor primária (8%) |
 | `marca_faixa` | `nenhuma` (padrão), `riscado`, `icones` | marca d'água da faixa primária: `riscado`, linhas diagonais de 1 px a cada 8 px; `icones`, ícones de linha espalhados; ambos na cor do texto da faixa, a 6% |
 | `icones_faixa` | até 3 nomes de ícone | ícones da marca `icones` (padrão: os primeiros ícones da seção `servicos`) |
+| `foto_tom` | `natural` (padrão), `harmonizado` | `harmonizado` trata todas as fotos do nicho (hero, sobre, retratos) do mesmo jeito: saturação a 85%, contraste a 105% e uma camada da cor primária em *soft-light*, para fotos de origens diferentes parecerem de uma sessão só. O `alt` não muda |
+| `foto_tom_intensidade` | de `0.05` a `0.25` (padrão `0.15`) | opacidade da camada de cor do `harmonizado`; mais baixa em tons de pele que "esfriam" fácil |
 
 - Botão: só sombra e `transform`, então nada desloca o layout. O movimento (seta, subir e afundar) só
   acontece com `animacoes: "sutil"`, em dispositivos com mouse e sem redução de movimento.
@@ -136,6 +138,8 @@ Sem eles, a página fica como antes.
   (também com a malha do hero por cima) e no ponto mais claro da faixa. Se uma paleta reprovar ali, use `nenhuma`.
 - Nas demos: advocacia `seta` + `filete` + `papel` + `riscado`; fisioterapia `suave` + `onda` +
   `pontos` + `icones` (coluna, mão e corrida); exemplo `carimbo` + `diagonal`, sem textura.
+  Fotos: advocacia `harmonizado` (0,15); fisioterapia `harmonizado` mais leve (0,10), que vale
+  quando o nicho tiver fotos; exemplo `natural`.
 
 ### Cartões de serviço: número e detalhe
 

@@ -122,3 +122,20 @@ test('service numbers are off by default and details are optional', () => {
   assert.ok(lido?.tipo === 'servicos' && lido.numerar);
   assert.equal(lido?.tipo === 'servicos' && lido.itens[0]!.detalhe, 'Sessão individual · 50 min');
 });
+
+test('photos stay natural by default; the harmonized layer intensity is bounded', () => {
+  const nicho = copia();
+  delete nicho.tema.foto_tom;
+  delete nicho.tema.foto_tom_intensidade;
+  const { tema } = nichoSchema.parse(nicho);
+  assert.equal(tema.foto_tom, 'natural');
+  assert.equal(tema.foto_tom_intensidade, 0.15);
+  nicho.tema.foto_tom = 'harmonizado';
+  nicho.tema.foto_tom_intensidade = 0.1;
+  assert.equal(nichoSchema.parse(nicho).tema.foto_tom_intensidade, 0.1);
+  for (const [campo, valor] of [['foto_tom', 'duotone'], ['foto_tom_intensidade', 0.5]] as const) {
+    const errado = copia();
+    errado.tema[campo] = valor;
+    assert.equal(nichoSchema.safeParse(errado).success, false, campo);
+  }
+});

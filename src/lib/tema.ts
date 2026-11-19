@@ -260,3 +260,9 @@ export function variaveisTextura(tema: CoresTextura & { textura: Textura; marca_
 // servicos.numerar (global.css, .numero-fantasma): the ghost number is the text color at 8%, or
 // the accent at 15% with editorial "linha" cards; text running over it is checked in the contrast test.
 export const OPACIDADE_NUMERO = { texto: 0.08, destaque: 0.15 } as const;
+
+// tema.foto_tom (Imagem.astro, global.css .foto-tom): "harmonizado" desaturates the niche photos a
+// little (85%), adds 5% contrast and lays the primary color over them in soft-light, at
+// tema.foto_tom_intensidade, so stock photos from different sources read as one shoot.
+export const FOTO_TONS = ['natural', 'harmonizado'] as const;
+export type FotoTom = (typeof FOTO_TONS)[number];

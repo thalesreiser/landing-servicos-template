@@ -25,6 +25,7 @@
     "divisor": "filete",
     "textura": "papel",
     "marca_faixa": "riscado",
+    "foto_tom": "harmonizado",
     "fontes": [
       { "familia": "Source Serif 4", "pesos": [600], "eixos": { "opsz": [8, 60] } },
       { "familia": "Inter", "pesos": [400, 600] }
