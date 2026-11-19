@@ -77,7 +77,11 @@
         { "modelo": "circular", "texto": "Atende convênios", "icone": "check", "cor": "destaque" }
       ],
       "acao_principal": { "tipo": "whatsapp", "texto": "Agendar avaliação pelo WhatsApp" },
-      "acao_secundaria": { "tipo": "link", "texto": "Ver serviços", "href": "#servicos" }
+      "acao_secundaria": { "tipo": "link", "texto": "Ver serviços", "href": "#servicos" },
+      "imagem": {
+        "src": "hero.webp",
+        "alt": "Fisioterapeuta de camisa clara apoia a perna de uma paciente deitada na maca, em uma sala de atendimento com luz natural."
+      }
     },
     {
       "tipo": "servicos",
@@ -134,14 +138,45 @@
         "A Clínica Ponto de Apoio atende na Vila Mariana desde 2015, com salas individuais e um estúdio de pilates.",
         "Cada paciente é acompanhado pela mesma fisioterapeuta do início ao fim do tratamento, com reavaliações periódicas para ajustar o plano."
       ],
+      "imagem": {
+        "src": "estudio.webp",
+        "alt": "Estúdio de pilates com aparelhos de madeira, piso claro e espelhos na parede."
+      },
       "registros": [
         { "rotulo": "Responsável técnica", "valor": "Mariana Lopes · CREFITO-3/000000-F" },
         { "rotulo": "Sessões", "valor": "Individuais, de 50 minutos" }
       ],
       "equipe": [
-        { "nome": "Mariana Lopes", "cargo": "Fisioterapeuta, responsável técnica", "registro": "CREFITO-3/000000-F", "bio": "Fisioterapia ortopédica e esportiva." },
-        { "nome": "Camila Rocha", "cargo": "Fisioterapeuta", "registro": "CREFITO-3/000001-F", "bio": "Fisioterapia neurológica e atendimento domiciliar." },
-        { "nome": "Bruno Tavares", "cargo": "Fisioterapeuta", "registro": "CREFITO-3/000002-F", "bio": "Pilates clínico e postura." }
+        {
+          "nome": "Mariana Lopes",
+          "cargo": "Fisioterapeuta, responsável técnica",
+          "registro": "CREFITO-3/000000-F",
+          "bio": "Fisioterapia ortopédica e esportiva.",
+          "foto": {
+            "src": "mariana.webp",
+            "alt": "Retrato de Mariana Lopes, de cabelos grisalhos presos e uniforme azul, sobre fundo azul-claro."
+          }
+        },
+        {
+          "nome": "Camila Rocha",
+          "cargo": "Fisioterapeuta",
+          "registro": "CREFITO-3/000001-F",
+          "bio": "Fisioterapia neurológica e atendimento domiciliar.",
+          "foto": {
+            "src": "camila.webp",
+            "alt": "Retrato de Camila Rocha, de cabelos escuros presos e uniforme azul, sobre fundo azul-claro."
+          }
+        },
+        {
+          "nome": "Bruno Tavares",
+          "cargo": "Fisioterapeuta",
+          "registro": "CREFITO-3/000002-F",
+          "bio": "Pilates clínico e postura.",
+          "foto": {
+            "src": "bruno.webp",
+            "alt": "Retrato de Bruno Tavares, de barba e uniforme azul-marinho, sobre fundo cinza-claro."
+          }
+        }
       ]
     },
     {
