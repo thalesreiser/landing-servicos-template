@@ -19,6 +19,7 @@
     "cor_texto_suave": "#4B5563",
     "fonte_titulo": "system-ui, sans-serif",
     "fonte_texto": "system-ui, sans-serif",
+    "ritmo": "sobrio",
     "raio": "medio",
     "card": "contorno",
     "animacoes": "sutil",

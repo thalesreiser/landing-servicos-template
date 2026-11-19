@@ -97,18 +97,22 @@ Nas demos: advocacia `reto` + `linha`, fisioterapia `suave` + `elevado`, exemplo
 
 ### Animações e fundo do hero
 
-Dois campos opcionais de `tema` controlam o movimento e o fundo do hero:
+Três campos opcionais de `tema` controlam o movimento e o fundo do hero:
 
 | Campo | Valores | Efeito |
 | --- | --- | --- |
 | `animacoes` | `sutil` (padrão), `nenhuma` | `sutil`: seções e cartões aparecem ao rolar (em cascata nas listas), botões sobem 1 px no hover, cartões e links do menu reagem ao hover, as respostas do FAQ abrem deslizando, o cabeçalho ganha sombra ao rolar e a navegação entre páginas faz um fade cruzado; `nenhuma` desliga tudo isso |
+| `ritmo` | `sobrio` (padrão), `leve` | a assinatura do movimento, só com `animacoes: "sutil"`: `sobrio` é mais lento (750 ms), só vertical e sem *overshoot*; `leve` é mais rápido (600 ms), com um leve *overshoot*, e os cartões assentam de 1,02 para 1. Nos dois, o hero entra em cascata ao carregar, o filete acima de cada título se desenha quando o título aparece ao rolar e a linha do "Como funciona" se preenche passo a passo. Nas demos: advocacia `sobrio`, fisioterapia `leve` |
 | `fundo_hero` | `malha` (padrão), `liso` | `malha`: dois brilhos suaves no hero, da cor primária (canto superior direito) e da cor de destaque (canto inferior esquerdo); `liso`: cor chapada |
 
 - Quem pede menos movimento no sistema (`prefers-reduced-motion`) nunca vê deslocamento,
   qualquer que seja o valor.
 - O conteúdo é visível sem JavaScript. Só o script de revelação (cerca de 0,7 KB) esconde
-  algo, e só o que está abaixo da dobra. O hero nunca anima, para não atrasar o LCP. As
-  animações usam só opacidade e `transform`, então não deslocam o layout (CLS 0).
+  algo, e só o que está abaixo da dobra.
+- O H1 do hero nunca anima, para não atrasar o LCP. Com as animações ligadas, o resto do hero
+  (selo, subtítulo, botões e destaques) entra em cascata ao carregar, só com CSS e a partir de
+  opacidade 0,01: funciona sem JavaScript e o navegador já conta o conteúdo como pintado.
+- As animações usam só opacidade e `transform`, então não deslocam o layout (CLS 0).
 - O teste de contraste confere texto, texto suave e cor primária sobre o ponto mais escuro da
   `malha`. Se uma paleta reprovar ali, use `"fundo_hero": "liso"`.
 

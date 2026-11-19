@@ -14,6 +14,11 @@ export type Cartao = (typeof CARTOES)[number];
 export const ANIMACOES = ['sutil', 'nenhuma'] as const;
 export type Animacoes = (typeof ANIMACOES)[number];
 
+// Signature of the motion (global.css, [data-ritmo]): "sobrio" is slower, vertical only and never
+// overshoots; "leve" is quicker with a slight overshoot and cards settling from 1.02 to 1.
+export const RITMOS = ['sobrio', 'leve'] as const;
+export type Ritmo = (typeof RITMOS)[number];
+
 const FORMAS: Record<Raio, { cartao: string; botao: string; campo: string }> = {
   reto: { cartao: '2px', botao: '2px', campo: '2px' },
   medio: { cartao: '12px', botao: '8px', campo: '8px' },

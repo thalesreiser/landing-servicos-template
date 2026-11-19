@@ -92,3 +92,13 @@ test('the darkest mesh point stacks both glows over the base', () => {
   assert.equal(fundoMalha({ cor_primaria: '#FFFFFF', cor_destaque: '#FFFFFF' }, '#FFFFFF'), '#ffffff');
   assert.equal(fundoMalha({ cor_primaria: '#000000', cor_destaque: '#000000' }, '#FFFFFF'), '#e8e8e8');
 });
+
+test('the motion signature defaults to sober, accepts light and rejects anything else', () => {
+  const nicho = structuredClone(exemplo) as { tema: Record<string, unknown> };
+  delete nicho.tema.ritmo;
+  assert.equal(nichoSchema.parse(nicho).tema.ritmo, 'sobrio');
+  nicho.tema.ritmo = 'leve';
+  assert.equal(nichoSchema.parse(nicho).tema.ritmo, 'leve');
+  nicho.tema.ritmo = 'rapido';
+  assert.equal(nichoSchema.safeParse(nicho).success, false);
+});

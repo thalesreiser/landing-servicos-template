@@ -314,6 +314,7 @@
   from {
     opacity: 0;
     translate: 0 1rem;
+    scale: var(--escala-entrada, 1);
   }
 }
 
@@ -323,13 +324,126 @@
   }
 
   .revelado {
-    animation: revelar 600ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--i, 0) * 70ms) backwards;
+    animation: revelar var(--ritmo-duracao, 600ms) var(--ritmo-curva, cubic-bezier(0.2, 0.7, 0.2, 1))
+      calc(var(--i, 0) * var(--atraso-cascata, 70ms)) backwards;
   }
 }
 
 @media print {
   .revelar {
     opacity: 1 !important;
+  }
+}
+
+/*
+  Motion signature (tema.ritmo, data-ritmo on <html>). "sobrio": slower, vertical only, no
+  overshoot. "leve": quicker, a slight overshoot, and cards settle from 1.02 to 1. Opacity and
+  transform only (CLS 0); everything below sits behind tema.animacoes "sutil" and
+  prefers-reduced-motion: no-preference, so it never runs for visitors who ask for less motion.
+*/
+[data-ritmo='sobrio'] {
+  --ritmo-duracao: 750ms;
+  --ritmo-curva: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ritmo-traco: 600ms;
+}
+
+[data-ritmo='leve'] {
+  --ritmo-duracao: 600ms;
+  --ritmo-curva: cubic-bezier(0.3, 1.25, 0.5, 1);
+  --ritmo-traco: 500ms;
+}
+
+[data-ritmo='leve'] :is(.revelado:is(.cartao, :has(> .cartao)), .entrada-bloco) {
+  --escala-entrada: 1.02;
+}
+
+/*
+  Hero cascade at load, CSS only (works without JS): every child of .entrada except the H1, then
+  any .entrada-bloco (the highlights panel), 80 ms apart. They start at opacity 0.01, not 0, so the
+  browser still counts them as painted; the H1 never animates, so the LCP is not delayed.
+*/
+@keyframes entrar {
+  from {
+    opacity: 0.01;
+    translate: 0 0.75rem;
+    scale: var(--escala-entrada, 1);
+  }
+}
+
+.entrada > :nth-child(2) {
+  --i: 1;
+}
+
+.entrada > :nth-child(3) {
+  --i: 2;
+}
+
+.entrada > :nth-child(4) {
+  --i: 3;
+}
+
+.entrada > :nth-child(5) {
+  --i: 4;
+}
+
+.entrada > :nth-child(n + 6) {
+  --i: 5;
+}
+
+.entrada-bloco {
+  --i: 4;
+}
+
+/* Accent rule above a section title: drawn from the left when the title is revealed. */
+@keyframes desenhar-filete {
+  from {
+    scale: 0 1;
+  }
+}
+
+/* Timeline connectors (ComoFunciona.astro): fill down on phones, across from lg. */
+@keyframes preencher-passo-y {
+  from {
+    scale: 1 0;
+  }
+}
+
+@keyframes preencher-passo-x {
+  from {
+    scale: 0 1;
+  }
+}
+
+@media (min-width: 64rem) {
+  /* Steps sit in one row from lg, so they enter one after another and the line runs between them. */
+  .linha-do-tempo {
+    --atraso-cascata: 250ms;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-animacoes='sutil'] :is(.entrada > :not(h1), .entrada-bloco) {
+    animation: entrar var(--ritmo-duracao, 600ms) var(--ritmo-curva, cubic-bezier(0.2, 0.7, 0.2, 1))
+      calc(var(--i, 0) * 80ms) backwards;
+  }
+
+  :is(.revelado.titulo-secao, .revelado .titulo-secao)::before {
+    transform-origin: left;
+    animation: desenhar-filete var(--ritmo-traco, 500ms) cubic-bezier(0.2, 0.7, 0.2, 1)
+      calc(var(--i, 0) * var(--atraso-cascata, 70ms) + 250ms) backwards;
+  }
+
+  .revelado > .linha-passo {
+    transform-origin: top;
+    animation: preencher-passo-y var(--ritmo-traco, 500ms) cubic-bezier(0.2, 0.7, 0.2, 1)
+      calc(var(--i, 0) * var(--atraso-cascata, 70ms) + 200ms) backwards;
+  }
+
+  @media (min-width: 64rem) {
+    .revelado > .linha-passo {
+      transform-origin: left;
+      animation-name: preencher-passo-x;
+    }
   }
 }
 
