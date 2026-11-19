@@ -234,7 +234,7 @@ export function imagemMarcaFaixa(tema: CoresTextura, marca: MarcaFaixa, icones: 
   if (marca === 'icones') {
     const lista = iconesDaFaixa(icones);
     const desenhos = POSICOES_ICONES.map(([x, y], i) => {
-      const caminhos = ICONES[lista[i % lista.length]!].map((d) => `<path d='${d}'/>`).join('');
+      const caminhos = (ICONES[lista[i % lista.length]!] as readonly string[]).map((d) => `<path d='${d}'/>`).join('');
       return `<g transform='translate(${x} ${y}) scale(1.25)'>${caminhos}</g>`;
     }).join('');
     return urlSvg(
