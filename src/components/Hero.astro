@@ -25,7 +25,8 @@ const chips = secao.imagem ? destaques : destaques.slice(0, 3);
       painel && 'lg:grid-cols-[1.4fr_1fr] lg:gap-16',
     ]}
   >
-    <div>
+    {/* .entrada: every child but the H1 cascades in at load (global.css); the H1 never moves (LCP). */}
+    <div class="entrada">
       {secao.selo && <p class="mb-4 text-sm font-semibold tracking-wide text-primaria uppercase">{secao.selo}</p>}
       <h1
         class:list={[
@@ -71,7 +72,7 @@ const chips = secao.imagem ? destaques : destaques.slice(0, 3);
     }
     {
       painel && (
-        <div class="hidden rounded-cartao border border-texto/15 bg-cartao p-8 lg:block">
+        <div class="entrada-bloco hidden rounded-cartao border border-texto/15 bg-cartao p-8 lg:block">
           <span class="block h-0.5 w-10 bg-destaque" aria-hidden="true" />
           <dl class="mt-2">
             {destaques.map((item) => (

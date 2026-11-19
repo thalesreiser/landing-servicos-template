@@ -14,6 +14,11 @@ export type Cartao = (typeof CARTOES)[number];
 export const ANIMACOES = ['sutil', 'nenhuma'] as const;
 export type Animacoes = (typeof ANIMACOES)[number];
 
+// Signature of the motion (global.css, [data-ritmo]): "sobrio" is slower, vertical only and never
+// overshoots; "leve" is quicker with a slight overshoot and cards settling from 1.02 to 1.
+export const RITMOS = ['sobrio', 'leve'] as const;
+export type Ritmo = (typeof RITMOS)[number];
+
 const FORMAS: Record<Raio, { cartao: string; botao: string; campo: string }> = {
   reto: { cartao: '2px', botao: '2px', campo: '2px' },
   medio: { cartao: '12px', botao: '8px', campo: '8px' },
@@ -82,4 +87,13 @@ export function variaveisMalha(tema: { cor_primaria: string; cor_destaque: strin
 /** Darkest point the hero text can sit on: both glows at full strength over `base` (worst case). */
 export function fundoMalha(tema: { cor_primaria: string; cor_destaque: string }, base: string): string {
   return misturar(tema.cor_destaque, misturar(tema.cor_primaria, base, MALHA.primaria), MALHA.destaque);
+}
+
+// Dimmed photo behind a section (secao.foto_fundo, global.css .foto-fundo): grayscale and blended
+// into the section color, at this fixed opacity. Its extreme pixels are checked in tests/contraste.test.ts.
+export const OPACIDADE_FOTO_FUNDO = 0.08;
+
+/** Darkest and lightest points the text can sit on: a black and a white pixel of the photo over `base`. */
+export function extremosFotoFundo(base: string): [string, string] {
+  return [misturar('#000000', base, OPACIDADE_FOTO_FUNDO), misturar('#FFFFFF', base, OPACIDADE_FOTO_FUNDO)];
 }
