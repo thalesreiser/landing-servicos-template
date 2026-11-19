@@ -122,6 +122,7 @@
     },
     {
       "tipo": "convenios",
+      "rotulo": "Parceiros",
       "titulo": "Convênios e parceiros",
       "texto": "Lista de nomes em etiquetas.",
       "itens": ["Parceiro Alfa", "Parceiro Beta", "Parceiro Gama"]
