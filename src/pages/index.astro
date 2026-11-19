@@ -7,6 +7,7 @@ import Depoimentos from '../components/Depoimentos.astro';
 import Divisor from '../components/Divisor.astro';
 import FAQ from '../components/FAQ.astro';
 import Formulario from '../components/Formulario.astro';
+import FotoFundo from '../components/FotoFundo.astro';
 import Hero from '../components/Hero.astro';
 import Mapa from '../components/Mapa.astro';
 import Rodape from '../components/Rodape.astro';
@@ -33,8 +34,9 @@ const divisores = divisoresDasSecoes(fundos, nicho.tema.divisor);
   <script is:inline slot="head" type="application/ld+json" set:html={serializarJsonLd(gerarJsonLd(nicho))} />
   {
     conteudo.map((secao, i) => (
-      <div class:list={[classesFundo[fundos[i]!], divisores[i] && 'relative']}>
+      <div class:list={[classesFundo[fundos[i]!], divisores[i] && 'relative', secao.foto_fundo && 'com-foto-fundo']}>
         {divisores[i] && <Divisor forma={nicho.tema.divisor} indice={i} />}
+        {secao.foto_fundo && <FotoFundo src={secao.foto_fundo.src} />}
         {(() => {
           switch (secao.tipo) {
             case 'hero':

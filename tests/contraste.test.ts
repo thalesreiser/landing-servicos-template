@@ -3,7 +3,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { misturar, razaoContraste } from '../src/lib/contraste.ts';
 import { nichoSchema } from '../src/lib/schema.ts';
-import { coresFaixa, fundoMalha } from '../src/lib/tema.ts';
+import { coresFaixa, extremosFotoFundo, fundoMalha, fundosDasSecoes } from '../src/lib/tema.ts';
 import { fundoMarcaFaixa, fundoTextura, OPACIDADE_NUMERO } from '../src/lib/tema.ts';
 
 const AA = 4.5;
@@ -105,6 +105,36 @@ for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
         ['faixa com marca: destaque', faixa.destaque, base],
       );
     }
+    const reprovados = pares
+      .map(([nome, a, b]) => ({ nome, razao: razaoContraste(a, b) }))
+      .filter(({ razao }) => razao < AA)
+      .map(({ nome, razao }) => `${nome}: ${razao.toFixed(2)}`);
+    assert.deepEqual(reprovados, [], `pares abaixo de ${AA}:1`);
+  });
+}
+
+// Sections with a dimmed background photo (secao.foto_fundo): every color drawn on that section must
+// still pass over the photo's darkest and lightest pixels. Same section list as src/pages/index.astro.
+for (const arquivo of readdirSync(pasta).filter((a) => a.endsWith('.json'))) {
+  test(`nichos/${arquivo} text passes WCAG AA over background photos`, () => {
+    const { tema: t, secoes } = nichoSchema.parse(JSON.parse(readFileSync(new URL(arquivo, pasta), 'utf8')));
+    const conteudo = secoes.filter((s) => s.ativo && s.tipo !== 'rodape' && s.tipo !== 'botao_whatsapp');
+    const fundos = fundosDasSecoes(conteudo);
+    const faixa = coresFaixa(t);
+    const pares: [string, string, string][] = conteudo.flatMap((secao, i) => {
+      if (!secao.foto_fundo) return [];
+      const fundo = fundos[i]!;
+      const base = fundo === 'primaria' ? faixa.fundo : fundo === 'fundo' ? t.cor_fundo : t.cor_superficie;
+      const cores: [string, string][] =
+        fundo === 'primaria'
+          ? [['texto', faixa.texto], ['texto suave', faixa.texto_suave], ['destaque', faixa.destaque]]
+          : [['texto', t.cor_texto], ['texto suave', t.cor_texto_suave], ['primária', t.cor_primaria], ['destaque', t.cor_destaque], ['erro', COR_ERRO]];
+      // The texture or band watermark sits under the photo too: check the photo over both.
+      const comPadrao = fundo === 'primaria' ? fundoMarcaFaixa(t, t.marca_faixa) : fundo === 'superficie' ? fundoTextura(t, t.textura, base) : base;
+      return [base, comPadrao].flatMap((b) => extremosFotoFundo(b)).flatMap((pixel, j) =>
+        cores.map(([nome, cor]): [string, string, string] => [`${nome} sobre a foto de ${secao.tipo} (${j % 2 === 0 ? 'pixel escuro' : 'pixel claro'})`, cor, pixel]),
+      );
+    });
     const reprovados = pares
       .map(([nome, a, b]) => ({ nome, razao: razaoContraste(a, b) }))
       .filter(({ razao }) => razao < AA)
