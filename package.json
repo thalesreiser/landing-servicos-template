@@ -16,9 +16,9 @@
     "metricas": "node scripts/metricas.ts"
   },
   "dependencies": {
-    "@astrojs/sitemap": "3.7.4",
-    "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.4.4",
+    "@astrojs/sitemap": "3.7.6",
+    "@tailwindcss/vite": "^4.3.5",
+    "astro": "^7.4.13",
     "sharp": "^0.35.5",
     "tailwindcss": "^4.3.3",
     "web-vitals": "6.2.3"
@@ -27,7 +27,7 @@
     "@astrojs/check": "^0.9.12",
     "@types/node": "^24.19.2",
     "lighthouse": "13.6.0",
-    "puppeteer-core": "25.16.0",
+    "puppeteer-core": "25.18.1",
     "typescript": "^6.0.3"
   },
   "description": "Configurable services landing page template (Astro + Tailwind): one JSON file per niche",
